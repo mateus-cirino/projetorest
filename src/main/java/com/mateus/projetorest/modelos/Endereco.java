@@ -50,14 +50,4 @@ public class Endereco extends BasicVO {
     public void setNumero(final int numero) {
         this.numero = numero;
     }
-
-    @Override
-    public void jsonToObjeto(final String... dados) {
-
-    }
-
-    @Override
-    public String[] objetoToJson() {
-        return new String[0];
-    }
 }

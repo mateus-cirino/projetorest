@@ -1,65 +1,89 @@
 package com.mateus.projetorest.controles;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mateus.projetorest.modelos.Cliente;
-import com.mateus.projetorest.modelos.Endereco;
-import com.mateus.projetorest.modelos.Evento;
 import com.mateus.projetorest.modelos.Usuario;
-import com.mateus.projetorest.modelos.utils.TipoUsuario;
+import com.mateus.projetorest.modelos.extensoes.BasicVO;
 import com.mateus.projetorest.repositorios.extensoes.Repositorio;
 
 @RestController
+@RequestMapping("/usuario")
 public class Controle {
-    Repositorio repositorio;
+    private final Repositorio repositorio;
 
     @Autowired
     public Controle(final Repositorio repositorio) {
         this.repositorio = repositorio;
     }
 
-    @GetMapping("/")
-    public void home()
+    @PostMapping(path = "/persistir")
+    public ResponseEntity<?> persistir(@RequestParam final String json)
     {
-        final Usuario usuario = new Usuario();
-        usuario.setNome("Mateus Cirino");
-        usuario.setLogin("mateusc");
-        usuario.setSenha("cmateus");
-        usuario.setTipoUsuario(TipoUsuario.Admin);
+        final JSONObject jsonObject = new JSONObject(json);
 
-        repositorio.persist(usuario);
+        final String nomeDaClasse = (String) jsonObject.get("nomeClasseVO");
+        try {
+            final Class<?> classe = Class.forName(nomeDaClasse);
 
-        final Endereco endereco = new Endereco();
-        endereco.setEstado("MG");
-        endereco.setCidade("Mercês");
-        endereco.setRua("Rua Antonio");
-        endereco.setNumero(202);
+            final Usuario usuario = (Usuario) BasicVO.jsonToObjeto(json, classe);
 
-        repositorio.persist(endereco);
+            repositorio.persistir(usuario);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (final Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
 
-        final Cliente cliente = new Cliente();
-        cliente.setNome("Mateus Cirino");
-        cliente.setEndereco(endereco);
-        cliente.setCpf("02154889894");
-        cliente.setRg("4d5489897");
+    @PostMapping(path = "/remover")
+    public ResponseEntity<?> remover(@RequestParam final String json)
+    {
+        final JSONObject jsonObject = new JSONObject(json);
 
-        repositorio.persist(cliente);
+        final String nomeDaClasse = (String) jsonObject.get("nomeClasseVO");
+        try {
+            final Class<?> classe = Class.forName(nomeDaClasse);
 
-        final Evento evento = new Evento();
-        evento.setUsuario(usuario);
-        evento.setClientes(Collections.singletonList(cliente));
-        evento.setNome("Fagoc");
-        evento.setDescricao("Descricao");
-        evento.setDtInicio(LocalDateTime.now());
-        evento.setDtFim(LocalDateTime.now());
-        evento.setEndereco(endereco);
-        evento.setNumeroMaxParticipantes(22333);
+            final Usuario usuario = (Usuario) BasicVO.jsonToObjeto(json, classe);
 
-        repositorio.persist(evento);
+            repositorio.remover(usuario);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (final Exception e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+
+    @GetMapping(path = "/buscar")
+    public ResponseEntity<String> buscar(@RequestParam final String id)
+    {
+        final String usuario = BasicVO.objetoToJson(repositorio.buscar(new Usuario(), Integer.parseInt(id)));
+        return new ResponseEntity<>(usuario, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/buscartodos")
+    public ResponseEntity<List<String>> buscarTodos(@RequestParam final String json)
+    {
+        final JSONObject jsonObject = new JSONObject(json);
+
+        final String nomeDaClasse = (String) jsonObject.get("nomeClasseVO");
+        try {
+            final Class<?> classe = Class.forName(nomeDaClasse);
+
+            final List<String> usuarios = repositorio.buscarTodos(classe).stream().map(BasicVO::objetoToJson).collect(Collectors.toList());
+            return new ResponseEntity<>(usuarios, HttpStatus.OK);
+        } catch (final Exception e) {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.CONFLICT);
+        }
     }
 }

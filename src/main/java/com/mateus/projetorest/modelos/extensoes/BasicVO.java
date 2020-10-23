@@ -5,13 +5,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+
+import com.google.gson.Gson;
 
 @MappedSuperclass
-public abstract class BasicVO {
+public class BasicVO {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
+    @Transient
+    protected String nomeClasseVO;
+    private static Gson gson;
+
+    protected BasicVO() {
+        gson = new Gson();
+        nomeClasseVO = this.getClass().getName();
+    }
 
     public int getId() {
         return id;
@@ -21,7 +32,19 @@ public abstract class BasicVO {
         this.id = id;
     }
 
-    public abstract void jsonToObjeto(String... dados);
+    public String getNomeClasseVO() {
+        return nomeClasseVO;
+    }
 
-    public abstract String[] objetoToJson();
+    public void setNomeClasseVO(final String nomeClasseVO) {
+        this.nomeClasseVO = nomeClasseVO;
+    }
+
+    public static BasicVO jsonToObjeto(final String dados, final Class<?> classe) {
+        return (BasicVO) gson.fromJson(dados, classe);
+    }
+
+    public static String objetoToJson(final BasicVO objeto) {
+        return gson.toJson(objeto);
+    }
 }

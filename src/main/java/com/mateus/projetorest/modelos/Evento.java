@@ -98,14 +98,4 @@ public class Evento extends BasicVO {
     public void setClientes(final List<Cliente> clientes) {
         this.clientes = clientes;
     }
-
-    @Override
-    public void jsonToObjeto(final String... dados) {
-
-    }
-
-    @Override
-    public String[] objetoToJson() {
-        return new String[0];
-    }
 }

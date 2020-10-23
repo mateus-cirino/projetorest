@@ -12,7 +12,7 @@ import com.mateus.projetorest.modelos.utils.TipoUsuario;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario extends BasicVO {
+public final class Usuario extends BasicVO {
 
     @Column(name = "nome", nullable = false)
     private String nome;
@@ -53,15 +53,5 @@ public class Usuario extends BasicVO {
 
     public void setTipoUsuario(final TipoUsuario tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
-    }
-
-    @Override
-    public void jsonToObjeto(final String... dados) {
-
-    }
-
-    @Override
-    public String[] objetoToJson() {
-        return new String[0];
     }
 }

@@ -1,7 +1,10 @@
 package com.mateus.projetorest.repositorios.extensoes;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +16,34 @@ public class Repositorio {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @Transactional
-    public void persist(final BasicVO basicVO) {
-        entityManager.persist(basicVO);
+    public void persistir(final BasicVO basicVO) {
+        if (basicVO.getId() == 0) {
+            entityManager.persist(basicVO);
+        } else {
+            entityManager.merge(basicVO);
+        }
     }
 
     @Transactional
-    public void remove(final BasicVO basicVO) {
-        entityManager.remove(basicVO);
+    public void remover(final BasicVO basicVO) {
+        entityManager.remove(entityManager.getReference(basicVO.getClass(), basicVO.getId()));
+    }
+
+    @Transactional
+    public BasicVO buscar(final BasicVO basicVO, final int id) {
+        return entityManager.find(basicVO.getClass(), id);
+    }
+
+    @Transactional
+    public List<BasicVO> buscarTodos(final Class<?> classe) {
+        final Query query = entityManager.createQuery("FROM " + classe.getName(), classe);
+        return query.getResultList();
+    }
+
+    @Transactional
+    public List<BasicVO> where(final Class<?> classe, final String where) {
+        final Query query = entityManager.createQuery("FROM " + classe.getSimpleName() + " WHERE " + where);
+        return query.getResultList();
     }
 }

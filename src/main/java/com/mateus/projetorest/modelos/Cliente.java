@@ -64,14 +64,4 @@ public class Cliente extends BasicVO {
     public void setEventos(final List<Evento> eventos) {
         this.eventos = eventos;
     }
-
-    @Override
-    public void jsonToObjeto(final String... dados) {
-
-    }
-
-    @Override
-    public String[] objetoToJson() {
-        return new String[0];
-    }
 }
