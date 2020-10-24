@@ -14,12 +14,14 @@ import com.mateus.projetorest.modelos.extensoes.BasicVO;
 @Table(name = "cliente")
 public class Cliente extends BasicVO {
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome", unique = true, nullable = false)
     private String nome;
-    @Column(name = "cpf", nullable = false)
+    @Column(name = "cpf", unique = true, nullable = false)
     private String cpf;
-    @Column(name = "rg", nullable = false)
+    @Column(name = "rg", unique = true, nullable = false)
     private String rg;
+    @Column(name = "matricula", unique = true, nullable = false)
+    private String matricula;
     @ManyToOne
     private Endereco endereco;
     @ManyToMany(mappedBy = "clientes")
@@ -47,6 +49,14 @@ public class Cliente extends BasicVO {
 
     public void setRg(final String rg) {
         this.rg = rg;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(final String matricula) {
+        this.matricula = matricula;
     }
 
     public Endereco getEndereco() {

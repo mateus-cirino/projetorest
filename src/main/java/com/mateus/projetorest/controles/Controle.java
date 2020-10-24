@@ -1,5 +1,8 @@
 package com.mateus.projetorest.controles;
 
+import static com.sun.el.util.ReflectionUtil.forName;
+
+import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mateus.projetorest.modelos.Usuario;
 import com.mateus.projetorest.modelos.extensoes.BasicVO;
 import com.mateus.projetorest.repositorios.extensoes.Repositorio;
 
@@ -28,7 +31,7 @@ public class Controle {
     }
 
     @PostMapping(path = "/persistir")
-    public ResponseEntity<?> persistir(@RequestParam final String dados)
+    public ResponseEntity<String> persistir(@RequestParam final String dados)
     {
         final JSONObject jsonObject = new JSONObject(dados);
 
@@ -36,17 +39,17 @@ public class Controle {
         try {
             final Class<?> classe = Class.forName(nomeDaClasse);
 
-            final Usuario usuario = (Usuario) BasicVO.jsonToObjeto(dados, classe);
+            final BasicVO basicVO = BasicVO.jsonToObjeto(dados, classe);
 
-            repositorio.persistir(usuario);
-            return new ResponseEntity<>(HttpStatus.OK);
+            repositorio.persistir(basicVO);
+            return new ResponseEntity<>(BasicVO.objetoToJson(basicVO), HttpStatus.OK);
         } catch (final Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PostMapping(path = "/remover")
-    public ResponseEntity<?> remover(@RequestParam final String dados)
+    public ResponseEntity<String> remover(@RequestParam final String dados)
     {
         final JSONObject jsonObject = new JSONObject(dados);
 
@@ -54,45 +57,33 @@ public class Controle {
         try {
             final Class<?> classe = Class.forName(nomeDaClasse);
 
-            final Usuario usuario = (Usuario) BasicVO.jsonToObjeto(dados, classe);
-
-            repositorio.remover(usuario);
-            return new ResponseEntity<>(HttpStatus.OK);
+            repositorio.remover(BasicVO.jsonToObjeto(dados, classe));
+            return new ResponseEntity<>(dados, HttpStatus.OK);
         } catch (final Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PostMapping(path = "/buscar")
-    public ResponseEntity<String> buscar(@RequestParam final String dados)
+    public ResponseEntity<String> buscar(@RequestBody final BasicVO basicVO)
     {
-        final JSONObject jsonObject = new JSONObject(dados);
-
-        final String nomeDaClasse = jsonObject.getString("nomeClasseVO");
-        final int id = jsonObject.getInt("id");
         try {
-            final Class<?> classe = Class.forName(nomeDaClasse);
-
-            final String usuario = BasicVO.objetoToJson(repositorio.buscar((BasicVO) classe.getConstructor().newInstance(), id));
-            return new ResponseEntity<>(usuario, HttpStatus.OK);
+            final Constructor<?> construtor = Class.forName(basicVO.getNomeClasseVO()).getConstructor();
+            final String entidade = BasicVO.objetoToJson(repositorio.buscar((BasicVO) construtor.newInstance(), basicVO.getId()));
+            return new ResponseEntity<>(entidade, HttpStatus.OK);
         } catch (final Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PostMapping(path = "/buscartodos")
-    public ResponseEntity<List<String>> buscarTodos(@RequestParam final String dados)
+    public ResponseEntity<List<String>> buscarTodos(@RequestBody final BasicVO basicVO)
     {
-        final JSONObject jsonObject = new JSONObject(dados);
-
-        final String nomeDaClasse = jsonObject.getString("nomeClasseVO");
         try {
-            final Class<?> classe = Class.forName(nomeDaClasse);
-
-            final List<String> usuarios = repositorio.buscarTodos(classe).stream().map(BasicVO::objetoToJson).collect(Collectors.toList());
-            return new ResponseEntity<>(usuarios, HttpStatus.OK);
+            final List<String> entidades = repositorio.buscarTodos(Class.forName(basicVO.getNomeClasseVO())).stream().map(BasicVO::objetoToJson).collect(Collectors.toList());
+            return new ResponseEntity<>(entidades, HttpStatus.OK);
         } catch (final Exception e) {
-            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(Collections.singletonList(e.getMessage()), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 }

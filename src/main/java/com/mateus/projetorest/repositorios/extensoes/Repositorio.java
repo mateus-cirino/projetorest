@@ -1,5 +1,6 @@
 package com.mateus.projetorest.repositorios.extensoes;
 
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,7 +15,7 @@ import com.mateus.projetorest.modelos.extensoes.BasicVO;
 @Repository
 public class Repositorio {
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Transactional
     public void persistir(final BasicVO basicVO) {
@@ -38,12 +39,6 @@ public class Repositorio {
     @Transactional
     public List<BasicVO> buscarTodos(final Class<?> classe) {
         final Query query = entityManager.createQuery("FROM " + classe.getName(), classe);
-        return query.getResultList();
-    }
-
-    @Transactional
-    public List<BasicVO> where(final Class<?> classe, final String where) {
-        final Query query = entityManager.createQuery("FROM " + classe.getSimpleName() + " WHERE " + where);
         return query.getResultList();
     }
 }
