@@ -26,7 +26,7 @@ public class UsuarioControle {
 
     @CrossOrigin
     @PostMapping(path = "/login")
-    public ResponseEntity<Boolean> login(@RequestBody final Usuario usuario)
+    public ResponseEntity<Usuario> login(@RequestBody final Usuario usuario)
     {
         return new ResponseEntity<>(usuarioServico.fazerLogin(usuario), HttpStatus.OK);
     }
