@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mateus.projetorest.modelos.Usuario;
-import com.mateus.projetorest.repositorios.extensoes.UsuarioRepositorio;
+import com.mateus.projetorest.repositorios.UsuarioRepositorio;
 
 @Service
 public class UsuarioServico {
@@ -16,7 +16,7 @@ public class UsuarioServico {
         this.usuarioRepositorio = usuarioRepositorio;
     }
     public Boolean fazerLogin(final Usuario usuario) {
-        final Optional<Usuario> usuarioBd = usuarioRepositorio.findByLogin(usuario);
+        final Optional<Usuario> usuarioBd = usuarioRepositorio.buscarPeloLogin(usuario);
         return usuarioBd.isPresent();
     }
 }

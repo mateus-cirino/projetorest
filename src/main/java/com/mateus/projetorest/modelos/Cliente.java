@@ -14,7 +14,7 @@ import com.mateus.projetorest.modelos.extensoes.BasicVO;
 @Table(name = "cliente")
 public class Cliente extends BasicVO {
 
-    @Column(name = "nome", unique = true, nullable = false)
+    @Column(name = "nome", nullable = false)
     private String nome;
     @Column(name = "cpf", unique = true, nullable = false)
     private String cpf;

@@ -1,7 +1,5 @@
 package com.mateus.projetorest.controles;
 
-import static com.sun.el.util.ReflectionUtil.forName;
-
 import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.List;

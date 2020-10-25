@@ -17,10 +17,9 @@ public class BasicVO {
     protected int id;
     @Transient
     protected String nomeClasseVO;
-    private static Gson gson;
+    private static final Gson gson = new Gson();;
 
     protected BasicVO() {
-        gson = new Gson();
         nomeClasseVO = this.getClass().getName();
     }
 
