@@ -9,6 +9,5 @@ export function criar(path: string) {
 }
 
 export function enviar<T = any>(promise: Promise<AxiosResponse<T>>, param: AxiosParam<T>) {
-    promise.then(result => param.funcaoSucesso(result.data));
-    promise.catch(reason => param.funcaoErro(reason));
+    promise.then(result => param.funcaoSucesso(result.data)).catch(reason => param.funcaoErro(reason));
 }

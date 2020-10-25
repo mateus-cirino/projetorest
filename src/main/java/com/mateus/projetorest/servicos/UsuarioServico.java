@@ -16,7 +16,6 @@ public class UsuarioServico {
         this.usuarioRepositorio = usuarioRepositorio;
     }
     public Usuario fazerLogin(final Usuario usuario) {
-        final Optional<Usuario> usuarioBd = usuarioRepositorio.buscarPeloLogin(usuario);
-        return usuarioBd.get();
+        return usuarioRepositorio.buscarPeloLogin(usuario);
     }
 }
