@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,10 +25,13 @@ import com.mateus.projetorest.repositorios.extensoes.Repositorio;
 @RequestMapping("/api/sistema")
 public class SistemaControle {
     private final Repositorio repositorio;
+
     @Autowired
     public SistemaControle(final Repositorio repositorio) {
         this.repositorio = repositorio;
     }
+
+    @CrossOrigin
     @GetMapping(path = "/realizarbackup")
     public ResponseEntity<List<String>> fazerBackup() {
         final List<String> json = repositorio.buscarTodos(Endereco.class).stream().map(BasicVO::objetoToJson).collect(Collectors.toList());
@@ -38,6 +42,7 @@ public class SistemaControle {
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PostMapping(path = "/restaurarbackup")
     public ResponseEntity<String> restaurarBackup(@RequestBody final List<String> backup) {
         try {

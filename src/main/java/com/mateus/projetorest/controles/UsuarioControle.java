@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +24,10 @@ public class UsuarioControle {
         this.usuarioServico = usuarioServico;
     }
 
+    @CrossOrigin
     @PostMapping(path = "/login")
-    public ResponseEntity<Boolean> login(@RequestBody final List<Usuario> usuario)
+    public ResponseEntity<Boolean> login(@RequestBody final Usuario usuario)
     {
-        return new ResponseEntity<>(usuarioServico.fazerLogin(usuario.get(0)), HttpStatus.OK);
+        return new ResponseEntity<>(usuarioServico.fazerLogin(usuario), HttpStatus.OK);
     }
 }

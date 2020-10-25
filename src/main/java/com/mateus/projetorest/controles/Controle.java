@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class Controle {
         this.repositorio = repositorio;
     }
 
+    @CrossOrigin
     @PostMapping(path = "/persistir")
     public ResponseEntity<String> persistir(@RequestParam final String dados)
     {
@@ -46,6 +48,7 @@ public class Controle {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/remover")
     public ResponseEntity<String> remover(@RequestParam final String dados)
     {
@@ -62,6 +65,7 @@ public class Controle {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/buscar")
     public ResponseEntity<String> buscar(@RequestBody final BasicVO basicVO)
     {
@@ -74,6 +78,7 @@ public class Controle {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/buscartodos")
     public ResponseEntity<List<String>> buscarTodos(@RequestBody final BasicVO basicVO)
     {
