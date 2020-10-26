@@ -10,7 +10,7 @@ function App() {
         <BrowserRouter>
           <Switch>
             <Route path="/" exact={true} component={() => <Login setUsuario={setUsuario} />}/>
-            <Route path="/usuario/buscartodos" component={UsuarioPesquisa} />
+            <Route path="/usuario/buscartodos" component={() => <UsuarioPesquisa />} />
           </Switch>
         </BrowserRouter>
   );

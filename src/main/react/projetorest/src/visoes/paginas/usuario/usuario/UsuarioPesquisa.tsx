@@ -1,21 +1,39 @@
-import React, {FC} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {CLASS_NAME, Usuario} from "../../../../modelos/usuario";
 import {buscarTodos} from "../../../../servicos/geral.servico";
+import DataTable from 'react-data-table-component';
 
 const UsuarioPesquisa: FC = () => {
     const usuario: Usuario = {
         nomeClasseVO: CLASS_NAME
     };
-    buscarTodos(usuario, {
-        funcaoSucesso: result => {
-            console.log(result);
+    const [usuarios, setUsuarios] = useState([]);
+    const columns = [
+        {
+            name: 'nome',
+            sortable: true,
         },
-        funcaoErro: mensagem => {
-            console.log(mensagem);
-        }
-    });
+        {
+            name: 'login',
+            sortable: true,
+        },
+    ];
+    useEffect(() => {
+        buscarTodos(usuario, {
+            funcaoSucesso: usuarios => {
+                // @ts-ignore
+                setUsuarios(usuarios);
+            },
+            funcaoErro: mensagem => {
+                //alert(mensagem);
+            }
+        });
+    }, []);
     return (
-        <p>Teste</p>
+        <DataTable
+            columns={columns}
+            data={usuarios}
+        />
     );
 };
 

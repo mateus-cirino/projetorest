@@ -1,6 +1,6 @@
 import Axios, { AxiosResponse } from 'axios';
 export interface AxiosParam<T> {
-    funcaoSucesso: (result: T) => void;
+    funcaoSucesso: (resultado: T) => void;
     funcaoErro: (mensagem: string) => void;
 }
 
@@ -9,5 +9,5 @@ export function criar(path: string) {
 }
 
 export function enviar<T = any>(promise: Promise<AxiosResponse<T>>, param: AxiosParam<T>) {
-    promise.then(result => param.funcaoSucesso(result.data)).catch(reason => param.funcaoErro(reason));
+    promise.then(resultado => param.funcaoSucesso(resultado.data)).catch(erro => param.funcaoErro(erro));
 }
