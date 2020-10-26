@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Login from "./visoes/paginas/usuario/login/Login";
 import {Usuario} from "./modelos/usuario";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
+import UsuarioPesquisa from "./visoes/paginas/usuario/usuario/UsuarioPesquisa";
 
 function App() {
   const [usuario, setUsuario] = useState<Usuario>();
-  useEffect(() => console.log(usuario), [usuario]);
     return (
         <BrowserRouter>
           <Switch>
-            <Route path="/" component={() => <Login setUsuario={setUsuario} />}/>
+            <Route path="/" exact={true} component={() => <Login setUsuario={setUsuario} />}/>
+            <Route path="/usuario/buscartodos" component={UsuarioPesquisa} />
           </Switch>
         </BrowserRouter>
   );
