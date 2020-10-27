@@ -1,14 +1,15 @@
 import React, {FC, useEffect, useState} from "react";
-import {CLASS_NAME, Endereco} from "../../../modelos/endereco";
+import {Endereco} from "../../../modelos/endereco";
 import {buscarTodos} from "../../../servicos/geral.servico";
 import DataTable from 'react-data-table-component';
 import {Button} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
 import PesquisaProps from "../../componentes/extensoes/pesquisaProps";
+import {CLASS_NAME_ENDERECO} from "../../../modelos/extensoes/nomeClasseVO";
 
 const EnderecoPesquisa: FC<PesquisaProps> = props => {
     const endereco: Endereco = {
-        nomeClasseVO: CLASS_NAME
+        nomeClasseVO: CLASS_NAME_ENDERECO
     };
     const [enderecos, setEnderecos] = useState([]);
     const history = useHistory();

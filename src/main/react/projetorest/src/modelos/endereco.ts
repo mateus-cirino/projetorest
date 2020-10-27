@@ -7,5 +7,3 @@ export interface Endereco extends BasicVO {
     numero?: number;
     nomeClasseVO: string;
 }
-
-export const CLASS_NAME = 'com.mateus.projetorest.modelos.Endereco';

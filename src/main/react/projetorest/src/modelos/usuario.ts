@@ -7,5 +7,3 @@ export interface Usuario extends BasicVO {
     tipoUsuario?: string;
     nomeClasseVO: string;
 }
-
-export const CLASS_NAME = 'com.mateus.projetorest.modelos.Usuario';

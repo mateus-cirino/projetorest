@@ -11,5 +11,3 @@ export interface Cliente extends BasicVO {
     eventos?: Evento[];
     nomeClasseVO: string;
 }
-
-export const CLASS_NAME = 'com.mateus.projetorest.modelos.Cliente';

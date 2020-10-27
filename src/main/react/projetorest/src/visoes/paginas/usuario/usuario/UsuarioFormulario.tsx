@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from "react";
-import {CLASS_NAME, Usuario} from "../../../../modelos/usuario";
+import {Usuario} from "../../../../modelos/usuario";
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
@@ -7,6 +7,7 @@ import {TIPO_USUARIO_ENUM} from "../../../../modelos/extensoes/tipoUsuarioEnum";
 import {persistir, remover} from "../../../../servicos/geral.servico";
 import md5 from "md5";
 import FormularioProps from "../../../componentes/extensoes/formularioProps";
+import {CLASS_NAME_USUARIO} from "../../../../modelos/extensoes/nomeClasseVO";
 
 const UsuarioFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
@@ -26,7 +27,7 @@ const UsuarioFormulario: FC<FormularioProps> = props => {
     const onSubmit = (usuario: Usuario) => {
         // @ts-ignore
         usuario.senha = md5(usuario.senha);
-        usuario.nomeClasseVO = CLASS_NAME;
+        usuario.nomeClasseVO = CLASS_NAME_USUARIO;
         const formData = new FormData();
         formData.append('dados', JSON.stringify(usuario));
         persistir(formData, {
@@ -48,7 +49,7 @@ const UsuarioFormulario: FC<FormularioProps> = props => {
         const formData = new FormData();
         const usuario = {
             id: control.getValues('id'),
-            nomeClasseVO: CLASS_NAME
+            nomeClasseVO: CLASS_NAME_USUARIO
         };
         formData.append('dados', JSON.stringify(usuario));
         remover(formData, {

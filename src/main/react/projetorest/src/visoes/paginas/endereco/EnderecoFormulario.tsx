@@ -1,10 +1,11 @@
 import React, {FC, useEffect} from "react";
-import {CLASS_NAME, Endereco} from "../../../modelos/endereco";
+import {Endereco} from "../../../modelos/endereco";
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {persistir, remover} from "../../../servicos/geral.servico";
 import FormularioProps from "../../componentes/extensoes/formularioProps";
+import {CLASS_NAME_ENDERECO} from "../../../modelos/extensoes/nomeClasseVO";
 
 const EnderecoFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
@@ -23,7 +24,7 @@ const EnderecoFormulario: FC<FormularioProps> = props => {
     }, []);
     const onSubmit = (endereco: Endereco) => {
         // @ts-ignore
-        endereco.nomeClasseVO = CLASS_NAME;
+        endereco.nomeClasseVO = CLASS_NAME_ENDERECO;
         const formData = new FormData();
         formData.append('dados', JSON.stringify(endereco));
         persistir(formData, {
@@ -45,7 +46,7 @@ const EnderecoFormulario: FC<FormularioProps> = props => {
         const formData = new FormData();
         const endereco = {
             id: control.getValues('id'),
-            nomeClasseVO: CLASS_NAME
+            nomeClasseVO: CLASS_NAME_ENDERECO
         };
         formData.append('dados', JSON.stringify(endereco));
         remover(formData, {

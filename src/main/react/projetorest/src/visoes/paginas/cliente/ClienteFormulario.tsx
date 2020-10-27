@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from "react";
-import {CLASS_NAME, Cliente} from "../../../modelos/cliente";
+import {Cliente} from "../../../modelos/cliente";
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
@@ -7,6 +7,7 @@ import {buscarTodos, persistir, remover} from "../../../servicos/geral.servico";
 import {Endereco} from "../../../modelos/endereco";
 import Select from "react-select";
 import FormularioProps from "../../componentes/extensoes/formularioProps";
+import {CLASS_NAME_CLIENTE, CLASS_NAME_ENDERECO} from "../../../modelos/extensoes/nomeClasseVO";
 
 const ClienteFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
@@ -31,7 +32,7 @@ const ClienteFormulario: FC<FormularioProps> = props => {
     }, []);
     const onSubmit = (cliente: Cliente) => {
         // @ts-ignore
-        cliente.nomeClasseVO = CLASS_NAME;
+        cliente.nomeClasseVO = CLASS_NAME_CLIENTE;
         const formData = new FormData();
         formData.append('dados', JSON.stringify(cliente));
         persistir(formData, {
@@ -53,7 +54,7 @@ const ClienteFormulario: FC<FormularioProps> = props => {
         const formData = new FormData();
         const cliente = {
             id: control.getValues('id'),
-            nomeClasseVO: CLASS_NAME
+            nomeClasseVO: CLASS_NAME_CLIENTE
         };
         formData.append('dados', JSON.stringify(cliente));
         remover(formData, {
@@ -66,7 +67,7 @@ const ClienteFormulario: FC<FormularioProps> = props => {
     };
     const carregarEnderecos = () => {
         const endereco: Endereco = {
-            nomeClasseVO: 'com.mateus.projetorest.modelos.Endereco'
+            nomeClasseVO: CLASS_NAME_ENDERECO
         };
         buscarTodos(endereco, {
             funcaoSucesso: (enderecos: Endereco[]) => {

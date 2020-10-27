@@ -1,14 +1,15 @@
 import React, {FC, useEffect, useState} from "react";
-import {CLASS_NAME, Usuario} from "../../../../modelos/usuario";
+import {Usuario} from "../../../../modelos/usuario";
 import {buscarTodos} from "../../../../servicos/geral.servico";
 import DataTable from 'react-data-table-component';
 import {Button} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
 import PesquisaProps from "../../../componentes/extensoes/pesquisaProps";
+import {CLASS_NAME_USUARIO} from "../../../../modelos/extensoes/nomeClasseVO";
 
 const UsuarioPesquisa: FC<PesquisaProps> = props => {
     const usuario: Usuario = {
-        nomeClasseVO: CLASS_NAME
+        nomeClasseVO: CLASS_NAME_USUARIO
     };
     const [usuarios, setUsuarios] = useState([]);
     const history = useHistory();
