@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Dispatch} from "react";
 import {FC} from "react";
 import {Nav, NavItem, NavLink} from "reactstrap";
 import {Link} from "react-router-dom";
@@ -6,6 +6,7 @@ import {Usuario} from "../../../modelos/usuario";
 
 interface MenuProps {
     usuarioLogado?: Usuario;
+    setUsuario: Dispatch<Usuario>;
 }
 
 const Menu: FC<MenuProps> = props => {
@@ -35,7 +36,12 @@ const Menu: FC<MenuProps> = props => {
                 </NavItem>
                 <NavItem>
                     <Link to="/">
-                        <NavLink>Login</NavLink>
+                        <NavLink>{usuarioLogado === null ? 'Login' : `Olá ${usuarioLogado.nome}`}</NavLink>
+                    </Link>
+                </NavItem>
+                <NavItem hidden={usuarioLogado === null}>
+                    <Link to="/logout">
+                        <NavLink>Logout</NavLink>
                     </Link>
                 </NavItem>
             </Nav>

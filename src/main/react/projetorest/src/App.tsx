@@ -17,14 +17,15 @@ function App() {
         <>
             <ToastProvider>
             <BrowserRouter>
-                <Menu usuarioLogado={usuarioLogado} />
+                <Menu usuarioLogado={usuarioLogado} setUsuario={setUsuarioLogado} />
                 <Switch>
                 <Route path="/" exact={true} component={() => <Login setUsuario={setUsuarioLogado} />}/>
-                <Route path="/usuario/buscartodos" component={() => <UsuarioPesquisa setSelectedItem={setSelectedItem} />} />
+                <Route path="/logout" exact={true} component={() => <Login setUsuario={setUsuarioLogado} />}/>
+                <Route path="/usuario/buscartodos" component={() => <UsuarioPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
                 <Route path="/usuario/persistir" component={() => <UsuarioFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
-                <Route path="/endereco/buscartodos" component={() => <EnderecoPesquisa setSelectedItem={setSelectedItem} />} />
+                <Route path="/endereco/buscartodos" component={() => <EnderecoPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
                 <Route path="/endereco/persistir" component={() => <EnderecoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
-                <Route path="/cliente/buscartodos" component={() => <ClientePesquisa setSelectedItem={setSelectedItem} />} />
+                <Route path="/cliente/buscartodos" component={() => <ClientePesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
                 <Route path="/cliente/persistir" component={() => <ClienteFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 </Switch>
             </BrowserRouter>

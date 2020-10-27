@@ -13,10 +13,13 @@ const UsuarioPesquisa: FC<PesquisaProps> = props => {
         nomeClasseVO: CLASS_NAME_USUARIO
     };
     const [usuarios, setUsuarios] = useState([]);
-    const {setSelectedItem} = props;
+    const {usuarioLogado, setSelectedItem} = props;
     const history = useHistory();
     const { addToast } = useToasts();
     useEffect(() => {
+        if (usuarioLogado === null) {
+            history.goBack();
+        }
         buscarTodos(usuario, {
             funcaoSucesso: (usuarios: Usuario[]) => {
                 setUsuarios(usuarios);

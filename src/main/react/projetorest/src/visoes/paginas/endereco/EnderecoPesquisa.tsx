@@ -13,10 +13,13 @@ const EnderecoPesquisa: FC<PesquisaProps> = props => {
         nomeClasseVO: CLASS_NAME_ENDERECO
     };
     const [enderecos, setEnderecos] = useState([]);
-    const {setSelectedItem} = props;
+    const {usuarioLogado, setSelectedItem} = props;
     const history = useHistory();
     const { addToast } = useToasts();
     useEffect(() => {
+        if (usuarioLogado === null) {
+            history.goBack();
+        }
         buscarTodos(endereco, {
             funcaoSucesso: (enderecos: Endereco[]) => {
                 setEnderecos(enderecos);

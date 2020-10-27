@@ -13,13 +13,14 @@ export interface LoginProps {
 
 const Login: FC<LoginProps> = props => {
     const {handleSubmit, register} = useForm<Usuario>();
+    const {setUsuario} = props;
     const history = useHistory();
     const { addToast } = useToasts();
     const onSubmit = (usuario: Usuario) => {
         fazerLogin(usuario, {
             funcaoSucesso: usuario =>  {
                 addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
-                props.setUsuario(usuario);
+                setUsuario(usuario);
                 history.push('/usuario/buscartodos');
             },
             funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
