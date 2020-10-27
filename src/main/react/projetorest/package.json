@@ -3,6 +3,7 @@
     "@types/md5": "^2.2.1",
     "@types/react-router-dom": "^5.1.6",
     "@types/react-select": "^3.0.22",
+    "@types/react-toast-notifications": "^2.4.0",
     "bootstrap": "4.0.0-beta",
     "md5": "^2.3.0",
     "react": "^17.0.1",
@@ -11,6 +12,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0",
     "react-select": "^3.1.0",
+    "react-toast-notifications": "^2.4.0",
     "reactstrap": "^8.6.0",
     "styled-components": "^5.2.0"
   },

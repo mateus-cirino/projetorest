@@ -4,13 +4,16 @@ import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {persistir, remover} from "../../../servicos/geral.servico";
-import FormularioProps from "../../componentes/extensoes/formularioProps";
-import {CLASS_NAME_ENDERECO} from "../../../modelos/extensoes/nomeClasseVO";
+import {FormularioProps} from "../../componentes/extensoes/formularioProps";
+import {CLASS_NAME_ENDERECO} from "../../../utils/nomeClasseVO";
+import {SUCESSO} from "../../../utils/mensagensRequisicao";
+import {useToasts} from "react-toast-notifications";
 
 const EnderecoFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register} = useForm<Endereco>();
     const history = useHistory();
+    const { addToast } = useToasts();
     useEffect(() => {
         register('id');
         register('nomeClasseVO');
@@ -23,21 +26,20 @@ const EnderecoFormulario: FC<FormularioProps> = props => {
         }
     }, []);
     const onSubmit = (endereco: Endereco) => {
-        // @ts-ignore
         endereco.nomeClasseVO = CLASS_NAME_ENDERECO;
         const formData = new FormData();
         formData.append('dados', JSON.stringify(endereco));
         persistir(formData, {
             funcaoSucesso: resultado => {
-                history.push('/endereco/buscartodos');
+                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                voltar();
             }, funcaoErro: mensagem => {
-                console.log(mensagem);
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         })
     };
     const voltar = () => {
         if (setSelectedItem) {
-            // @ts-ignore
             setSelectedItem(null);
         }
         history.goBack();
@@ -51,9 +53,10 @@ const EnderecoFormulario: FC<FormularioProps> = props => {
         formData.append('dados', JSON.stringify(endereco));
         remover(formData, {
             funcaoSucesso: resultado => {
-                history.push('/endereco/buscartodos');
+                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                voltar();
             }, funcaoErro: mensagem => {
-                console.log(mensagem);
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         })
     };

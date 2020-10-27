@@ -3,16 +3,19 @@ import {Usuario} from "../../../../modelos/usuario";
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
-import {TIPO_USUARIO_ENUM} from "../../../../modelos/extensoes/tipoUsuarioEnum";
+import {TIPO_USUARIO_ENUM} from "../../../../utils/tipoUsuarioEnum";
 import {persistir, remover} from "../../../../servicos/geral.servico";
 import md5 from "md5";
-import FormularioProps from "../../../componentes/extensoes/formularioProps";
-import {CLASS_NAME_USUARIO} from "../../../../modelos/extensoes/nomeClasseVO";
+import {FormularioProps} from "../../../componentes/extensoes/formularioProps";
+import {CLASS_NAME_USUARIO} from "../../../../utils/nomeClasseVO";
+import {useToasts} from "react-toast-notifications";
+import {SUCESSO} from "../../../../utils/mensagensRequisicao";
 
 const UsuarioFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register} = useForm<Usuario>();
     const history = useHistory();
+    const { addToast } = useToasts();
     useEffect(() => {
         register('id');
         register('nomeClasseVO');
@@ -25,22 +28,21 @@ const UsuarioFormulario: FC<FormularioProps> = props => {
         }
     }, []);
     const onSubmit = (usuario: Usuario) => {
-        // @ts-ignore
         usuario.senha = md5(usuario.senha);
         usuario.nomeClasseVO = CLASS_NAME_USUARIO;
         const formData = new FormData();
         formData.append('dados', JSON.stringify(usuario));
         persistir(formData, {
             funcaoSucesso: resultado => {
-                history.push('/usuario/buscartodos');
+                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                voltar();
             }, funcaoErro: mensagem => {
-                console.log(mensagem);
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         })
     };
     const voltar = () => {
         if (setSelectedItem) {
-            // @ts-ignore
             setSelectedItem(null);
         }
         history.goBack();
@@ -54,9 +56,10 @@ const UsuarioFormulario: FC<FormularioProps> = props => {
         formData.append('dados', JSON.stringify(usuario));
         remover(formData, {
             funcaoSucesso: resultado => {
-                history.push('/usuario/buscartodos');
+                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                voltar();
             }, funcaoErro: mensagem => {
-                console.log(mensagem);
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         })
     };

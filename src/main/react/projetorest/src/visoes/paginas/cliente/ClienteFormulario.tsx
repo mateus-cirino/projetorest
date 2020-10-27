@@ -6,14 +6,17 @@ import {useHistory} from "react-router-dom";
 import {buscarTodos, persistir, remover} from "../../../servicos/geral.servico";
 import {Endereco} from "../../../modelos/endereco";
 import Select from "react-select";
-import FormularioProps from "../../componentes/extensoes/formularioProps";
-import {CLASS_NAME_CLIENTE, CLASS_NAME_ENDERECO} from "../../../modelos/extensoes/nomeClasseVO";
+import {FormularioProps} from "../../componentes/extensoes/formularioProps";
+import {CLASS_NAME_CLIENTE, CLASS_NAME_ENDERECO} from "../../../utils/nomeClasseVO";
+import {SUCESSO} from "../../../utils/mensagensRequisicao";
+import {useToasts} from "react-toast-notifications";
 
 const ClienteFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register} = useForm<Cliente>();
     const history = useHistory();
     const [enderecosOptions, setEnderecosOptions] = useState([]);
+    const { addToast } = useToasts();
     useEffect(() => {
         setTimeout(() => {
             register('id');
@@ -31,21 +34,20 @@ const ClienteFormulario: FC<FormularioProps> = props => {
         }, 800);
     }, []);
     const onSubmit = (cliente: Cliente) => {
-        // @ts-ignore
         cliente.nomeClasseVO = CLASS_NAME_CLIENTE;
         const formData = new FormData();
         formData.append('dados', JSON.stringify(cliente));
         persistir(formData, {
             funcaoSucesso: resultado => {
-                history.push('/cliente/buscartodos');
+                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                voltar();
             }, funcaoErro: mensagem => {
-                console.log(mensagem);
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         })
     };
     const voltar = () => {
         if (setSelectedItem) {
-            // @ts-ignore
             setSelectedItem(null);
         }
         history.goBack();
@@ -59,9 +61,10 @@ const ClienteFormulario: FC<FormularioProps> = props => {
         formData.append('dados', JSON.stringify(cliente));
         remover(formData, {
             funcaoSucesso: resultado => {
-                history.push('/cliente/buscartodos');
+                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                voltar();
             }, funcaoErro: mensagem => {
-                console.log(mensagem);
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         })
     };
@@ -71,13 +74,12 @@ const ClienteFormulario: FC<FormularioProps> = props => {
         };
         buscarTodos(endereco, {
             funcaoSucesso: (enderecos: Endereco[]) => {
-                // @ts-ignore
                 setEnderecosOptions(enderecos.map((endereco => {
                     return {value: endereco, label: `${endereco.id}-${endereco.cidade}`}
                 })));
             },
             funcaoErro: mensagem => {
-                //alert(mensagem);
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         });
     };

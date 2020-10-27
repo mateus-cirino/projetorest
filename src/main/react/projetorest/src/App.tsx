@@ -8,12 +8,14 @@ import EnderecoFormulario from "./visoes/paginas/endereco/EnderecoFormulario";
 import Menu from "./visoes/componentes/menu/Menu";
 import ClientePesquisa from "./visoes/paginas/cliente/ClientePesquisa";
 import ClienteFormulario from "./visoes/paginas/cliente/ClienteFormulario";
+import {ToastProvider} from "react-toast-notifications";
 
 function App() {
   const [usuarioLogado, setUsuarioLogado] = useState<any>(null);
   const [selectedItem, setSelectedItem] = useState<any>(null);
     return (
         <>
+            <ToastProvider>
             <BrowserRouter>
                 <Menu usuarioLogado={usuarioLogado} />
                 <Switch>
@@ -26,6 +28,7 @@ function App() {
                 <Route path="/cliente/persistir" component={() => <ClienteFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 </Switch>
             </BrowserRouter>
+            </ToastProvider>
         </>
 
   );

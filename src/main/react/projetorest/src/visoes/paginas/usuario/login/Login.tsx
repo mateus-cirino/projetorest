@@ -4,6 +4,8 @@ import {Usuario} from "../../../../modelos/usuario";
 import {useForm} from "react-hook-form";
 import {Form, FormGroup, Label, Input, Button} from "reactstrap";
 import {useHistory} from "react-router-dom"
+import {SUCESSO} from "../../../../utils/mensagensRequisicao";
+import {useToasts} from "react-toast-notifications";
 
 export interface LoginProps {
     setUsuario: Dispatch<Usuario>;
@@ -12,13 +14,15 @@ export interface LoginProps {
 const Login: FC<LoginProps> = props => {
     const {handleSubmit, register} = useForm<Usuario>();
     const history = useHistory();
+    const { addToast } = useToasts();
     const onSubmit = (usuario: Usuario) => {
         fazerLogin(usuario, {
             funcaoSucesso: usuario =>  {
+                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
                 props.setUsuario(usuario);
                 history.push('/usuario/buscartodos');
             },
-            funcaoErro: erro => console.log(erro)
+            funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
         });
     };
 

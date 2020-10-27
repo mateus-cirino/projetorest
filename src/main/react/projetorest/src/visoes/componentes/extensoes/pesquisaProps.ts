@@ -1,5 +1,5 @@
 import {Dispatch} from "react";
 
-export default interface PesquisaProps {
+export interface PesquisaProps {
     setSelectedItem?: Dispatch<any>;
 }

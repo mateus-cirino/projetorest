@@ -4,23 +4,25 @@ import {buscarTodos} from "../../../servicos/geral.servico";
 import DataTable from 'react-data-table-component';
 import {Button} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
-import PesquisaProps from "../../componentes/extensoes/pesquisaProps";
-import {CLASS_NAME_CLIENTE} from "../../../modelos/extensoes/nomeClasseVO";
+import {PesquisaProps} from "../../componentes/extensoes/pesquisaProps";
+import {CLASS_NAME_CLIENTE} from "../../../utils/nomeClasseVO";
+import {useToasts} from "react-toast-notifications";
 
 const ClientePesquisa: FC<PesquisaProps> = props => {
     const cliente: Cliente = {
         nomeClasseVO: CLASS_NAME_CLIENTE
     };
     const [clientes, setClientes] = useState([]);
+    const {setSelectedItem} = props;
     const history = useHistory();
+    const { addToast } = useToasts();
     useEffect(() => {
         buscarTodos(cliente, {
             funcaoSucesso: (clientes: Cliente[]) => {
-                // @ts-ignore
                 setClientes(clientes);
             },
             funcaoErro: mensagem => {
-                //alert(mensagem);
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         });
     }, []);
@@ -47,8 +49,7 @@ const ClientePesquisa: FC<PesquisaProps> = props => {
         },
     ];
     const handleChangeRow = (row: any, click: any) => {
-        // @ts-ignore
-        props.setSelectedItem(row);
+        setSelectedItem(row);
         history.push('/cliente/persistir');
     };
     const actions = () => {
