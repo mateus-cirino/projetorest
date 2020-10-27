@@ -4,6 +4,7 @@ import {buscarTodos} from "../../../../servicos/geral.servico";
 import DataTable from 'react-data-table-component';
 import {Button} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
+import Menu from "../../../componentes/menu/Menu";
 
 interface UsuarioPesquisaProps {
     setSelectedItem?: Dispatch<any>;
@@ -67,6 +68,7 @@ const UsuarioPesquisa: FC<UsuarioPesquisaProps> = props => {
     };
     return (
         <>
+            <Menu />
             <div className="container m-2">
                 <DataTable
                     title="Lista de usuários"

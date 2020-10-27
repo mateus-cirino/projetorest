@@ -23,7 +23,7 @@ const Login: FC<LoginProps> = props => {
     };
 
     return (
-        <div className="container">
+        <div className="container m-2">
             <Form onSubmit={handleSubmit(onSubmit)} >
                 <FormGroup>
                     <Label for="login">Login</Label>

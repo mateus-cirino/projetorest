@@ -5,6 +5,7 @@ import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {TIPO_USUARIO_ENUM} from "../../../../modelos/extensoes/tipoUsuarioEnum";
 import {persistir, remover} from "../../../../servicos/geral.servico";
+import md5 from "md5";
 
 interface UsuarioFormularioProps {
     usuarioLogado: Usuario;
@@ -28,6 +29,8 @@ const UsuarioFormulario: FC<UsuarioFormularioProps> = props => {
         }
     }, []);
     const onSubmit = (usuario: Usuario) => {
+        // @ts-ignore
+        usuario.senha = md5(usuario.senha);
         usuario.nomeClasseVO = CLASS_NAME;
         const formData = new FormData();
         formData.append('dados', JSON.stringify(usuario));

@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "@types/md5": "^2.2.1",
     "@types/react-router-dom": "^5.1.6",
     "bootstrap": "4.0.0-beta",
+    "md5": "^2.3.0",
     "react": "^17.0.1",
     "react-data-table-component": "^6.11.5",
     "react-dom": "^17.0.1",
