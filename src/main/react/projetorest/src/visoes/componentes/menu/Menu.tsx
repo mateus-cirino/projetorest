@@ -13,17 +13,17 @@ const Menu: FC = () => {
                     </Link>
                 </NavItem>
                 <NavItem>
-                    <Link to="/clientes/buscartodos">
+                    <Link to="/cliente/buscartodos">
                         <NavLink>Clientes</NavLink>
                     </Link>
                 </NavItem>
                 <NavItem>
-                    <Link to="/eventos/buscartodos">
+                    <Link to="/evento/buscartodos">
                         <NavLink>Eventos</NavLink>
                     </Link>
                 </NavItem>
                 <NavItem>
-                    <Link to="/enderecos/buscartodos">
+                    <Link to="/endereco/buscartodos">
                         <NavLink>Endereços</NavLink>
                     </Link>
                 </NavItem>
