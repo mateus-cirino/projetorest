@@ -1,20 +1,14 @@
-import React, {Dispatch, FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {CLASS_NAME, Cliente} from "../../../modelos/cliente";
-import {Button, Form, FormGroup, Input, Label, Row} from "reactstrap";
+import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {buscarTodos, persistir, remover} from "../../../servicos/geral.servico";
-import {Usuario} from "../../../modelos/usuario";
 import {Endereco} from "../../../modelos/endereco";
 import Select from "react-select";
+import FormularioProps from "../../componentes/extensoes/formularioProps";
 
-interface ClienteFormularioProps {
-    usuarioLogado: Usuario;
-    selectedItem?: any;
-    setSelectedItem?: Dispatch<Cliente>;
-}
-
-const ClienteFormulario: FC<ClienteFormularioProps> = props => {
+const ClienteFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register} = useForm<Cliente>();
     const history = useHistory();

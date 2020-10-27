@@ -1,15 +1,12 @@
-import React, {Dispatch, FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {CLASS_NAME, Usuario} from "../../../../modelos/usuario";
 import {buscarTodos} from "../../../../servicos/geral.servico";
 import DataTable from 'react-data-table-component';
 import {Button} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
+import PesquisaProps from "../../../componentes/extensoes/pesquisaProps";
 
-interface UsuarioPesquisaProps {
-    setSelectedItem?: Dispatch<any>;
-}
-
-const UsuarioPesquisa: FC<UsuarioPesquisaProps> = props => {
+const UsuarioPesquisa: FC<PesquisaProps> = props => {
     const usuario: Usuario = {
         nomeClasseVO: CLASS_NAME
     };

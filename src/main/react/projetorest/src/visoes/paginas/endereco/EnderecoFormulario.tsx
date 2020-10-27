@@ -1,18 +1,12 @@
-import React, {Dispatch, FC, useEffect} from "react";
+import React, {FC, useEffect} from "react";
 import {CLASS_NAME, Endereco} from "../../../modelos/endereco";
-import {Button, Form, FormGroup, Input, Label, Row} from "reactstrap";
+import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {persistir, remover} from "../../../servicos/geral.servico";
-import {Usuario} from "../../../modelos/usuario";
+import FormularioProps from "../../componentes/extensoes/formularioProps";
 
-interface EnderecoFormularioProps {
-    usuarioLogado: Usuario;
-    selectedItem?: any;
-    setSelectedItem?: Dispatch<Endereco>;
-}
-
-const EnderecoFormulario: FC<EnderecoFormularioProps> = props => {
+const EnderecoFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register} = useForm<Endereco>();
     const history = useHistory();

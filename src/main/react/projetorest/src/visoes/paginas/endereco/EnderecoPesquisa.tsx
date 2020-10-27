@@ -1,15 +1,12 @@
-import React, {Dispatch, FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {CLASS_NAME, Endereco} from "../../../modelos/endereco";
 import {buscarTodos} from "../../../servicos/geral.servico";
 import DataTable from 'react-data-table-component';
 import {Button} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
+import PesquisaProps from "../../componentes/extensoes/pesquisaProps";
 
-interface EnderecoPesquisaProps {
-    setSelectedItem?: Dispatch<any>;
-}
-
-const EnderecoPesquisa: FC<EnderecoPesquisaProps> = props => {
+const EnderecoPesquisa: FC<PesquisaProps> = props => {
     const endereco: Endereco = {
         nomeClasseVO: CLASS_NAME
     };

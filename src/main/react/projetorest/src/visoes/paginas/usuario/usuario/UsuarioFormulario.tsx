@@ -1,19 +1,14 @@
-import React, {Dispatch, FC, useEffect} from "react";
+import React, {FC, useEffect} from "react";
 import {CLASS_NAME, Usuario} from "../../../../modelos/usuario";
-import {Button, Form, FormGroup, Input, Label, Row} from "reactstrap";
+import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {TIPO_USUARIO_ENUM} from "../../../../modelos/extensoes/tipoUsuarioEnum";
 import {persistir, remover} from "../../../../servicos/geral.servico";
 import md5 from "md5";
+import FormularioProps from "../../../componentes/extensoes/formularioProps";
 
-interface UsuarioFormularioProps {
-    usuarioLogado: Usuario;
-    selectedItem?: any;
-    setSelectedItem?: Dispatch<Usuario>;
-}
-
-const UsuarioFormulario: FC<UsuarioFormularioProps> = props => {
+const UsuarioFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register} = useForm<Usuario>();
     const history = useHistory();
