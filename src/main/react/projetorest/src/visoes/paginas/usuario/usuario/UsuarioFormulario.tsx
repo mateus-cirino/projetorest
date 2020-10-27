@@ -1,6 +1,6 @@
-import React, {FC, useEffect} from "react";
+import React, {Dispatch, FC, useEffect} from "react";
 import {CLASS_NAME, Usuario} from "../../../../modelos/usuario";
-import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import {Button, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {TIPO_USUARIO_ENUM} from "../../../../modelos/extensoes/tipoUsuarioEnum";
@@ -9,10 +9,11 @@ import {persistir, remover} from "../../../../servicos/geral.servico";
 interface UsuarioFormularioProps {
     usuarioLogado: Usuario;
     selectedItem?: any;
+    setSelectedItem?: Dispatch<Usuario>;
 }
 
 const UsuarioFormulario: FC<UsuarioFormularioProps> = props => {
-    const {usuarioLogado, selectedItem} = props;
+    const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register} = useForm<Usuario>();
     const history = useHistory();
     useEffect(() => {
@@ -39,6 +40,10 @@ const UsuarioFormulario: FC<UsuarioFormularioProps> = props => {
         })
     };
     const voltar = () => {
+        if (setSelectedItem) {
+            // @ts-ignore
+            setSelectedItem(null);
+        }
         history.goBack();
     };
     const deletar = () => {
@@ -57,7 +62,7 @@ const UsuarioFormulario: FC<UsuarioFormularioProps> = props => {
         })
     };
     return (
-        <div className="container">
+        <div className="container m-2">
             <Form onSubmit={handleSubmit(onSubmit)} >
                 <FormGroup>
                     <Label for="nome">Nome</Label>
@@ -78,9 +83,11 @@ const UsuarioFormulario: FC<UsuarioFormularioProps> = props => {
                         <option value={TIPO_USUARIO_ENUM[1].value}>{TIPO_USUARIO_ENUM[1].label}</option>
                     </Input>
                 </FormGroup>
-                <Button type="submit" color="primary" disabled={usuarioLogado === null || usuarioLogado.tipoUsuario !== TIPO_USUARIO_ENUM[0].value}>Enviar</Button>
-                <Button color="primary" onClick={deletar}>Deletar</Button>
-                <Button color="primary" onClick={voltar}>Voltar</Button>
+                <div className="d-flex justify-content-end">
+                    <Button className="m-2" type="submit" color="success" disabled={usuarioLogado === null || usuarioLogado.tipoUsuario !== TIPO_USUARIO_ENUM[0].value}>Enviar</Button>
+                    <Button className="m-2" color="danger" onClick={deletar} disabled={usuarioLogado === null || usuarioLogado.tipoUsuario !== TIPO_USUARIO_ENUM[0].value || selectedItem === null}>Deletar</Button>
+                    <Button className="m-2" color="primary" onClick={voltar}>Voltar</Button>
+                </div>
             </Form>
         </div>
     );

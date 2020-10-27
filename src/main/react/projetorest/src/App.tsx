@@ -13,7 +13,7 @@ function App() {
           <Switch>
             <Route path="/" exact={true} component={() => <Login setUsuario={setUsuario} />}/>
             <Route path="/usuario/buscartodos" component={() => <UsuarioPesquisa setSelectedItem={setSelectedItem} />} />
-            <Route path="/usuario/persistir" component={() => <UsuarioFormulario usuarioLogado={usuario} selectedItem={selectedItem} />} />
+            <Route path="/usuario/persistir" component={() => <UsuarioFormulario usuarioLogado={usuario} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
           </Switch>
         </BrowserRouter>
   );

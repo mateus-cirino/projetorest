@@ -18,7 +18,7 @@ const Login: FC<LoginProps> = props => {
                 props.setUsuario(usuario);
                 history.push('/usuario/buscartodos');
             },
-            funcaoErro: erro => alert(erro)
+            funcaoErro: erro => console.log(erro)
         });
     };
 

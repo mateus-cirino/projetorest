@@ -28,13 +28,23 @@ const UsuarioPesquisa: FC<UsuarioPesquisaProps> = props => {
     }, []);
     const columns = [
         {
-            name: 'nome',
+            name: 'Nome',
             selector: 'nome',
             sortable: true,
         },
         {
-            name: 'login',
+            name: 'Login',
             selector: 'login',
+            sortable: true,
+        },
+        {
+            name: 'Senha',
+            selector: 'senha',
+            sortable: true,
+        },
+        {
+            name: 'Tipo de usuário',
+            selector: 'tipoUsuario',
             sortable: true,
         },
     ];
@@ -43,16 +53,29 @@ const UsuarioPesquisa: FC<UsuarioPesquisaProps> = props => {
         props.setSelectedItem(row);
         history.push('/usuario/persistir');
     };
+    const actions = () => {
+        return (
+            <>
+                <Link to="/usuario/persistir">
+                    <Button className="m-2" color="success">Adicionar</Button>
+                </Link>
+                <Link to="/">
+                    <Button className="m-2" color="primary">Voltar</Button>
+                </Link>
+            </>
+        )
+    };
     return (
         <>
-            <Link to="/usuario/persistir">
-                <Button>Adicionar</Button>
-            </Link>
-            <DataTable
-                columns={columns}
-                data={usuarios}
-                onRowClicked={handleChangeRow}
-            />
+            <div className="container m-2">
+                <DataTable
+                    title="Lista de usuários"
+                    actions={actions()}
+                    columns={columns}
+                    data={usuarios}
+                    onRowClicked={handleChangeRow}
+                />
+            </div>
         </>
     );
 };
