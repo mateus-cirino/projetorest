@@ -2,29 +2,35 @@ import React from "react";
 import {FC} from "react";
 import {Nav, NavItem, NavLink} from "reactstrap";
 import {Link} from "react-router-dom";
+import {Usuario} from "../../../modelos/usuario";
 
-const Menu: FC = () => {
+interface MenuProps {
+    usuarioLogado?: Usuario;
+}
+
+const Menu: FC<MenuProps> = props => {
+    const {usuarioLogado} = props;
     return (
         <div className="d-flex justify-content-center m-2">
             <Nav>
                 <NavItem>
                     <Link to="/usuario/buscartodos">
-                        <NavLink>Usuários</NavLink>
+                        <NavLink disabled={usuarioLogado === null}>Usuários</NavLink>
                     </Link>
                 </NavItem>
                 <NavItem>
                     <Link to="/cliente/buscartodos">
-                        <NavLink>Clientes</NavLink>
+                        <NavLink disabled={usuarioLogado === null}>Clientes</NavLink>
                     </Link>
                 </NavItem>
                 <NavItem>
                     <Link to="/evento/buscartodos">
-                        <NavLink>Eventos</NavLink>
+                        <NavLink disabled={usuarioLogado === null}>Eventos</NavLink>
                     </Link>
                 </NavItem>
                 <NavItem>
                     <Link to="/endereco/buscartodos">
-                        <NavLink>Endereços</NavLink>
+                        <NavLink disabled={usuarioLogado === null}>Endereços</NavLink>
                     </Link>
                 </NavItem>
                 <NavItem>
