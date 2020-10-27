@@ -46,7 +46,7 @@ const EnderecoPesquisa: FC<PesquisaProps> = props => {
             sortable: true,
         },
         {
-            name: 'Número',
+            name: 'Nº',
             selector: 'numero',
             sortable: true,
         },

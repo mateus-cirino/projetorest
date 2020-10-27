@@ -5,7 +5,6 @@ import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {buscarTodos, persistir, remover} from "../../../servicos/geral.servico";
 import {Endereco} from "../../../modelos/endereco";
-import Select from "react-select";
 import {FormularioProps} from "../../componentes/extensoes/formularioProps";
 import {CLASS_NAME_CLIENTE, CLASS_NAME_ENDERECO} from "../../../utils/nomeClasseVO";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
@@ -15,26 +14,29 @@ const ClienteFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register} = useForm<Cliente>();
     const history = useHistory();
-    const [enderecosOptions, setEnderecosOptions] = useState([]);
+    const [enderecos, setEnderecos] = useState([]);
     const { addToast } = useToasts();
     useEffect(() => {
         setTimeout(() => {
             register('id');
             register('nomeClasseVO');
-            register('endereco');
+            register('endereco.id');
             if (selectedItem !== null) {
+                control.setValue('id', selectedItem.id);
                 control.setValue('nome', selectedItem.nome);
                 control.setValue('cpf', selectedItem.cpf);
                 control.setValue('rg', selectedItem.rg);
                 control.setValue('matricula', selectedItem.matricula);
-                control.setValue('endereco', selectedItem.endereco);
+                control.setValue('endereco.id', selectedItem.endereco.id);
                 control.setValue('eventos', selectedItem.eventos);
-            }
+                }
             carregarEnderecos();
         }, 800);
     }, []);
     const onSubmit = (cliente: Cliente) => {
         cliente.nomeClasseVO = CLASS_NAME_CLIENTE;
+        cliente.endereco.id = control.getValues('endereco.id');
+        cliente.endereco.nomeClasseVO = CLASS_NAME_ENDERECO;
         const formData = new FormData();
         formData.append('dados', JSON.stringify(cliente));
         persistir(formData, {
@@ -56,7 +58,7 @@ const ClienteFormulario: FC<FormularioProps> = props => {
         const formData = new FormData();
         const cliente = {
             id: control.getValues('id'),
-            nomeClasseVO: CLASS_NAME_CLIENTE
+            nomeClasseVO: CLASS_NAME_CLIENTE,
         };
         formData.append('dados', JSON.stringify(cliente));
         remover(formData, {
@@ -74,17 +76,12 @@ const ClienteFormulario: FC<FormularioProps> = props => {
         };
         buscarTodos(endereco, {
             funcaoSucesso: (enderecos: Endereco[]) => {
-                setEnderecosOptions(enderecos.map((endereco => {
-                    return {value: endereco, label: `${endereco.id}-${endereco.cidade}`}
-                })));
+                setEnderecos(enderecos);
             },
             funcaoErro: mensagem => {
                 addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         });
-    };
-    const handleChangeEnderecoOption = (selectedOption: any) => {
-        control.setValue('endereco', selectedOption.value);
     };
     return (
         <div className="container m-2">
@@ -107,11 +104,14 @@ const ClienteFormulario: FC<FormularioProps> = props => {
                 </FormGroup>
                 <FormGroup>
                     <Label for="endereco">Endereço</Label>
-                    <Select options={enderecosOptions} name="endereco" placeholder="selecione o seu endereco" onChange={handleChangeEnderecoOption} />
+                    <Input type="select" name="endereco.id" innerRef={register} defaultValue={selectedItem === null ? null
+                                                                                                                    : selectedItem.endereco.id}>
+                        {enderecos.map(endereco => <option value={endereco.id}>{endereco.cidade}</option>)}
+                    </Input>
                 </FormGroup>
                 <div className="d-flex justify-content-end">
                     <Button className="m-2" type="submit" color="success" disabled={usuarioLogado === null}>Enviar</Button>
-                    <Button className="m-2" color="danger" onClick={deletar} disabled={usuarioLogado === null || selectedItem === null}>Deletar</Button>
+                    <Button className="m-2" color="danger" onClick={deletar} disabled={usuarioLogado === null || false}>Deletar</Button>
                     <Button className="m-2" color="primary" onClick={voltar}>Voltar</Button>
                 </div>
             </Form>

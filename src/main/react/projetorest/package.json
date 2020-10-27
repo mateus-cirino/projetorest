@@ -2,7 +2,6 @@
   "dependencies": {
     "@types/md5": "^2.2.1",
     "@types/react-router-dom": "^5.1.6",
-    "@types/react-select": "^3.0.22",
     "@types/react-toast-notifications": "^2.4.0",
     "bootstrap": "4.0.0-beta",
     "md5": "^2.3.0",
@@ -19,7 +18,6 @@
   "devDependencies": {
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
-    "@types/reactstrap": "^8.5.2",
     "axios": "^0.21.0",
     "react-hook-form": "^6.9.6",
     "tslint": "^6.1.3",

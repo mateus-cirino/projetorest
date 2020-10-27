@@ -1,9 +1,7 @@
 package com.mateus.projetorest.controles;
 
-import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +68,6 @@ public class Controle {
     public ResponseEntity<List<BasicVO>> buscarTodos(@RequestBody final BasicVO basicVO)
     {
         try {
-            final List<String> entidades = repositorio.buscarTodos(Class.forName(basicVO.getNomeClasseVO())).stream().map(BasicVO::objetoToJson).collect(Collectors.toList());
             return new ResponseEntity<>(repositorio.buscarTodos(Class.forName(basicVO.getNomeClasseVO())), HttpStatus.OK);
         } catch (final Exception e) {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_ACCEPTABLE);

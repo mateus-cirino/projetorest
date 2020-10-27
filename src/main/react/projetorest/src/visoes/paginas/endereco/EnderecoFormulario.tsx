@@ -76,7 +76,7 @@ const EnderecoFormulario: FC<FormularioProps> = props => {
                     <Input type="text" name="rua" placeholder="digite a rua" innerRef={register} />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="numero">Número</Label>
+                    <Label for="numero">Nº</Label>
                     <Input type="number" name="numero" placeholder="digite o número" innerRef={register} />
                 </FormGroup>
                 <div className="d-flex justify-content-end">

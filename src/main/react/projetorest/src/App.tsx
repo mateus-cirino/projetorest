@@ -10,6 +10,8 @@ import ClientePesquisa from "./visoes/paginas/cliente/ClientePesquisa";
 import ClienteFormulario from "./visoes/paginas/cliente/ClienteFormulario";
 import {ToastProvider} from "react-toast-notifications";
 import Logout from "./visoes/paginas/usuario/logout/logout";
+import EventoPesquisa from "./visoes/paginas/evento/EventoPesquisa";
+import EventoFormulario from "./visoes/paginas/evento/EventoFormulario";
 
 function App() {
   const [usuarioLogado, setUsuarioLogado] = useState<any>(null);
@@ -28,6 +30,8 @@ function App() {
                 <Route path="/endereco/persistir" component={() => <EnderecoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 <Route path="/cliente/buscartodos" component={() => <ClientePesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
                 <Route path="/cliente/persistir" component={() => <ClienteFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
+                <Route path="/evento/buscartodos" component={() => <EventoPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
+                <Route path="/evento/persistir" component={() => <EventoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 </Switch>
             </BrowserRouter>
             </ToastProvider>

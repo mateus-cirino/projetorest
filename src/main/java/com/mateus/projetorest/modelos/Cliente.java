@@ -8,6 +8,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mateus.projetorest.modelos.extensoes.BasicVO;
 
 @Entity
@@ -24,6 +25,7 @@ public class Cliente extends BasicVO {
     private String matricula;
     @ManyToOne
     private Endereco endereco;
+    @JsonManagedReference
     @ManyToMany(mappedBy = "clientes")
     private List<Evento> eventos;
 

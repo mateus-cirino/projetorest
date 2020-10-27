@@ -1,6 +1,7 @@
 package com.mateus.projetorest.modelos;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mateus.projetorest.modelos.extensoes.BasicVO;
 
 @Entity
@@ -25,14 +27,15 @@ public class Evento extends BasicVO {
     @ManyToOne
     private Endereco endereco;
     @Column(name = "dtInicio", nullable = false)
-    private LocalDateTime dtInicio;
+    private Date dtInicio;
     @Column(name = "dtFim", nullable = false)
-    private LocalDateTime dtFim;
+    private Date dtFim;
     @ManyToOne
     private Usuario usuario;
     @ManyToMany
     @JoinTable(name = "evento_cliente", joinColumns = @JoinColumn(name = "id_evento"),
             inverseJoinColumns = @JoinColumn(name = "id_cliente"))
+    @JsonBackReference
     private List<Cliente> clientes;
 
     public String getNome() {
@@ -67,19 +70,19 @@ public class Evento extends BasicVO {
         this.endereco = endereco;
     }
 
-    public LocalDateTime getDtInicio() {
+    public Date getDtInicio() {
         return dtInicio;
     }
 
-    public void setDtInicio(final LocalDateTime dtInicio) {
+    public void setDtInicio(final Date dtInicio) {
         this.dtInicio = dtInicio;
     }
 
-    public LocalDateTime getDtFim() {
+    public Date getDtFim() {
         return dtFim;
     }
 
-    public void setDtFim(final LocalDateTime dtFim) {
+    public void setDtFim(final Date dtFim) {
         this.dtFim = dtFim;
     }
 

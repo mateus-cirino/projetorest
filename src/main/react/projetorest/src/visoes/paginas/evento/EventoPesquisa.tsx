@@ -1,35 +1,33 @@
 import React, {FC, useEffect, useState} from "react";
-import {Cliente} from "../../../modelos/cliente";
+import {Evento} from "../../../modelos/evento";
 import {buscarTodos} from "../../../servicos/geral.servico";
 import DataTable from 'react-data-table-component';
 import {Button} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
 import {PesquisaProps} from "../../componentes/extensoes/pesquisaProps";
-import {CLASS_NAME_CLIENTE} from "../../../utils/nomeClasseVO";
+import {CLASS_NAME_EVENTO} from "../../../utils/nomeClasseVO";
 import {useToasts} from "react-toast-notifications";
 
-const ClientePesquisa: FC<PesquisaProps> = props => {
-    const cliente: Cliente = {
-        nomeClasseVO: CLASS_NAME_CLIENTE
+const EventoPesquisa: FC<PesquisaProps> = props => {
+    const evento: Evento = {
+        nomeClasseVO: CLASS_NAME_EVENTO
     };
-    const [clientes, setClientes] = useState([]);
+    const [eventos, setEventos] = useState([]);
     const {usuarioLogado, setSelectedItem} = props;
     const history = useHistory();
     const { addToast } = useToasts();
     useEffect(() => {
-        setTimeout(() => {
-            if (usuarioLogado === null) {
-                history.goBack();
+        if (usuarioLogado === null) {
+            history.goBack();
+        }
+        buscarTodos(evento, {
+            funcaoSucesso: (eventos: Evento[]) => {
+                setEventos(eventos);
+            },
+            funcaoErro: mensagem => {
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
-            buscarTodos(cliente, {
-                funcaoSucesso: (clientes: Cliente[]) => {
-                    setClientes(clientes);
-                },
-                funcaoErro: mensagem => {
-                    addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
-                }
-            });
-        }, 800);
+        });
     }, []);
     const columns = [
         {
@@ -38,29 +36,34 @@ const ClientePesquisa: FC<PesquisaProps> = props => {
             sortable: true,
         },
         {
-            name: 'CPF',
-            selector: 'cpf',
+            name: 'Descrição',
+            selector: 'descricao',
             sortable: true,
         },
         {
-            name: 'rg',
-            selector: 'rg',
+            name: 'Nº máximo de participantes',
+            selector: 'numeroMaxParticipantes',
             sortable: true,
         },
         {
-            name: 'Matrícula',
-            selector: 'matricula',
+            name: 'Data de início',
+            selector: 'dtInicio',
+            sortable: true,
+        },
+        {
+            name: 'Data de finalização',
+            selector: 'dtFim',
             sortable: true,
         },
     ];
     const handleChangeRow = (row: any, click: any) => {
         setSelectedItem(row);
-        history.push('/cliente/persistir');
+        history.push('/evento/persistir');
     };
     const actions = () => {
         return (
             <>
-                <Link to="/cliente/persistir">
+                <Link to="/evento/persistir">
                     <Button className="m-2" color="success">Adicionar</Button>
                 </Link>
                 <Link to="/">
@@ -73,10 +76,10 @@ const ClientePesquisa: FC<PesquisaProps> = props => {
         <>
             <div className="container m-2">
                 <DataTable
-                    title="Lista de clientes"
+                    title="Lista de eventos"
                     actions={actions()}
                     columns={columns}
-                    data={clientes}
+                    data={eventos}
                     onRowClicked={handleChangeRow}
                 />
             </div>
@@ -84,4 +87,4 @@ const ClientePesquisa: FC<PesquisaProps> = props => {
     );
 };
 
-export default ClientePesquisa;
+export default EventoPesquisa;

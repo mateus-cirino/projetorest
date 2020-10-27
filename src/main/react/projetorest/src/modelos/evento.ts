@@ -8,8 +8,8 @@ export interface Evento extends BasicVO {
     descricao?: string;
     numeroMaxParticipantes?: number;
     endereco?: Endereco;
-    dtInicio?: string;
-    dtFim?: string;
+    dtInicio?: Date;
+    dtFim?: Date;
     usuario?: Usuario;
     clientes?: Cliente[];
     nomeClasseVO: string;
