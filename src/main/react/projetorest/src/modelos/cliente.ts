@@ -9,5 +9,7 @@ export interface Cliente extends BasicVO {
     matricula?: string;
     endereco?: Endereco;
     eventos?: Evento[];
-    nomeClasseVO: 'com.mateus.projetorest.modelos.Cliente'
+    nomeClasseVO: string;
 }
+
+export const CLASS_NAME = 'com.mateus.projetorest.modelos.Cliente';

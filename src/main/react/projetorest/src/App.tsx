@@ -6,6 +6,8 @@ import UsuarioFormulario from "./visoes/paginas/usuario/usuario/UsuarioFormulari
 import EnderecoPesquisa from "./visoes/paginas/endereco/EnderecoPesquisa";
 import EnderecoFormulario from "./visoes/paginas/endereco/EnderecoFormulario";
 import Menu from "./visoes/componentes/menu/Menu";
+import ClientePesquisa from "./visoes/paginas/cliente/ClientePesquisa";
+import ClienteFormulario from "./visoes/paginas/cliente/ClienteFormulario";
 
 function App() {
   const [usuarioLogado, setUsuarioLogado] = useState<any>(null);
@@ -20,7 +22,9 @@ function App() {
                 <Route path="/usuario/persistir" component={() => <UsuarioFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 <Route path="/endereco/buscartodos" component={() => <EnderecoPesquisa setSelectedItem={setSelectedItem} />} />
                 <Route path="/endereco/persistir" component={() => <EnderecoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
-              </Switch>
+                <Route path="/cliente/buscartodos" component={() => <ClientePesquisa setSelectedItem={setSelectedItem} />} />
+                <Route path="/cliente/persistir" component={() => <ClienteFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
+                </Switch>
             </BrowserRouter>
         </>
 

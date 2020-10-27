@@ -5,7 +5,7 @@ export interface Endereco extends BasicVO {
     cidade?: string;
     rua?: string;
     numero?: number;
-    nomeClasseVO: 'com.mateus.projetorest.modelos.Endereco'
+    nomeClasseVO: string;
 }
 
 export const CLASS_NAME = 'com.mateus.projetorest.modelos.Endereco';

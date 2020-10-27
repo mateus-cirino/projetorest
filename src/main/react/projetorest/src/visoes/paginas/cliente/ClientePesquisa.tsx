@@ -1,25 +1,25 @@
 import React, {Dispatch, FC, useEffect, useState} from "react";
-import {CLASS_NAME, Endereco} from "../../../modelos/endereco";
+import {CLASS_NAME, Cliente} from "../../../modelos/cliente";
 import {buscarTodos} from "../../../servicos/geral.servico";
 import DataTable from 'react-data-table-component';
 import {Button} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
 
-interface EnderecoPesquisaProps {
+interface ClientePesquisaProps {
     setSelectedItem?: Dispatch<any>;
 }
 
-const EnderecoPesquisa: FC<EnderecoPesquisaProps> = props => {
-    const endereco: Endereco = {
+const ClientePesquisa: FC<ClientePesquisaProps> = props => {
+    const cliente: Cliente = {
         nomeClasseVO: CLASS_NAME
     };
-    const [enderecos, setEnderecos] = useState([]);
+    const [clientes, setClientes] = useState([]);
     const history = useHistory();
     useEffect(() => {
-        buscarTodos(endereco, {
-            funcaoSucesso: (enderecos: Endereco[]) => {
+        buscarTodos(cliente, {
+            funcaoSucesso: (clientes: Cliente[]) => {
                 // @ts-ignore
-                setEnderecos(enderecos);
+                setClientes(clientes);
             },
             funcaoErro: mensagem => {
                 //alert(mensagem);
@@ -28,35 +28,35 @@ const EnderecoPesquisa: FC<EnderecoPesquisaProps> = props => {
     }, []);
     const columns = [
         {
-            name: 'Estado',
-            selector: 'estado',
+            name: 'Nome',
+            selector: 'nome',
             sortable: true,
         },
         {
-            name: 'Cidade',
-            selector: 'cidade',
+            name: 'CPF',
+            selector: 'cpf',
             sortable: true,
         },
         {
-            name: 'Rua',
-            selector: 'rua',
+            name: 'rg',
+            selector: 'rg',
             sortable: true,
         },
         {
-            name: 'Número',
-            selector: 'numero',
+            name: 'Matrícula',
+            selector: 'matricula',
             sortable: true,
         },
     ];
     const handleChangeRow = (row: any, click: any) => {
         // @ts-ignore
         props.setSelectedItem(row);
-        history.push('/endereco/persistir');
+        history.push('/cliente/persistir');
     };
     const actions = () => {
         return (
             <>
-                <Link to="/endereco/persistir">
+                <Link to="/cliente/persistir">
                     <Button className="m-2" color="success">Adicionar</Button>
                 </Link>
                 <Link to="/">
@@ -69,10 +69,10 @@ const EnderecoPesquisa: FC<EnderecoPesquisaProps> = props => {
         <>
             <div className="container m-2">
                 <DataTable
-                    title="Lista de endereços"
+                    title="Lista de clientes"
                     actions={actions()}
                     columns={columns}
-                    data={enderecos}
+                    data={clientes}
                     onRowClicked={handleChangeRow}
                 />
             </div>
@@ -80,4 +80,4 @@ const EnderecoPesquisa: FC<EnderecoPesquisaProps> = props => {
     );
 };
 
-export default EnderecoPesquisa;
+export default ClientePesquisa;
