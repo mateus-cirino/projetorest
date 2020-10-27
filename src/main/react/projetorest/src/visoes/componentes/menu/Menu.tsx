@@ -40,7 +40,7 @@ const Menu: FC<MenuProps> = props => {
                     </Link>
                 </NavItem>
                 <NavItem hidden={usuarioLogado === null}>
-                    <Link to="/logout">
+                    <Link to="/">
                         <NavLink>Logout</NavLink>
                     </Link>
                 </NavItem>

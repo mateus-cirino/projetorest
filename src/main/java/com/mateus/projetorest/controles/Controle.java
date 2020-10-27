@@ -66,19 +66,6 @@ public class Controle {
     }
 
     @CrossOrigin
-    @PostMapping(path = "/buscar")
-    public ResponseEntity<String> buscar(@RequestBody final BasicVO basicVO)
-    {
-        try {
-            final Constructor<?> construtor = Class.forName(basicVO.getNomeClasseVO()).getConstructor();
-            final String entidade = BasicVO.objetoToJson(repositorio.buscar((BasicVO) construtor.newInstance(), basicVO.getId()));
-            return new ResponseEntity<>(entidade, HttpStatus.OK);
-        } catch (final Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
-        }
-    }
-
-    @CrossOrigin
     @PostMapping(path = "/buscartodos")
     public ResponseEntity<List<BasicVO>> buscarTodos(@RequestBody final BasicVO basicVO)
     {
