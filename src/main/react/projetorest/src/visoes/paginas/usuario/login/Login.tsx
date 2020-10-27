@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {Dispatch, FC} from "react";
 import {fazerLogin} from "../../../../servicos/usuario.servico";
 import {Usuario} from "../../../../modelos/usuario";
 import {useForm} from "react-hook-form";
@@ -6,11 +6,11 @@ import {Form, FormGroup, Label, Input, Button} from "reactstrap";
 import {useHistory} from "react-router-dom"
 
 export interface LoginProps {
-    setUsuario: (usuario: Usuario) => void;
+    setUsuario: Dispatch<Usuario>;
 }
 
 const Login: FC<LoginProps> = props => {
-    const {register, handleSubmit} = useForm<Usuario>();
+    const {handleSubmit, register} = useForm<Usuario>();
     const history = useHistory();
     const onSubmit = (usuario: Usuario) => {
         fazerLogin(usuario, {

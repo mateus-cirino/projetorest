@@ -80,13 +80,13 @@ public class Controle {
 
     @CrossOrigin
     @PostMapping(path = "/buscartodos")
-    public ResponseEntity<List<String>> buscarTodos(@RequestBody final BasicVO basicVO)
+    public ResponseEntity<List<BasicVO>> buscarTodos(@RequestBody final BasicVO basicVO)
     {
         try {
             final List<String> entidades = repositorio.buscarTodos(Class.forName(basicVO.getNomeClasseVO())).stream().map(BasicVO::objetoToJson).collect(Collectors.toList());
-            return new ResponseEntity<>(entidades, HttpStatus.OK);
+            return new ResponseEntity<>(repositorio.buscarTodos(Class.forName(basicVO.getNomeClasseVO())), HttpStatus.OK);
         } catch (final Exception e) {
-            return new ResponseEntity<>(Collections.singletonList(e.getMessage()), HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 }
