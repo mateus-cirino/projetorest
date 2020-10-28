@@ -12,7 +12,7 @@ import {useToasts} from "react-toast-notifications";
 
 const ClienteFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
-    const {control, handleSubmit, register} = useForm<Cliente>();
+    const {control, handleSubmit, register, errors} = useForm<Cliente>();
     const history = useHistory();
     const [enderecos, setEnderecos] = useState([]);
     const { addToast } = useToasts();
@@ -88,11 +88,13 @@ const ClienteFormulario: FC<FormularioProps> = props => {
             <Form onSubmit={handleSubmit(onSubmit)} >
                 <FormGroup>
                     <Label for="nome">Nome</Label>
-                    <Input type="text" name="nome" placeholder="digite o nome do cliente" innerRef={register} />
+                    <Input type="text" name="nome" placeholder="digite o nome do cliente" innerRef={register({ required: true })} />
+                    {errors.nome && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="cpf">CPF</Label>
-                    <Input type="text" name="cpf" placeholder="digite o cpf do cliente" innerRef={register} />
+                    <Input type="text" name="cpf" placeholder="digite o cpf do cliente" innerRef={register({ required: true })} />
+                    {errors.cpf && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="rg">RG</Label>

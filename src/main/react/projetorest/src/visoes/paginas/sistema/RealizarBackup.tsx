@@ -19,8 +19,7 @@ const RealizarBackup: FC<FormularioProps> = props => {
     const { addToast } = useToasts();
     const onSubmit = () => {
         realizarBackup({
-            funcaoSucesso: (resultado: File) => {
-                console.log(resultado);
+            funcaoSucesso: (resultado: [string]) => {
                 addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
             }, funcaoErro: mensagem => {
                 addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })

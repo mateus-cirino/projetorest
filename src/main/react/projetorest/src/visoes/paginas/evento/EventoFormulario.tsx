@@ -14,7 +14,7 @@ import {Cliente} from "../../../modelos/cliente";
 
 const EventoFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
-    const {control, handleSubmit, register} = useForm<any>();
+    const {control, handleSubmit, register, errors} = useForm<any>();
     const history = useHistory();
     const [enderecos, setEnderecos] = useState([]);
     const [clientes, setClientes] = useState([]);
@@ -127,11 +127,13 @@ const EventoFormulario: FC<FormularioProps> = props => {
                 </FormGroup>
                 <FormGroup>
                     <Label for="dtInicio">Data de início</Label>
-                    <Input type="date" name="dtInicio" placeholder="digite a data de início do evento" innerRef={register} />
+                    <Input type="date" name="dtInicio" placeholder="digite a data de início do evento" innerRef={register({ required: true })} />
+                    {errors.dtInicio && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="dtFim">Data de finalização</Label>
-                    <Input type="date" name="dtFim" placeholder="digite a data de finalização do evento" innerRef={register} />
+                    <Input type="date" name="dtFim" placeholder="digite a data de finalização do evento" innerRef={register({ required: true })} />
+                    {errors.dtFim && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="endereco">Endereço</Label>
@@ -142,7 +144,7 @@ const EventoFormulario: FC<FormularioProps> = props => {
                 </FormGroup>
                 <FormGroup>
                     <Label for="clientes">Clientes</Label>
-                    <Input type="select" multiple={true} name="clientes" innerRef={register} defaultValue={selectedItem.clientes === null ? null
+                    <Input type="select" multiple={true} name="clientes" innerRef={register} defaultValue={selectedItem === null ? null
                                                                                                                     : selectedItem.clientes.map(cliente => cliente.id)}>
                         {clientes.map((cliente, index) => <option key={index} value={cliente.id}>{cliente.nome}</option>)}
                     </Input>
