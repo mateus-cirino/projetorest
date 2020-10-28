@@ -35,6 +35,16 @@ const Menu: FC<MenuProps> = props => {
                     </Link>
                 </NavItem>
                 <NavItem>
+                    <Link to="/sistema/realizarbackup">
+                        <NavLink disabled={usuarioLogado === null}>Realizar backup</NavLink>
+                    </Link>
+                </NavItem>
+                <NavItem>
+                    <Link to="/sistema/restaurarbackup">
+                        <NavLink disabled={usuarioLogado === null}>Restaurar backup</NavLink>
+                    </Link>
+                </NavItem>
+                <NavItem>
                     <Link to="/">
                         <NavLink>{usuarioLogado === null ? 'Login' : `Olá ${usuarioLogado.nome}`}</NavLink>
                     </Link>

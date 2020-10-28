@@ -142,8 +142,8 @@ const EventoFormulario: FC<FormularioProps> = props => {
                 </FormGroup>
                 <FormGroup>
                     <Label for="clientes">Clientes</Label>
-                    <Input type="select" multiple={true} name="clientes" innerRef={register} defaultValue={selectedItem === null ? null
-                                                                                                                    : selectedItem.cliente.map(cliente => cliente.id)}>
+                    <Input type="select" multiple={true} name="clientes" innerRef={register} defaultValue={selectedItem.clientes === null ? null
+                                                                                                                    : selectedItem.clientes.map(cliente => cliente.id)}>
                         {clientes.map((cliente, index) => <option key={index} value={cliente.id}>{cliente.nome}</option>)}
                     </Input>
                 </FormGroup>
