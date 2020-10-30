@@ -72,7 +72,7 @@ const EnderecoFormulario: FC<FormularioProps> = props => {
                     <Input type="text" name="cidade" placeholder="digite a cidade" innerRef={register} />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="rua">Password</Label>
+                    <Label for="rua">Rua</Label>
                     <Input type="text" name="rua" placeholder="digite a rua" innerRef={register} />
                 </FormGroup>
                 <FormGroup>

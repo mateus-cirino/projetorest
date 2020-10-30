@@ -46,7 +46,7 @@ const EventoFormulario: FC<FormularioProps> = props => {
         evento.endereco.id = control.getValues('endereco.id');
         evento.endereco.nomeClasseVO = CLASS_NAME_ENDERECO;
         evento.clientes = control.getValues('clientes').map(id => {
-            const cli: Cliente = {
+            return {
                 id: id,
                 nomeClasseVO: CLASS_NAME_CLIENTE
             };
