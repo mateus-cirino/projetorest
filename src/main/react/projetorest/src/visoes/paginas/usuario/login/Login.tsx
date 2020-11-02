@@ -6,6 +6,7 @@ import {Form, FormGroup, Label, Input, Button} from "reactstrap";
 import {useHistory} from "react-router-dom"
 import {SUCESSO} from "../../../../utils/mensagensRequisicao";
 import {useToasts} from "react-toast-notifications";
+import md5 from "md5";
 
 export interface LoginProps {
     setUsuario: Dispatch<Usuario>;
@@ -17,6 +18,7 @@ const Login: FC<LoginProps> = props => {
     const history = useHistory();
     const { addToast } = useToasts();
     const onSubmit = (usuario: Usuario) => {
+        usuario.senha = md5(usuario.senha);
         fazerLogin(usuario, {
             funcaoSucesso: usuario =>  {
                 addToast(SUCESSO, { appearance: 'success', autoDismiss: true });

@@ -4,10 +4,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mateus.projetorest.modelos.extensoes.BasicVO;
 
@@ -25,8 +28,10 @@ public class Cliente extends BasicVO {
     private String matricula;
     @ManyToOne
     private Endereco endereco;
-    @JsonManagedReference
-    @ManyToMany(mappedBy = "clientes")
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(name = "evento_cliente", joinColumns = @JoinColumn(name = "id_evento"),
+            inverseJoinColumns = @JoinColumn(name = "id_cliente"))
     private List<Evento> eventos;
 
     public String getNome() {

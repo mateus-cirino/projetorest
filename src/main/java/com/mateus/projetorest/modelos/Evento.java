@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mateus.projetorest.modelos.extensoes.BasicVO;
 
 @Entity
@@ -32,10 +33,8 @@ public class Evento extends BasicVO {
     private Date dtFim;
     @ManyToOne
     private Usuario usuario;
-    @ManyToMany
-    @JoinTable(name = "evento_cliente", joinColumns = @JoinColumn(name = "id_evento"),
-            inverseJoinColumns = @JoinColumn(name = "id_cliente"))
-    @JsonBackReference
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "eventos")
     private List<Cliente> clientes;
 
     public String getNome() {
