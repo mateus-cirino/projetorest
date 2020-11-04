@@ -44,7 +44,7 @@ public class SistemaControle {
 
     @CrossOrigin
     @PostMapping(path = "/restaurarbackup")
-    public ResponseEntity<String> restaurarBackup(@RequestBody final List<String> backup) {
+    public ResponseEntity<Boolean> restaurarBackup(@RequestBody final List<String> backup) {
         try {
             for (final String json:backup) {
                 final JSONObject jsonObject = new JSONObject(json);
@@ -57,9 +57,9 @@ public class SistemaControle {
 
                 repositorio.persistir(basicVO);
             }
-            return new ResponseEntity<>("true", HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         } catch (final Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+            return new ResponseEntity<>(false, HttpStatus.OK);
         }
     }
 }

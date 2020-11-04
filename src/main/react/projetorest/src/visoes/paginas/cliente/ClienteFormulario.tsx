@@ -9,34 +9,37 @@ import {FormularioProps} from "../../componentes/extensoes/formularioProps";
 import {CLASS_NAME_CLIENTE, CLASS_NAME_ENDERECO} from "../../../utils/nomeClasseVO";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
 import {useToasts} from "react-toast-notifications";
+import Select from "react-select";
 
 const ClienteFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register, errors} = useForm<Cliente>();
     const history = useHistory();
-    const [enderecos, setEnderecos] = useState([]);
+    const [enderecosOptions, setEnderecosOptions] = useState(null);
+    const [enderecoSelected, setEnderecoSelected] = useState(null);
     const { addToast } = useToasts();
     useEffect(() => {
         setTimeout(() => {
             register('id');
-            register('nomeClasseVO');
-            register('endereco.id');
             if (selectedItem !== null) {
                 control.setValue('id', selectedItem.id);
                 control.setValue('nome', selectedItem.nome);
                 control.setValue('cpf', selectedItem.cpf);
                 control.setValue('rg', selectedItem.rg);
                 control.setValue('matricula', selectedItem.matricula);
-                control.setValue('endereco.id', selectedItem.endereco.id);
-                control.setValue('eventos', selectedItem.eventos);
-                }
-            carregarEnderecos();
-        }, 800);
+
+                const { endereco } = selectedItem;
+                setEnderecoSelected({label: endereco.cidade, value: endereco.id});
+            }
+            carregarEnderecosOptions();
+        }, 100);
     }, []);
     const onSubmit = (cliente: Cliente) => {
         cliente.nomeClasseVO = CLASS_NAME_CLIENTE;
-        cliente.endereco.id = control.getValues('endereco.id');
-        cliente.endereco.nomeClasseVO = CLASS_NAME_ENDERECO;
+        cliente.endereco = {
+            id: enderecoSelected.value,
+            nomeClasseVO: CLASS_NAME_ENDERECO
+        };
         const formData = new FormData();
         formData.append('dados', JSON.stringify(cliente));
         persistir(formData, {
@@ -70,18 +73,26 @@ const ClienteFormulario: FC<FormularioProps> = props => {
             }
         })
     };
-    const carregarEnderecos = () => {
+    const carregarEnderecosOptions = () => {
         const endereco: Endereco = {
             nomeClasseVO: CLASS_NAME_ENDERECO
         };
         buscarTodos(endereco, {
             funcaoSucesso: (enderecos: Endereco[]) => {
-                setEnderecos(enderecos);
+                setEnderecosOptions(enderecos.map(endereco => {
+                   return {
+                       label: endereco.cidade,
+                       value: endereco.id
+                   }
+                }));
             },
             funcaoErro: mensagem => {
                 addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         });
+    };
+    const onChangeEndereco = props => {
+      setEnderecoSelected(props);
     };
     return (
         <div className="container m-2">
@@ -105,11 +116,15 @@ const ClienteFormulario: FC<FormularioProps> = props => {
                     <Input type="text" name="matricula" placeholder="digite a matrícula do cliente" innerRef={register} />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="endereco">Endereço</Label>
-                    <Input type="select" name="endereco.id" innerRef={register} defaultValue={selectedItem === null ? null
-                                                                                                                    : selectedItem.endereco.id}>
-                        {enderecos.map(endereco => <option value={endereco.id}>{endereco.cidade}</option>)}
-                    </Input>
+                    <Label for="endereco.id">Endereço</Label>
+                    <Select
+                        placeholder="selecione o endereço do cliente"
+                        name="endereco.id"
+                        ref={register}
+                        options={enderecosOptions}
+                        onChange={onChangeEndereco}
+                        defaultValue={selectedItem === null ? null : { label: selectedItem.endereco.cidade, value: selectedItem.endereco.id }}
+                    />
                 </FormGroup>
                 <div className="d-flex justify-content-end">
                     <Button className="m-2" type="submit" color="success" disabled={usuarioLogado === null}>Enviar</Button>

@@ -1,6 +1,5 @@
 import {BasicVO} from "./extensoes/basicVO";
 import {Endereco} from "./endereco";
-import {Evento} from "./evento";
 
 export interface Cliente extends BasicVO {
     nome?: string;
@@ -8,6 +7,5 @@ export interface Cliente extends BasicVO {
     rg?: string;
     matricula?: string;
     endereco?: Endereco;
-    eventos?: Evento[];
     nomeClasseVO: string;
 }

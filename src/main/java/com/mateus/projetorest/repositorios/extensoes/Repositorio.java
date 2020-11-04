@@ -36,4 +36,10 @@ public class Repositorio {
         final Query pesquisa = entityManager.createQuery("FROM " + classe.getName(), classe);
         return pesquisa.getResultList();
     }
+
+    @Transactional
+    public List<BasicVO> where(final Class<?> classe, final String where) {
+        final Query pesquisa = entityManager.createQuery("FROM " + classe.getName() + " " + where, classe);
+        return pesquisa.getResultList();
+    }
 }

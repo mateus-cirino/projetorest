@@ -6,59 +6,89 @@ import {useHistory} from "react-router-dom";
 import {buscarTodos, persistir, remover} from "../../../servicos/geral.servico";
 import {Endereco} from "../../../modelos/endereco";
 import {FormularioProps} from "../../componentes/extensoes/formularioProps";
-import {CLASS_NAME_EVENTO, CLASS_NAME_ENDERECO, CLASS_NAME_CLIENTE} from "../../../utils/nomeClasseVO";
+import {CLASS_NAME_EVENTO, CLASS_NAME_ENDERECO, CLASS_NAME_CLIENTE, CLASS_NAME_EVENTO_CLIENTE} from "../../../utils/nomeClasseVO";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
 import {useToasts} from "react-toast-notifications";
 import {TIPO_USUARIO_ENUM} from "../../../utils/tipoUsuarioEnum";
 import {Cliente} from "../../../modelos/cliente";
+import Select from "react-select";
+import {adicionarClientesEvento, recuperarClientesEvento} from "../../../servicos/evento.servico";
 
 const EventoFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
     const {control, handleSubmit, register, errors} = useForm<any>();
     const history = useHistory();
-    const [enderecos, setEnderecos] = useState([]);
-    const [clientes, setClientes] = useState([]);
+    const [enderecosOptions, setEnderecosOptions] = useState(null);
+    const [enderecoSelected, setEnderecoSelected] = useState(null);
+    const [clientesOptions, setClientesOptions] = useState(null);
+    const [clientesSelected, setClientesSelected] = useState(null);
     const { addToast } = useToasts();
     useEffect(() => {
         setTimeout(() => {
             register('id');
-            register('nomeClasseVO');
-            register('endereco.id');
-            register('clientes');
             register('usuario');
             if (selectedItem !== null) {
                 control.setValue('id', selectedItem.id);
                 control.setValue('nome', selectedItem.nome);
                 control.setValue('descricao', selectedItem.descricao);
                 control.setValue('numeroMaxParticipantes', selectedItem.numeroMaxParticipantes);
-                control.setValue('endereco.id', selectedItem.endereco.id);
                 control.setValue('dtInicio', selectedItem.dtInicio);
-                control.setValue('clientes', selectedItem.clientes);
                 control.setValue('usuario', selectedItem.usuario);
+                recuperarClientesEvento(selectedItem, {
+                    funcaoSucesso: (clientesEvento) => {
+                        const clientes = clientesEvento.map((cliente: Cliente) => {
+                            return {
+                                label: cliente.nome,
+                                value: cliente.id
+                            };
+                        });
+                        setClientesSelected([{label: "Mateus", value: 1}]);
+                        const {endereco} = selectedItem;
+                        setEnderecoSelected({label: endereco.cidade, value: endereco.id});
+                    },
+                    funcaoErro: mensagem => {
+                        addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
+                    }
+                })
             }
-            carregarEnderecos();
-            carregarClientes();
+            carregarEnderecosOptions();
+            carregarClientesOptions();
         }, 800);
     }, []);
     const onSubmit = (evento: Evento) => {
         evento.usuario = usuarioLogado;
         evento.nomeClasseVO = CLASS_NAME_EVENTO;
-        evento.endereco.id = control.getValues('endereco.id');
-        evento.endereco.nomeClasseVO = CLASS_NAME_ENDERECO;
-        evento.clientes = control.getValues('clientes').map(id => {
-            return {
-                id: id,
-                nomeClasseVO: CLASS_NAME_CLIENTE
-            };
-        });
-        const formData = new FormData();
-        formData.append('dados', JSON.stringify(evento));
-        persistir(formData, {
-            funcaoSucesso: resultado => {
-                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
-                voltar();
+        evento.endereco = {
+            id: enderecoSelected.value,
+            nomeClasseVO: CLASS_NAME_ENDERECO
+        };
+        const formDataEvento = new FormData();
+        formDataEvento.append('dados', JSON.stringify(evento));
+        persistir(formDataEvento, {
+            funcaoSucesso: (evento: Evento) => {
+                const eventosClientes = clientesSelected.map(clienteOption => {
+                    return {
+                        evento: {
+                          id: evento.id,
+                          nomeClasseVO: CLASS_NAME_EVENTO
+                        },
+                        cliente: {
+                            id: clienteOption.value,
+                            nomeClasseVO: CLASS_NAME_CLIENTE
+                        },
+                    }
+                });
+                adicionarClientesEvento(eventosClientes, {
+                    funcaoSucesso: resultado => {
+                        addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                        voltar();
+                    },
+                    funcaoErro: mensagem => {
+                        addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
+                    }
+                })
             }, funcaoErro: mensagem => {
-                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
             }
         })
     };
@@ -84,31 +114,47 @@ const EventoFormulario: FC<FormularioProps> = props => {
             }
         })
     };
-    const carregarEnderecos = () => {
+    const carregarEnderecosOptions = () => {
         const endereco: Endereco = {
             nomeClasseVO: CLASS_NAME_ENDERECO
         };
         buscarTodos(endereco, {
             funcaoSucesso: (enderecos: Endereco[]) => {
-                setEnderecos(enderecos);
+                setEnderecosOptions(enderecos.map(endereco => {
+                    return {
+                        label: endereco.cidade,
+                        value: endereco.id
+                    }
+                }));
             },
             funcaoErro: mensagem => {
                 addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         });
     };
-    const carregarClientes = () => {
+    const onChangeEndereco = props => {
+        setEnderecoSelected(props);
+    };
+    const carregarClientesOptions = () => {
         const cliente: Cliente = {
             nomeClasseVO: CLASS_NAME_CLIENTE
         };
         buscarTodos(cliente, {
             funcaoSucesso: (clientes: Cliente[]) => {
-                setClientes(clientes);
+                setClientesOptions(clientes.map(cliente => {
+                    return {
+                        label: cliente.nome,
+                        value: cliente.id
+                    };
+                }));
             },
             funcaoErro: mensagem => {
                 addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
             }
         });
+    };
+    const onChangeClientes = props => {
+        setClientesSelected(props);
     };
     return (
         <div className="container m-2">
@@ -136,18 +182,26 @@ const EventoFormulario: FC<FormularioProps> = props => {
                     {errors.dtFim && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
-                    <Label for="endereco">Endereço</Label>
-                    <Input type="select" name="endereco.id" innerRef={register} defaultValue={selectedItem === null ? null
-                                                                                                                    : selectedItem.endereco.id}>
-                        {enderecos.map((endereco, index) => <option key={index} value={endereco.id}>{endereco.cidade}</option>)}
-                    </Input>
+                    <Label for="endereco.id">Endereço</Label>
+                    <Select
+                        placeholder="selecione o endereço do cliente"
+                        name="endereco.id"
+                        ref={register}
+                        options={enderecosOptions}
+                        onChange={onChangeEndereco}
+                        defaultValue={selectedItem === null ? null : { label: selectedItem.endereco.cidade, value: selectedItem.endereco.id }}
+                    />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="clientes">Clientes</Label>
-                    <Input type="select" multiple={true} name="clientes" innerRef={register} defaultValue={selectedItem === null ? null
-                                                                                                                    : selectedItem.clientes.map(cliente => cliente.id)}>
-                        {clientes.map((cliente, index) => <option key={index} value={cliente.id}>{cliente.nome}</option>)}
-                    </Input>
+                    <Label for="clientes.id">Clientes</Label>
+                    <Select
+                        placeholder="selecione os clientes que participarão do evento"
+                        name="clientes.id"
+                        ref={register}
+                        options={clientesOptions}
+                        onChange={onChangeClientes}
+                        isMulti={true}
+                    />
                 </FormGroup>
                 <div className="d-flex justify-content-end">
                     <Button className="m-2" type="submit" color="success" disabled={usuarioLogado === null || usuarioLogado.tipoUsuario !== TIPO_USUARIO_ENUM[0].value}>Enviar</Button>

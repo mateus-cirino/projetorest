@@ -1,7 +1,5 @@
 package com.mateus.projetorest.repositorios;
 
-import java.util.Optional;
-
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;

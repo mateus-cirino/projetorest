@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -28,11 +29,6 @@ public class Cliente extends BasicVO {
     private String matricula;
     @ManyToOne
     private Endereco endereco;
-    @JsonBackReference
-    @ManyToMany
-    @JoinTable(name = "evento_cliente", joinColumns = @JoinColumn(name = "id_evento"),
-            inverseJoinColumns = @JoinColumn(name = "id_cliente"))
-    private List<Evento> eventos;
 
     public String getNome() {
         return nome;
@@ -72,13 +68,5 @@ public class Cliente extends BasicVO {
 
     public void setEndereco(final Endereco endereco) {
         this.endereco = endereco;
-    }
-
-    public List<Evento> getEventos() {
-        return eventos;
-    }
-
-    public void setEventos(final List<Evento> eventos) {
-        this.eventos = eventos;
     }
 }
