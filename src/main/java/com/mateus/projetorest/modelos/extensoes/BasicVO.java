@@ -1,5 +1,8 @@
 package com.mateus.projetorest.modelos.extensoes;
 
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +11,11 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 @MappedSuperclass
 public class BasicVO {
@@ -17,7 +25,8 @@ public class BasicVO {
     protected int id;
     @Transient
     protected String nomeClasseVO;
-    private static final Gson gson = new Gson();;
+    private static final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class,
+                                                                           (JsonDeserializer) (json, type, jsonDeserializationContext) -> LocalDateTime.parse(json.getAsJsonPrimitive().getAsString())).create();
 
     protected BasicVO() {
         nomeClasseVO = this.getClass().getName();

@@ -10,9 +10,7 @@ import {CLASS_NAME_EVENTO, CLASS_NAME_ENDERECO, CLASS_NAME_CLIENTE, CLASS_NAME_E
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
 import {useToasts} from "react-toast-notifications";
 import {TIPO_USUARIO_ENUM} from "../../../utils/tipoUsuarioEnum";
-import {Cliente} from "../../../modelos/cliente";
 import Select from "react-select";
-import {adicionarClientesEvento, recuperarClientesEvento} from "../../../servicos/evento.servico";
 
 const EventoFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
@@ -20,8 +18,6 @@ const EventoFormulario: FC<FormularioProps> = props => {
     const history = useHistory();
     const [enderecosOptions, setEnderecosOptions] = useState(null);
     const [enderecoSelected, setEnderecoSelected] = useState(null);
-    const [clientesOptions, setClientesOptions] = useState(null);
-    const [clientesSelected, setClientesSelected] = useState(null);
     const { addToast } = useToasts();
     useEffect(() => {
         setTimeout(() => {
@@ -33,26 +29,13 @@ const EventoFormulario: FC<FormularioProps> = props => {
                 control.setValue('descricao', selectedItem.descricao);
                 control.setValue('numeroMaxParticipantes', selectedItem.numeroMaxParticipantes);
                 control.setValue('dtInicio', selectedItem.dtInicio);
+                control.setValue('dtFim', selectedItem.dtFim);
                 control.setValue('usuario', selectedItem.usuario);
-                recuperarClientesEvento(selectedItem, {
-                    funcaoSucesso: (clientesEvento) => {
-                        const clientes = clientesEvento.map((cliente: Cliente) => {
-                            return {
-                                label: cliente.nome,
-                                value: cliente.id
-                            };
-                        });
-                        setClientesSelected([{label: "Mateus", value: 1}]);
-                        const {endereco} = selectedItem;
-                        setEnderecoSelected({label: endereco.cidade, value: endereco.id});
-                    },
-                    funcaoErro: mensagem => {
-                        addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
-                    }
-                })
+
+                const {endereco} = selectedItem;
+                setEnderecoSelected({label: endereco.cidade, value: endereco.id});
             }
             carregarEnderecosOptions();
-            carregarClientesOptions();
         }, 800);
     }, []);
     const onSubmit = (evento: Evento) => {
@@ -65,28 +48,10 @@ const EventoFormulario: FC<FormularioProps> = props => {
         const formDataEvento = new FormData();
         formDataEvento.append('dados', JSON.stringify(evento));
         persistir(formDataEvento, {
-            funcaoSucesso: (evento: Evento) => {
-                const eventosClientes = clientesSelected.map(clienteOption => {
-                    return {
-                        evento: {
-                          id: evento.id,
-                          nomeClasseVO: CLASS_NAME_EVENTO
-                        },
-                        cliente: {
-                            id: clienteOption.value,
-                            nomeClasseVO: CLASS_NAME_CLIENTE
-                        },
-                    }
-                });
-                adicionarClientesEvento(eventosClientes, {
-                    funcaoSucesso: resultado => {
-                        addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
-                        voltar();
-                    },
-                    funcaoErro: mensagem => {
-                        addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
-                    }
-                })
+            funcaoSucesso: resultado => {
+                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                voltar();
+
             }, funcaoErro: mensagem => {
                 addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
             }
@@ -135,33 +100,12 @@ const EventoFormulario: FC<FormularioProps> = props => {
     const onChangeEndereco = props => {
         setEnderecoSelected(props);
     };
-    const carregarClientesOptions = () => {
-        const cliente: Cliente = {
-            nomeClasseVO: CLASS_NAME_CLIENTE
-        };
-        buscarTodos(cliente, {
-            funcaoSucesso: (clientes: Cliente[]) => {
-                setClientesOptions(clientes.map(cliente => {
-                    return {
-                        label: cliente.nome,
-                        value: cliente.id
-                    };
-                }));
-            },
-            funcaoErro: mensagem => {
-                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
-            }
-        });
-    };
-    const onChangeClientes = props => {
-        setClientesSelected(props);
-    };
     return (
         <div className="container m-2">
             <Form onSubmit={handleSubmit(onSubmit)} >
                 <FormGroup>
                     <Label for="nome">Nome</Label>
-                    <Input type="text" name="nome" placeholder="digite o nome do cliente" innerRef={register} />
+                    <Input type="text" name="nome" placeholder="digite o nome do evento" innerRef={register} />
                 </FormGroup>
                 <FormGroup>
                     <Label for="descricao">Descrição</Label>
@@ -173,12 +117,12 @@ const EventoFormulario: FC<FormularioProps> = props => {
                 </FormGroup>
                 <FormGroup>
                     <Label for="dtInicio">Data de início</Label>
-                    <Input type="date" name="dtInicio" placeholder="digite a data de início do evento" innerRef={register({ required: true })} />
+                    <Input type="datetime-local" name="dtInicio" placeholder="digite a data de início do evento" innerRef={register({ required: true })} />
                     {errors.dtInicio && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="dtFim">Data de finalização</Label>
-                    <Input type="date" name="dtFim" placeholder="digite a data de finalização do evento" innerRef={register({ required: true })} />
+                    <Input type="datetime-local" name="dtFim" placeholder="digite a data de finalização do evento" innerRef={register({ required: true })} />
                     {errors.dtFim && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
@@ -190,17 +134,6 @@ const EventoFormulario: FC<FormularioProps> = props => {
                         options={enderecosOptions}
                         onChange={onChangeEndereco}
                         defaultValue={selectedItem === null ? null : { label: selectedItem.endereco.cidade, value: selectedItem.endereco.id }}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="clientes.id">Clientes</Label>
-                    <Select
-                        placeholder="selecione os clientes que participarão do evento"
-                        name="clientes.id"
-                        ref={register}
-                        options={clientesOptions}
-                        onChange={onChangeClientes}
-                        isMulti={true}
                     />
                 </FormGroup>
                 <div className="d-flex justify-content-end">

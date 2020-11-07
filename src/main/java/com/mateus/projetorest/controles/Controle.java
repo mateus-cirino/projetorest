@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.GsonBuilder;
 import com.mateus.projetorest.modelos.extensoes.BasicVO;
 import com.mateus.projetorest.repositorios.extensoes.Repositorio;
 

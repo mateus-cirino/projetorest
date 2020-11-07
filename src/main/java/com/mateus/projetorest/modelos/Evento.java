@@ -1,12 +1,10 @@
 package com.mateus.projetorest.modelos;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.mateus.projetorest.modelos.extensoes.BasicVO;
@@ -23,9 +21,9 @@ public class Evento extends BasicVO {
     @ManyToOne
     private Endereco endereco;
     @Column(name = "dtInicio", nullable = false)
-    private Date dtInicio;
+    private LocalDateTime dtInicio;
     @Column(name = "dtFim", nullable = false)
-    private Date dtFim;
+    private LocalDateTime dtFim;
     @ManyToOne
     private Usuario usuario;
 
@@ -61,19 +59,19 @@ public class Evento extends BasicVO {
         this.endereco = endereco;
     }
 
-    public Date getDtInicio() {
+    public LocalDateTime getDtInicio() {
         return dtInicio;
     }
 
-    public void setDtInicio(final Date dtInicio) {
+    public void setDtInicio(final LocalDateTime dtInicio) {
         this.dtInicio = dtInicio;
     }
 
-    public Date getDtFim() {
+    public LocalDateTime getDtFim() {
         return dtFim;
     }
 
-    public void setDtFim(final Date dtFim) {
+    public void setDtFim(final LocalDateTime dtFim) {
         this.dtFim = dtFim;
     }
 

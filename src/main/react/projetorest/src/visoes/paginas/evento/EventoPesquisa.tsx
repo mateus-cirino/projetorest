@@ -48,11 +48,21 @@ const EventoPesquisa: FC<PesquisaProps> = props => {
         {
             name: 'Data de início',
             selector: 'dtInicio',
+            cell: row => {
+                const { dtInicio } = row;
+                const dataHora = dtInicio.split('T');
+                return `${dataHora[0]} ${dataHora[1]}`;
+            },
             sortable: true,
         },
         {
             name: 'Data de finalização',
             selector: 'dtFim',
+            cell: row => {
+                const { dtFim } = row;
+                const dataHora = dtFim.split('T');
+                return `${dataHora[0]} ${dataHora[1]}`;
+            },
             sortable: true,
         },
     ];
