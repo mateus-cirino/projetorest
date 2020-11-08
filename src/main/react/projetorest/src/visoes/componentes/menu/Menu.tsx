@@ -30,6 +30,11 @@ const Menu: FC<MenuProps> = props => {
                     </Link>
                 </NavItem>
                 <NavItem>
+                    <Link to="/evento/adicionareventocliente">
+                        <NavLink disabled={usuarioLogado === null}>Adicionar clientes a um evento</NavLink>
+                    </Link>
+                </NavItem>
+                <NavItem>
                     <Link to="/endereco/buscartodos">
                         <NavLink disabled={usuarioLogado === null}>Endereços</NavLink>
                     </Link>

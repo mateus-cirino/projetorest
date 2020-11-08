@@ -91,6 +91,8 @@ const EventoPesquisa: FC<PesquisaProps> = props => {
                     columns={columns}
                     data={eventos}
                     onRowClicked={handleChangeRow}
+                    striped={true}
+                    highlightOnHover={true}
                 />
             </div>
         </>

@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mateus.projetorest.modelos.Cliente;
 import com.mateus.projetorest.modelos.Evento;
 import com.mateus.projetorest.modelos.EventoCliente;
-import com.mateus.projetorest.modelos.extensoes.BasicVO;
 import com.mateus.projetorest.repositorios.EventoRepositorio;
-import com.mateus.projetorest.repositorios.extensoes.Repositorio;
 
 @RestController
 @RequestMapping("/api/evento")
@@ -30,26 +28,37 @@ public class EventoControle {
     }
 
     @CrossOrigin
-    @PostMapping(path = "/adicionarClientesEvento")
-    public ResponseEntity<Boolean> adicionarClientesEvento(@RequestBody final List<EventoCliente> eventosClientes)
+    @PostMapping(path = "/buscarClientesRelacionadosEvento")
+    public ResponseEntity<List<Cliente>> buscarClientesRelacionadosEvento(@RequestBody final Evento evento)
     {
         try {
-            eventosClientes.forEach(eventoRepositorio::persistir);
-            return new ResponseEntity<>(true, HttpStatus.OK);
+            final List<Cliente> clientes = eventoRepositorio.buscarClientesRelacionadosEvento(evento);
+            return new ResponseEntity<>(clientes, HttpStatus.OK);
         } catch (final Exception erro) {
-            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @CrossOrigin
-    @PostMapping(path = "/buscarClientesEvento")
-    public ResponseEntity<List<Cliente>> buscarClientesEvento(@RequestBody final Evento evento)
+    @PostMapping(path = "/buscarClientesNaoRelacionadosEvento")
+    public ResponseEntity<List<Cliente>> buscarClientesNaoRelacionadosEvento(@RequestBody final Evento evento)
     {
         try {
-            final List<Cliente> clientes = eventoRepositorio.buscarClientesEvento(evento);
+            final List<Cliente> clientes = eventoRepositorio.buscarClientesNaoRelacionadosEvento(evento);
             return new ResponseEntity<>(clientes, HttpStatus.OK);
         } catch (final Exception erro) {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/buscarEventoCliente")
+    public ResponseEntity<EventoCliente> buscarEventoCliente(@RequestBody final EventoCliente eventoCliente)
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.buscarEventoCliente(eventoCliente), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 }

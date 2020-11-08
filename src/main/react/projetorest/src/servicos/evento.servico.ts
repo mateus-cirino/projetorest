@@ -12,6 +12,14 @@ export function adicionarClientesEvento(eventoClientes: EventoCliente[], param: 
     enviar(pegarServico().post<EventoCliente[]>('/adicionarClientesEvento', eventoClientes), param);
 }
 
-export function recuperarClientesEvento(evento: Evento, param: AxiosParam<Cliente[]>) {
-    enviar(pegarServico().post<Cliente[]>('/buscarClientesEvento', evento), param);
+export function recuperarClientesRelacionadosEvento(evento: Evento, param: AxiosParam<Cliente[]>) {
+    enviar(pegarServico().post<Cliente[]>('/buscarClientesRelacionadosEvento', evento), param);
+}
+
+export function recuperarClientesNaoRelacionadosEvento(evento: Evento, param: AxiosParam<Cliente[]>) {
+    enviar(pegarServico().post<Cliente[]>('/buscarClientesNaoRelacionadosEvento', evento), param);
+}
+
+export function recuperarEventoCliente(eventoCliente: EventoCliente, param: AxiosParam<EventoCliente>) {
+    enviar(pegarServico().post<EventoCliente>('/buscarEventoCliente', eventoCliente), param);
 }

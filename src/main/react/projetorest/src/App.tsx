@@ -14,6 +14,7 @@ import EventoPesquisa from "./visoes/paginas/evento/EventoPesquisa";
 import EventoFormulario from "./visoes/paginas/evento/EventoFormulario";
 import RealizarBackup from "./visoes/paginas/sistema/RealizarBackup";
 import RestaurarBackup from "./visoes/paginas/sistema/RestaurarBackup";
+import AdicionarEventoCliente from "./visoes/paginas/evento/AdicionarEventoCliente";
 
 function App() {
   const [usuarioLogado, setUsuarioLogado] = useState<any>(null);
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/cliente/persistir" component={() => <ClienteFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 <Route path="/evento/buscartodos" component={() => <EventoPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
                 <Route path="/evento/persistir" component={() => <EventoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
+                <Route path="/evento/adicionareventocliente" component={() => <AdicionarEventoCliente />} />
                 <Route path="/sistema/realizarbackup" component={() => <RealizarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 <Route path="/sistema/restaurarbackup" component={() => <RestaurarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 </Switch>
