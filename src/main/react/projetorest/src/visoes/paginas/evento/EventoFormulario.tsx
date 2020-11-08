@@ -6,7 +6,7 @@ import {useHistory} from "react-router-dom";
 import {buscarTodos, persistir, remover} from "../../../servicos/geral.servico";
 import {Endereco} from "../../../modelos/endereco";
 import {FormularioProps} from "../../componentes/extensoes/formularioProps";
-import {CLASS_NAME_EVENTO, CLASS_NAME_ENDERECO, CLASS_NAME_CLIENTE, CLASS_NAME_EVENTO_CLIENTE} from "../../../utils/nomeClasseVO";
+import {CLASS_NAME_EVENTO, CLASS_NAME_ENDERECO} from "../../../utils/nomeClasseVO";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
 import {useToasts} from "react-toast-notifications";
 import {TIPO_USUARIO_ENUM} from "../../../utils/tipoUsuarioEnum";
@@ -112,8 +112,8 @@ const EventoFormulario: FC<FormularioProps> = props => {
                     <Input type="text" name="descricao" placeholder="digite a descrição do evento" innerRef={register} />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="numeroMaxParticipantes">N° máximo de clientes</Label>
-                    <Input type="number" name="numeroMaxParticipantes" placeholder="digite o número máximo de clientes" innerRef={register} />
+                    <Label for="numeroMaxParticipantes">N° máximo de pessoas</Label>
+                    <Input type="number" name="numeroMaxParticipantes" placeholder="digite o número máximo de pessoas" innerRef={register} />
                 </FormGroup>
                 <FormGroup>
                     <Label for="dtInicio">Data de início</Label>
@@ -128,7 +128,7 @@ const EventoFormulario: FC<FormularioProps> = props => {
                 <FormGroup>
                     <Label for="endereco.id">Endereço</Label>
                     <Select
-                        placeholder="selecione o endereço do cliente"
+                        placeholder="selecione o endereço do pessoa"
                         name="endereco.id"
                         ref={register}
                         options={enderecosOptions}

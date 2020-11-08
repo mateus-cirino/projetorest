@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mateus.projetorest.modelos.Cliente;
+import com.mateus.projetorest.modelos.Pessoa;
 import com.mateus.projetorest.modelos.Endereco;
 import com.mateus.projetorest.modelos.Evento;
 import com.mateus.projetorest.modelos.Usuario;
@@ -35,7 +35,7 @@ public class SistemaControle {
     @GetMapping(path = "/realizarbackup")
     public ResponseEntity<List<String>> fazerBackup() {
         final List<String> json = repositorio.buscarTodos(Endereco.class).stream().map(BasicVO::objetoToJson).collect(Collectors.toList());
-        json.addAll(repositorio.buscarTodos(Cliente.class).stream().map(BasicVO::objetoToJson).collect(Collectors.toList()));
+        json.addAll(repositorio.buscarTodos(Pessoa.class).stream().map(BasicVO::objetoToJson).collect(Collectors.toList()));
         json.addAll(repositorio.buscarTodos(Usuario.class).stream().map(BasicVO::objetoToJson).collect(Collectors.toList()));
         json.addAll(repositorio.buscarTodos(Evento.class).stream().map(BasicVO::objetoToJson).collect(Collectors.toList()));
 

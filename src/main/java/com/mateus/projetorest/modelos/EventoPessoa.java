@@ -9,15 +9,15 @@ import javax.persistence.UniqueConstraint;
 import com.mateus.projetorest.modelos.extensoes.BasicVO;
 
 @Entity
-@Table(name = "evento_cliente", uniqueConstraints={@UniqueConstraint(columnNames = {"evento_id", "cliente_id"})})
-public class EventoCliente extends BasicVO {
+@Table(name = "evento_pessoa", uniqueConstraints={@UniqueConstraint(columnNames = {"evento_id", "cliente_id"})})
+public class EventoPessoa extends BasicVO {
     @ManyToOne
     @JoinColumn(name = "evento_id")
     private Evento evento;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    private Pessoa pessoa;
 
     public Evento getEvento() {
         return evento;
@@ -27,11 +27,11 @@ public class EventoCliente extends BasicVO {
         this.evento = evento;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Pessoa getPessoa() {
+        return pessoa;
     }
 
-    public void setCliente(final Cliente cliente) {
-        this.cliente = cliente;
+    public void setPessoa(final Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 }

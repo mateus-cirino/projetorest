@@ -1,25 +1,25 @@
 import React, {useEffect, useState} from "react";
 import {buscarTodos, persistir, remover} from "../../../servicos/geral.servico";
-import {CLASS_NAME_EVENTO, CLASS_NAME_EVENTO_CLIENTE} from "../../../utils/nomeClasseVO";
+import {CLASS_NAME_EVENTO, CLASS_NAME_EVENTO_PESSOA} from "../../../utils/nomeClasseVO";
 import {useToasts} from "react-toast-notifications";
 import {Evento} from "../../../modelos/evento";
 import Select from "react-select";
 import {
-    recuperarClientesRelacionadosEvento,
-    recuperarClientesNaoRelacionadosEvento,
-    recuperarEventoCliente
+    recuperarPessoasRelacionadosEvento,
+    recuperarPessoasNaoRelacionadosEvento,
+    recuperarEventoPessoa
 } from "../../../servicos/evento.servico";
 import DataTable from "react-data-table-component";
-import {Cliente} from "../../../modelos/cliente";
-import {EventoCliente} from "../../../modelos/eventoCliente";
+import {Pessoa} from "../../../modelos/pessoa";
+import {EventoPessoa} from "../../../modelos/eventoPessoa";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
 
-const AdicionarEventoCliente = () => {
+const RelacaoEventoPessoa = () => {
     const { addToast } = useToasts();
     const [eventoSelecionado, setEventoSelecionado] = useState(null);
     const [eventosOptions, setEventosOptions] = useState([]);
-    const [clientesRelacionados, setClientesRelacionados] = useState([]);
-    const [clientesNaoRelacionados, setClientesNaoRelacionados] = useState([]);
+    const [pessoasRelacionadas, setPessoasRelacionadas] = useState([]);
+    const [pessoasNaoRelacionados, setPessoasNaoRelacionados] = useState([]);
     useEffect(() => {
         const entidade = {
             nomeClasseVO: CLASS_NAME_EVENTO
@@ -39,18 +39,18 @@ const AdicionarEventoCliente = () => {
             nomeClasseVO: CLASS_NAME_EVENTO
         };
         setEventoSelecionado(entidade);
-        recuperarClientesRelacionadosEvento(entidade, {
+        recuperarPessoasRelacionadosEvento(entidade, {
                 funcaoErro: mensagem => {
                     addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
                 },
-                funcaoSucesso: resultado => setClientesRelacionados(resultado)
+                funcaoSucesso: resultado => setPessoasRelacionadas(resultado)
             }
         );
-        recuperarClientesNaoRelacionadosEvento(entidade, {
+        recuperarPessoasNaoRelacionadosEvento(entidade, {
             funcaoErro: mensagem => {
                 addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
             },
-            funcaoSucesso: resultado => setClientesNaoRelacionados(resultado)
+            funcaoSucesso: resultado => setPessoasNaoRelacionados(resultado)
         })
     };
     const columns = [
@@ -75,22 +75,22 @@ const AdicionarEventoCliente = () => {
             sortable: true,
         },
     ];
-    const handleRemoveCliente = (cliente: Cliente) => {
-        const eventoCliente: EventoCliente = {
-            cliente: cliente,
+    const handleRemovePessoa = (pessoa: Pessoa) => {
+        const eventoPessoa: EventoPessoa = {
+            pessoa: pessoa,
             evento: eventoSelecionado,
-            nomeClasseVO: CLASS_NAME_EVENTO_CLIENTE
+            nomeClasseVO: CLASS_NAME_EVENTO_PESSOA
         };
-        recuperarEventoCliente(eventoCliente, {
-            funcaoSucesso: eventoClienteComId => {
+        recuperarEventoPessoa(eventoPessoa, {
+            funcaoSucesso: eventoPessoaComId => {
                 const formData = new FormData();
-                formData.append('dados', JSON.stringify(eventoClienteComId));
+                formData.append('dados', JSON.stringify(eventoPessoaComId));
                 remover(formData, {
                     funcaoSucesso: () => {
-                        setClientesRelacionados(clientesRelacionados.filter((c: Cliente) => {
-                            return c.id !== cliente.id;
+                        setPessoasRelacionadas(pessoasRelacionadas.filter((c: Pessoa) => {
+                            return c.id !== pessoa.id;
                         }));
-                        setClientesNaoRelacionados([...clientesNaoRelacionados, cliente]);
+                        setPessoasNaoRelacionados([...pessoasNaoRelacionados, pessoa]);
                         addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
                     },
                     funcaoErro: mensagem => {
@@ -103,21 +103,21 @@ const AdicionarEventoCliente = () => {
             }
         })
     };
-    const handleAdicionaCliente = (cliente: Cliente) => {
-        const eventoCliente: EventoCliente = {
-            cliente: cliente,
+    const handleAdicionaPessoa = (pessoa: Pessoa) => {
+        const eventoPessoa: EventoPessoa = {
+            pessoa: pessoa,
             evento: eventoSelecionado,
-            nomeClasseVO: CLASS_NAME_EVENTO_CLIENTE
+            nomeClasseVO: CLASS_NAME_EVENTO_PESSOA
         };
         const formData = new FormData();
-        formData.append('dados', JSON.stringify(eventoCliente));
+        formData.append('dados', JSON.stringify(eventoPessoa));
         persistir(formData, {
             funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
             funcaoSucesso: () => {
-                setClientesNaoRelacionados(clientesNaoRelacionados.filter((c: Cliente) => {
-                    return c.id !== cliente.id;
+                setPessoasNaoRelacionados(pessoasNaoRelacionados.filter((c: Pessoa) => {
+                    return c.id !== pessoa.id;
                 }));
-                setClientesRelacionados([...clientesRelacionados, cliente]);
+                setPessoasRelacionadas([...pessoasRelacionadas, pessoa]);
                 addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
             }
         })
@@ -125,30 +125,30 @@ const AdicionarEventoCliente = () => {
     return (
       <div className="container">
           <Select
-              placeholder="selecione o endereço do cliente"
+              placeholder="selecione o evento"
               name="endereco.id"
               options={eventosOptions}
               onChange={onChangeEvento}
           />
           <DataTable
-              title="Clientes relacionados"
+              title="pessoas relacionadas"
               columns={columns}
-              data={clientesRelacionados}
+              data={pessoasRelacionadas}
               striped={true}
               highlightOnHover={true}
-              onRowClicked={handleRemoveCliente}
+              onRowClicked={handleRemovePessoa}
           />
 
           <DataTable
-              title="Clientes não relacionados"
+              title="pessoas não relacionadas"
               columns={columns}
-              data={clientesNaoRelacionados}
+              data={pessoasNaoRelacionados}
               striped={true}
               highlightOnHover={true}
-              onRowClicked={handleAdicionaCliente}
+              onRowClicked={handleAdicionaPessoa}
           />
       </div>
     );
 };
 
-export default AdicionarEventoCliente;
+export default RelacaoEventoPessoa;

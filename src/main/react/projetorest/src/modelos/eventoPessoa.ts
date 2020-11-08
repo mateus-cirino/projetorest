@@ -1,9 +1,9 @@
 import {BasicVO} from "./extensoes/basicVO";
-import {Cliente} from "./cliente";
+import {Pessoa} from "./pessoa";
 import {Evento} from "./evento";
 
-export interface EventoCliente extends BasicVO {
+export interface EventoPessoa extends BasicVO {
     evento?: Evento;
-    cliente?: Cliente;
+    pessoa?: Pessoa;
     nomeClasseVO: string;
 }

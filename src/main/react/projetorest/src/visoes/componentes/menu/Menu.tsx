@@ -20,8 +20,8 @@ const Menu: FC<MenuProps> = props => {
                     </Link>
                 </NavItem>
                 <NavItem>
-                    <Link to="/cliente/buscartodos">
-                        <NavLink disabled={usuarioLogado === null}>Clientes</NavLink>
+                    <Link to="/pessoa/buscartodos">
+                        <NavLink disabled={usuarioLogado === null}>Pessoas</NavLink>
                     </Link>
                 </NavItem>
                 <NavItem>
@@ -43,8 +43,8 @@ const Menu: FC<MenuProps> = props => {
                         </DropdownItem>
                         <DropdownItem>
                             <NavItem>
-                                <Link to="/evento/adicionareventocliente">
-                                    <NavLink disabled={usuarioLogado === null}>Adicionar clientes a um evento</NavLink>
+                                <Link to="/evento/adicionareventopessoa">
+                                    <NavLink disabled={usuarioLogado === null}>Relação entre pessoas e eventos</NavLink>
                                 </Link>
                             </NavItem>
                         </DropdownItem>

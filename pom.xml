@@ -12,7 +12,7 @@
     <artifactId>projetorest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>projetorest</name>
-    <description>Projeto da faculdade utilizando comunicação cliente-servidor</description>
+    <description>Projeto da faculdade utilizando comunicação pessoa-servidor</description>
 
     <properties>
         <java.version>1.8</java.version>

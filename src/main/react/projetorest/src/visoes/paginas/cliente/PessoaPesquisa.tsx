@@ -1,29 +1,26 @@
 import React, {FC, useEffect, useState} from "react";
-import {Cliente} from "../../../modelos/cliente";
+import {Pessoa} from "../../../modelos/pessoa";
 import {buscarTodos} from "../../../servicos/geral.servico";
 import DataTable from 'react-data-table-component';
 import {Button} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
 import {PesquisaProps} from "../../componentes/extensoes/pesquisaProps";
-import {CLASS_NAME_CLIENTE} from "../../../utils/nomeClasseVO";
+import {CLASS_NAME_PESSOA} from "../../../utils/nomeClasseVO";
 import {useToasts} from "react-toast-notifications";
 
-const ClientePesquisa: FC<PesquisaProps> = props => {
-    const cliente: Cliente = {
-        nomeClasseVO: CLASS_NAME_CLIENTE
+const PessoaPesquisa: FC<PesquisaProps> = props => {
+    const pessoa: Pessoa = {
+        nomeClasseVO: CLASS_NAME_PESSOA
     };
-    const [clientes, setClientes] = useState([]);
+    const [pessoas, setPessoas] = useState([]);
     const {usuarioLogado, setSelectedItem} = props;
     const history = useHistory();
     const { addToast } = useToasts();
     useEffect(() => {
         setTimeout(() => {
-            if (usuarioLogado === null) {
-                history.goBack();
-            }
-            buscarTodos(cliente, {
-                funcaoSucesso: (clientes: Cliente[]) => {
-                    setClientes(clientes);
+            buscarTodos(pessoa, {
+                funcaoSucesso: (pessoas: Pessoa[]) => {
+                    setPessoas(pessoas);
                 },
                 funcaoErro: mensagem => {
                     addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
@@ -55,12 +52,12 @@ const ClientePesquisa: FC<PesquisaProps> = props => {
     ];
     const handleChangeRow = (row: any, click: any) => {
         setSelectedItem(row);
-        history.push('/cliente/persistir');
+        history.push('/pessoa/persistir');
     };
     const actions = () => {
         return (
             <>
-                <Link to="/cliente/persistir">
+                <Link to="/pessoa/persistir">
                     <Button className="m-2" color="success">Adicionar</Button>
                 </Link>
                 <Link to="/">
@@ -73,10 +70,10 @@ const ClientePesquisa: FC<PesquisaProps> = props => {
         <>
             <div className="container m-2">
                 <DataTable
-                    title="Lista de clientes"
+                    title="Lista de pessoas"
                     actions={actions()}
                     columns={columns}
-                    data={clientes}
+                    data={pessoas}
                     onRowClicked={handleChangeRow}
                 />
             </div>
@@ -84,4 +81,4 @@ const ClientePesquisa: FC<PesquisaProps> = props => {
     );
 };
 
-export default ClientePesquisa;
+export default PessoaPesquisa;

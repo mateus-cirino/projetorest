@@ -1,25 +1,25 @@
 import {AxiosInstance} from "axios";
 import {AxiosParam, criar, enviar} from "./extensoes/axios.util";
-import {EventoCliente} from "../modelos/eventoCliente";
+import {EventoPessoa} from "../modelos/eventoPessoa";
 import {Evento} from "../modelos/evento";
-import {Cliente} from "../modelos/cliente";
+import {Pessoa} from "../modelos/pessoa";
 
 function pegarServico(): AxiosInstance {
     return criar(`http://localhost:8080/api/evento`)
 }
 
-export function adicionarClientesEvento(eventoClientes: EventoCliente[], param: AxiosParam<EventoCliente[]>) {
-    enviar(pegarServico().post<EventoCliente[]>('/adicionarClientesEvento', eventoClientes), param);
+export function adicionarPessoasEvento(eventoPessoas: EventoPessoa[], param: AxiosParam<EventoPessoa[]>) {
+    enviar(pegarServico().post<EventoPessoa[]>('/adicionarPessoasEvento', eventoPessoas), param);
 }
 
-export function recuperarClientesRelacionadosEvento(evento: Evento, param: AxiosParam<Cliente[]>) {
-    enviar(pegarServico().post<Cliente[]>('/buscarClientesRelacionadosEvento', evento), param);
+export function recuperarPessoasRelacionadosEvento(evento: Evento, param: AxiosParam<Pessoa[]>) {
+    enviar(pegarServico().post<Pessoa[]>('/buscarPessoasRelacionadasEvento', evento), param);
 }
 
-export function recuperarClientesNaoRelacionadosEvento(evento: Evento, param: AxiosParam<Cliente[]>) {
-    enviar(pegarServico().post<Cliente[]>('/buscarClientesNaoRelacionadosEvento', evento), param);
+export function recuperarPessoasNaoRelacionadosEvento(evento: Evento, param: AxiosParam<Pessoa[]>) {
+    enviar(pegarServico().post<Pessoa[]>('/buscarPessoasNaoRelacionadasEvento', evento), param);
 }
 
-export function recuperarEventoCliente(eventoCliente: EventoCliente, param: AxiosParam<EventoCliente>) {
-    enviar(pegarServico().post<EventoCliente>('/buscarEventoCliente', eventoCliente), param);
+export function recuperarEventoPessoa(eventoPessoa: EventoPessoa, param: AxiosParam<EventoPessoa>) {
+    enviar(pegarServico().post<EventoPessoa>('/buscarEventoPessoa', eventoPessoa), param);
 }
