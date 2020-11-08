@@ -1,6 +1,6 @@
 import React, {Dispatch} from "react";
 import {FC} from "react";
-import {Nav, NavItem, NavLink} from "reactstrap";
+import {DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink, UncontrolledDropdown} from "reactstrap";
 import {Link} from "react-router-dom";
 import {Usuario} from "../../../modelos/usuario";
 
@@ -25,20 +25,31 @@ const Menu: FC<MenuProps> = props => {
                     </Link>
                 </NavItem>
                 <NavItem>
-                    <Link to="/evento/buscartodos">
-                        <NavLink disabled={usuarioLogado === null}>Eventos</NavLink>
-                    </Link>
-                </NavItem>
-                <NavItem>
-                    <Link to="/evento/adicionareventocliente">
-                        <NavLink disabled={usuarioLogado === null}>Adicionar clientes a um evento</NavLink>
-                    </Link>
-                </NavItem>
-                <NavItem>
                     <Link to="/endereco/buscartodos">
                         <NavLink disabled={usuarioLogado === null}>Endereços</NavLink>
                     </Link>
                 </NavItem>
+                <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                        Eventos
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                        <DropdownItem>
+                            <NavItem>
+                                <Link to="/evento/buscartodos">
+                                    <NavLink disabled={usuarioLogado === null}>Eventos</NavLink>
+                                </Link>
+                            </NavItem>
+                        </DropdownItem>
+                        <DropdownItem>
+                            <NavItem>
+                                <Link to="/evento/adicionareventocliente">
+                                    <NavLink disabled={usuarioLogado === null}>Adicionar clientes a um evento</NavLink>
+                                </Link>
+                            </NavItem>
+                        </DropdownItem>
+                    </DropdownMenu>
+                </UncontrolledDropdown>
                 <NavItem>
                     <Link to="/sistema/realizarbackup">
                         <NavLink disabled={usuarioLogado === null}>Realizar backup</NavLink>

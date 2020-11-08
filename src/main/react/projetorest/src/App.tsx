@@ -24,20 +24,20 @@ function App() {
             <ToastProvider>
             <BrowserRouter>
                 <Menu usuarioLogado={usuarioLogado} setUsuario={setUsuarioLogado} />
-                <Switch>
-                <Route path="/" exact={true} component={() => <Login setUsuario={setUsuarioLogado} />}/>
-                <Route path="/logout" exact={true} component={() => <Logout setUsuario={setUsuarioLogado} />}/>
-                <Route path="/usuario/buscartodos" component={() => <UsuarioPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
-                <Route path="/usuario/persistir" component={() => <UsuarioFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
-                <Route path="/endereco/buscartodos" component={() => <EnderecoPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
-                <Route path="/endereco/persistir" component={() => <EnderecoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
-                <Route path="/cliente/buscartodos" component={() => <ClientePesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
-                <Route path="/cliente/persistir" component={() => <ClienteFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
-                <Route path="/evento/buscartodos" component={() => <EventoPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
-                <Route path="/evento/persistir" component={() => <EventoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
-                <Route path="/evento/adicionareventocliente" component={() => <AdicionarEventoCliente />} />
-                <Route path="/sistema/realizarbackup" component={() => <RealizarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
-                <Route path="/sistema/restaurarbackup" component={() => <RestaurarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
+                <Switch >
+                <Route path="/" exact={true} strict={true} component={() => <Login setUsuario={setUsuarioLogado} />}/>
+                <Route path="/logout" exact={true} strict={true} component={() => <Logout setUsuario={setUsuarioLogado} />}/>
+                <Route path="/usuario/buscartodos" strict={true} component={() => <UsuarioPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
+                <Route path="/usuario/persistir" strict={true} component={() => <UsuarioFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
+                <Route path="/endereco/buscartodos" strict={true} component={() => <EnderecoPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
+                <Route path="/endereco/persistir" strict={true} component={() => <EnderecoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
+                <Route path="/cliente/buscartodos" strict={true} component={() => <ClientePesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
+                <Route path="/cliente/persistir" strict={true} component={() => <ClienteFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
+                <Route path="/evento/buscartodos" strict={true} component={() => <EventoPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
+                <Route path="/evento/persistir" strict={true} component={() => <EventoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
+                <Route path="/evento/adicionareventocliente" strict={true} component={() => <AdicionarEventoCliente />} />
+                <Route path="/sistema/realizarbackup" strict={true} component={() => <RealizarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
+                <Route path="/sistema/restaurarbackup" strict={true} component={() => <RestaurarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 </Switch>
             </BrowserRouter>
             </ToastProvider>
