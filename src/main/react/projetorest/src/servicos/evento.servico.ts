@@ -23,3 +23,10 @@ export function recuperarPessoasNaoRelacionadosEvento(evento: Evento, param: Axi
 export function recuperarEventoPessoa(eventoPessoa: EventoPessoa, param: AxiosParam<EventoPessoa>) {
     enviar(pegarServico().post<EventoPessoa>('/buscarEventoPessoa', eventoPessoa), param);
 }
+
+export function confirmarPresencaEvento(idEvento: number, matricula: string, param: AxiosParam<boolean>) {
+    const formData = new FormData();
+    formData.append('idEvento', idEvento.toString());
+    formData.append('matricula', matricula);
+    enviar(pegarServico().post<boolean>('/confirmarPresencaEvento', formData), param);
+}

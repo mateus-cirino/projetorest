@@ -48,6 +48,13 @@ const Menu: FC<MenuProps> = props => {
                                 </Link>
                             </NavItem>
                         </DropdownItem>
+                        <DropdownItem>
+                            <NavItem>
+                                <Link to="/evento/adicionarpresencaevento">
+                                    <NavLink>Marcar presenca no evento</NavLink>
+                                </Link>
+                            </NavItem>
+                        </DropdownItem>
                     </DropdownMenu>
                 </UncontrolledDropdown>
                 <NavItem>

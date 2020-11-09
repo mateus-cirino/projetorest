@@ -5,5 +5,6 @@ import {Evento} from "./evento";
 export interface EventoPessoa extends BasicVO {
     evento?: Evento;
     pessoa?: Pessoa;
+    presenca?: boolean;
     nomeClasseVO: string;
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mateus.projetorest.modelos.Pessoa;
@@ -57,6 +58,17 @@ public class EventoControle {
     {
         try {
             return new ResponseEntity<>(eventoRepositorio.buscarEventoPessoa(eventoPessoa), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/confirmarPresencaEvento")
+    public ResponseEntity<Boolean> confirmarPresencaEvento(@RequestParam final int idEvento, @RequestParam final String matricula)
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.confirmarPresenca(idEvento, matricula), HttpStatus.OK);
         } catch (final Exception erro) {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }

@@ -1,5 +1,6 @@
 package com.mateus.projetorest.modelos;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,6 +20,9 @@ public class EventoPessoa extends BasicVO {
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
+    @Column(name = "presente", columnDefinition = "boolean default false")
+    private boolean presente;
+
     public Evento getEvento() {
         return evento;
     }
@@ -33,5 +37,13 @@ public class EventoPessoa extends BasicVO {
 
     public void setPessoa(final Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public boolean isPresente() {
+        return presente;
+    }
+
+    public void setPresente(final boolean presente) {
+        this.presente = presente;
     }
 }

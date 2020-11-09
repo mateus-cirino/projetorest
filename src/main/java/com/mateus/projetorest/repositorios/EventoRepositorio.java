@@ -40,4 +40,20 @@ public class EventoRepositorio extends Repositorio {
         pesquisa.setParameter(2, eventoPessoa.getPessoa().getId());
         return pesquisa.getSingleResult();
     }
+    @Transactional
+    public boolean confirmarPresenca(final int idEvento, final String matricula) {
+        final TypedQuery<EventoPessoa> pesquisa = entityManager.createQuery(
+                "select u from EventoPessoa u where u.evento.id =?1 and u.pessoa.matricula =?2",
+                EventoPessoa.class);
+        pesquisa.setParameter(1, idEvento);
+        pesquisa.setParameter(2, matricula);
+        try {
+            final EventoPessoa eventoPessoa = pesquisa.getSingleResult();
+            eventoPessoa.setPresente(true);
+            persistir(eventoPessoa);
+            return true;
+        } catch (final Exception e) {
+            return false;
+        }
+    }
 }

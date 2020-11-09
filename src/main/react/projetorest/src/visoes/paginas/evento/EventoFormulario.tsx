@@ -48,12 +48,13 @@ const EventoFormulario: FC<FormularioProps> = props => {
         const formDataEvento = new FormData();
         formDataEvento.append('dados', JSON.stringify(evento));
         persistir(formDataEvento, {
+            funcaoErro: mensagem => {
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
+            },
             funcaoSucesso: resultado => {
                 addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
                 voltar();
 
-            }, funcaoErro: mensagem => {
-                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
             }
         })
     };
@@ -71,12 +72,13 @@ const EventoFormulario: FC<FormularioProps> = props => {
         };
         formData.append('dados', JSON.stringify(evento));
         remover(formData, {
+            funcaoErro: mensagem => {
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
+            },
             funcaoSucesso: resultado => {
                 addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
                 voltar();
-            }, funcaoErro: mensagem => {
-                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
-            }
+            },
         })
     };
     const carregarEnderecosOptions = () => {
@@ -84,6 +86,9 @@ const EventoFormulario: FC<FormularioProps> = props => {
             nomeClasseVO: CLASS_NAME_ENDERECO
         };
         buscarTodos(endereco, {
+            funcaoErro: mensagem => {
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
+            },
             funcaoSucesso: (enderecos: Endereco[]) => {
                 setEnderecosOptions(enderecos.map(endereco => {
                     return {
@@ -92,9 +97,6 @@ const EventoFormulario: FC<FormularioProps> = props => {
                     }
                 }));
             },
-            funcaoErro: mensagem => {
-                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
-            }
         });
     };
     const onChangeEndereco = props => {

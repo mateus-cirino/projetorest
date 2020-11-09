@@ -82,10 +82,16 @@ const RelacaoEventoPessoa = () => {
             nomeClasseVO: CLASS_NAME_EVENTO_PESSOA
         };
         recuperarEventoPessoa(eventoPessoa, {
+            funcaoErro: mensagem => {
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
+            },
             funcaoSucesso: eventoPessoaComId => {
                 const formData = new FormData();
                 formData.append('dados', JSON.stringify(eventoPessoaComId));
                 remover(formData, {
+                    funcaoErro: mensagem => {
+                        addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
+                    },
                     funcaoSucesso: () => {
                         setPessoasRelacionadas(pessoasRelacionadas.filter((c: Pessoa) => {
                             return c.id !== pessoa.id;
@@ -93,14 +99,8 @@ const RelacaoEventoPessoa = () => {
                         setPessoasNaoRelacionados([...pessoasNaoRelacionados, pessoa]);
                         addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
                     },
-                    funcaoErro: mensagem => {
-                        addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
-                    }
                 })
             },
-            funcaoErro: mensagem => {
-                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
-            }
         })
     };
     const handleAdicionaPessoa = (pessoa: Pessoa) => {

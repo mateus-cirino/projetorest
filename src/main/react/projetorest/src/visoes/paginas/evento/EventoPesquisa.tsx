@@ -17,16 +17,13 @@ const EventoPesquisa: FC<PesquisaProps> = props => {
     const history = useHistory();
     const { addToast } = useToasts();
     useEffect(() => {
-        if (usuarioLogado === null) {
-            history.goBack();
-        }
         buscarTodos(evento, {
+            funcaoErro: mensagem => {
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
+            },
             funcaoSucesso: (eventos: Evento[]) => {
                 setEventos(eventos);
             },
-            funcaoErro: mensagem => {
-                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
-            }
         });
     }, []);
     const columns = [
