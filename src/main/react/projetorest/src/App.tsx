@@ -13,8 +13,8 @@ import EventoFormulario from "./visoes/paginas/evento/EventoFormulario";
 import RealizarBackup from "./visoes/paginas/sistema/RealizarBackup";
 import RestaurarBackup from "./visoes/paginas/sistema/RestaurarBackup";
 import RelacaoEventoPessoa from "./visoes/paginas/evento/RelacaoEventoPessoa";
-import PessoaPesquisa from "./visoes/paginas/cliente/PessoaPesquisa";
-import PessoaFormulario from "./visoes/paginas/cliente/PessoaFormulario";
+import PessoaPesquisa from "./visoes/paginas/pessoa/PessoaPesquisa";
+import PessoaFormulario from "./visoes/paginas/pessoa/PessoaFormulario";
 import PresencaEventoPessoa from "./visoes/paginas/evento/PresencaEventoPessoa";
 
 function App() {

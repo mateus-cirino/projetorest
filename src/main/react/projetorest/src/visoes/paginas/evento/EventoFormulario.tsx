@@ -103,19 +103,22 @@ const EventoFormulario: FC<FormularioProps> = props => {
         setEnderecoSelected(props);
     };
     return (
-        <div className="container m-2">
-            <Form onSubmit={handleSubmit(onSubmit)} >
+        <div className="container m-auto col-md-12 col-xl-10">
+            <Form className="border rounded p-2" onSubmit={handleSubmit(onSubmit)} >
                 <FormGroup>
                     <Label for="nome">Nome</Label>
-                    <Input type="text" name="nome" placeholder="digite o nome do evento" innerRef={register} />
+                    <Input type="text" name="nome" placeholder="digite o nome do evento" innerRef={register({ required: true })} />
+                    {errors.nome && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="descricao">Descrição</Label>
-                    <Input type="text" name="descricao" placeholder="digite a descrição do evento" innerRef={register} />
+                    <Input type="text" name="descricao" placeholder="digite a descrição do evento" innerRef={register({ required: true })} />
+                    {errors.descricao && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="numeroMaxParticipantes">N° máximo de pessoas</Label>
-                    <Input type="number" name="numeroMaxParticipantes" placeholder="digite o número máximo de pessoas" innerRef={register} />
+                    <Input type="number" name="numeroMaxParticipantes" placeholder="digite o número máximo de pessoas" innerRef={register({ required: true })} />
+                    {errors.numeroMaxParticipantes && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="dtInicio">Data de início</Label>
@@ -132,7 +135,7 @@ const EventoFormulario: FC<FormularioProps> = props => {
                     <Select
                         placeholder="selecione o endereço do pessoa"
                         name="endereco.id"
-                        ref={register}
+                        innerRef={register({ required: true })}
                         options={enderecosOptions}
                         onChange={onChangeEndereco}
                         defaultValue={selectedItem === null ? null : { label: selectedItem.endereco.cidade, value: selectedItem.endereco.id }}

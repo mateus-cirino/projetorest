@@ -13,6 +13,8 @@ import DataTable from "react-data-table-component";
 import {Pessoa} from "../../../modelos/pessoa";
 import {EventoPessoa} from "../../../modelos/eventoPessoa";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
+import {FormGroup, Label} from "reactstrap";
+import {customStyles} from "../../../utils/tabelaUtils";
 
 const RelacaoEventoPessoa = () => {
     const { addToast } = useToasts();
@@ -65,7 +67,7 @@ const RelacaoEventoPessoa = () => {
             sortable: true,
         },
         {
-            name: 'rg',
+            name: 'RG',
             selector: 'rg',
             sortable: true,
         },
@@ -123,29 +125,33 @@ const RelacaoEventoPessoa = () => {
         })
     };
     return (
-      <div className="container">
+      <div className="container m-auto col-md-12 col-xl-10 border rounded p-2">
           <Select
-              placeholder="selecione o evento"
-              name="endereco.id"
+              placeholder="selecione o evento para carregar as relações entre ele e as pessoas"
+              name="evento"
               options={eventosOptions}
               onChange={onChangeEvento}
           />
           <DataTable
               title="pessoas relacionadas"
               columns={columns}
+              className="border rounded p-2"
               data={pessoasRelacionadas}
               striped={true}
               highlightOnHover={true}
               onRowClicked={handleRemovePessoa}
+              customStyles={customStyles}
           />
 
           <DataTable
               title="pessoas não relacionadas"
               columns={columns}
+              className="border rounded p-2"
               data={pessoasNaoRelacionados}
               striped={true}
               highlightOnHover={true}
               onRowClicked={handleAdicionaPessoa}
+              customStyles={customStyles}
           />
       </div>
     );

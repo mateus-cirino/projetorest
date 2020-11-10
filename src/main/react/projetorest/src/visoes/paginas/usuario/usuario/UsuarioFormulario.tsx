@@ -13,7 +13,7 @@ import {SUCESSO} from "../../../../utils/mensagensRequisicao";
 
 const UsuarioFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
-    const {control, handleSubmit, register} = useForm<Usuario>();
+    const {control, handleSubmit, register, errors} = useForm<Usuario>();
     const history = useHistory();
     const { addToast } = useToasts();
     useEffect(() => {
@@ -55,7 +55,7 @@ const UsuarioFormulario: FC<FormularioProps> = props => {
         };
         formData.append('dados', JSON.stringify(usuario));
         remover(formData, {
-            funcaoSucesso: resultado => {
+            funcaoSucesso: () => {
                 addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
                 voltar();
             }, funcaoErro: mensagem => {
@@ -64,26 +64,30 @@ const UsuarioFormulario: FC<FormularioProps> = props => {
         })
     };
     return (
-        <div className="container m-2">
-            <Form onSubmit={handleSubmit(onSubmit)} >
+        <div className="container m-auto col-md-12 col-xl-10">
+            <Form className="border rounded p-2" onSubmit={handleSubmit(onSubmit)} >
                 <FormGroup>
                     <Label for="nome">Nome</Label>
-                    <Input type="text" name="nome" placeholder="digite o seu nome" innerRef={register} />
+                    <Input type="text" name="nome" placeholder="digite o seu nome" innerRef={register({ required: true })} />
+                    {errors.nome && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="login">Login</Label>
-                    <Input type="text" name="login" placeholder="digite o seu login" innerRef={register} />
+                    <Input type="text" name="login" placeholder="digite o seu login" innerRef={register({ required: true })} />
+                    {errors.login && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="senha">Password</Label>
-                    <Input type="password" name="senha" placeholder="digite a sua senha" innerRef={register} />
+                    <Input type="password" name="senha" placeholder="digite a sua senha" innerRef={register({ required: true })} />
+                    {errors.senha && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="tipoUsuario">Tipo</Label>
-                    <Input type="select" name="tipoUsuario" innerRef={register} >
+                    <Input type="select" name="tipoUsuario" innerRef={register({ required: true })} >
                         <option value={TIPO_USUARIO_ENUM[0].value}>{TIPO_USUARIO_ENUM[0].label}</option>
                         <option value={TIPO_USUARIO_ENUM[1].value}>{TIPO_USUARIO_ENUM[1].label}</option>
                     </Input>
+                    {errors.tipoUsuario && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <div className="d-flex justify-content-end">
                     <Button className="m-2" type="submit" color="success" disabled={usuarioLogado === null || usuarioLogado.tipoUsuario !== TIPO_USUARIO_ENUM[0].value}>Enviar</Button>

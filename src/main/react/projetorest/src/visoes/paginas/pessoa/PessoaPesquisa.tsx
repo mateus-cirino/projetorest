@@ -7,6 +7,7 @@ import {Link, useHistory} from "react-router-dom";
 import {PesquisaProps} from "../../componentes/extensoes/pesquisaProps";
 import {CLASS_NAME_PESSOA} from "../../../utils/nomeClasseVO";
 import {useToasts} from "react-toast-notifications";
+import {customStyles} from "../../../utils/tabelaUtils";
 
 const PessoaPesquisa: FC<PesquisaProps> = props => {
     const pessoa: Pessoa = {
@@ -40,7 +41,7 @@ const PessoaPesquisa: FC<PesquisaProps> = props => {
             sortable: true,
         },
         {
-            name: 'rg',
+            name: 'RG',
             selector: 'rg',
             sortable: true,
         },
@@ -68,13 +69,15 @@ const PessoaPesquisa: FC<PesquisaProps> = props => {
     };
     return (
         <>
-            <div className="container m-2">
+            <div className="container m-auto col-md-12 col-xl-10">
                 <DataTable
                     title="Lista de pessoas"
                     actions={actions()}
                     columns={columns}
+                    className="border rounded p-2"
                     data={pessoas}
                     onRowClicked={handleChangeRow}
+                    customStyles={customStyles}
                 />
             </div>
         </>

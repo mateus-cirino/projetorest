@@ -7,6 +7,7 @@ import {Link, useHistory} from "react-router-dom";
 import {PesquisaProps} from "../../componentes/extensoes/pesquisaProps";
 import {CLASS_NAME_EVENTO} from "../../../utils/nomeClasseVO";
 import {useToasts} from "react-toast-notifications";
+import {customStyles} from "../../../utils/tabelaUtils";
 
 const EventoPesquisa: FC<PesquisaProps> = props => {
     const evento: Evento = {
@@ -81,15 +82,17 @@ const EventoPesquisa: FC<PesquisaProps> = props => {
     };
     return (
         <>
-            <div className="container m-2">
+            <div className="container m-auto col-md-12 col-xl-10">
                 <DataTable
                     title="Lista de eventos"
                     actions={actions()}
                     columns={columns}
+                    className="border rounded p-2"
                     data={eventos}
                     onRowClicked={handleChangeRow}
                     striped={true}
                     highlightOnHover={true}
+                    customStyles={customStyles}
                 />
             </div>
         </>

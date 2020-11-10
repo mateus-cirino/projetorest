@@ -95,8 +95,8 @@ const PessoaFormulario: FC<FormularioProps> = props => {
       setEnderecoSelected(props);
     };
     return (
-        <div className="container m-2">
-            <Form onSubmit={handleSubmit(onSubmit)} >
+        <div className="container m-auto col-md-12 col-xl-10">
+            <Form className="border rounded p-2" onSubmit={handleSubmit(onSubmit)} >
                 <FormGroup>
                     <Label for="nome">Nome</Label>
                     <Input type="text" name="nome" placeholder="digite o nome do pessoa" innerRef={register({ required: true })} />
@@ -109,11 +109,13 @@ const PessoaFormulario: FC<FormularioProps> = props => {
                 </FormGroup>
                 <FormGroup>
                     <Label for="rg">RG</Label>
-                    <Input type="text" name="rg" placeholder="digite o rg do pessoa" innerRef={register} />
+                    <Input type="text" name="rg" placeholder="digite o rg do pessoa" innerRef={register({ required: true })} />
+                    {errors.rg && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="matricula">Matrícula</Label>
-                    <Input type="text" name="matricula" placeholder="digite a matrícula do pessoa" innerRef={register} />
+                    <Input type="text" name="matricula" placeholder="digite a matrícula do pessoa" innerRef={register({ required: true })} />
+                    {errors.matricula && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="endereco.id">Endereço</Label>

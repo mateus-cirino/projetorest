@@ -2,7 +2,7 @@ import React, {Dispatch, FC} from "react";
 import {fazerLogin} from "../../../../servicos/usuario.servico";
 import {Usuario} from "../../../../modelos/usuario";
 import {useForm} from "react-hook-form";
-import {Form, FormGroup, Label, Input, Button} from "reactstrap";
+import {Form, FormGroup, Label, Input, Button, Row} from "reactstrap";
 import {useHistory} from "react-router-dom"
 import {SUCESSO} from "../../../../utils/mensagensRequisicao";
 import {useToasts} from "react-toast-notifications";
@@ -30,16 +30,19 @@ const Login: FC<LoginProps> = props => {
     };
 
     return (
-        <div className="container m-2">
-            <Form onSubmit={handleSubmit(onSubmit)} >
+        <div className="container m-auto col-md-12 col-xl-4">
+            <Form className="border rounded p-2" onSubmit={handleSubmit(onSubmit)} >
                 <FormGroup>
                     <Label for="login">Login</Label>
                     <Input type="text" name="login" placeholder="digite o seu login" innerRef={register} />
-                </FormGroup><FormGroup>
+                </FormGroup>
+                <FormGroup>
                     <Label for="senha">Password</Label>
                     <Input type="password" name="senha" placeholder="digite a sua senha" innerRef={register} />
                 </FormGroup>
-                <Button color="primary">Entrar</Button>
+                <Row className="d-flex justify-content-end m-2">
+                    <Button color="primary">Entrar</Button>
+                </Row>
             </Form>
         </div>
         );

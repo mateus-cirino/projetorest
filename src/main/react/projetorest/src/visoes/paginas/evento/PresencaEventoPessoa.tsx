@@ -3,7 +3,7 @@ import {EventoPessoa} from "../../../modelos/eventoPessoa";
 import {buscarTodos, persistir} from "../../../servicos/geral.servico";
 import {CLASS_NAME_EVENTO, CLASS_NAME_EVENTO_PESSOA, CLASS_NAME_PESSOA} from "../../../utils/nomeClasseVO";
 import {useToasts} from "react-toast-notifications";
-import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import {Button, Form, FormGroup, Input, Label, Row} from "reactstrap";
 import Select from "react-select";
 import {useForm} from "react-hook-form";
 import {Evento} from "../../../modelos/evento";
@@ -55,24 +55,26 @@ const PresencaEventoPessoa = () => {
         })
     };
     return (
-        <Form>
-            <FormGroup>
-                <Label for="evento">Eventos</Label>
-                <Select
-                    placeholder="selecione o evento para confirmar presença"
-                    name="evento"
-                    options={eventosOptions}
-                    onChange={handleChangeEvento}
-                />
-            </FormGroup>
-            <FormGroup>
-                <Label for="matricula">Matrícula</Label>
-                <Input name="matricula" innerRef={register} placeholder="digite a matrícula da pessoa para confirmar a presença" />
-            </FormGroup>
-            <Button color="primary" onClick={handleClickConfirma}>
-                Confirmar
-            </Button>
-        </Form>
+        <div className="container m-auto col-md-12 col-xl-4">
+            <Form className="border rounded p-2">
+                <FormGroup>
+                    <Label for="evento">Eventos</Label>
+                    <Select
+                        placeholder="selecione o evento para confirmar presença"
+                        name="evento"
+                        options={eventosOptions}
+                        onChange={handleChangeEvento}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="matricula">Matrícula</Label>
+                    <Input name="matricula" innerRef={register} placeholder="digite a matrícula da pessoa para confirmar a presença" />
+                </FormGroup>
+                <Row className="d-flex justify-content-end m-2">
+                    <Button color="primary" onClick={handleClickConfirma}>Confirmar</Button>
+                </Row>
+            </Form>
+        </div>
     );
 };
 

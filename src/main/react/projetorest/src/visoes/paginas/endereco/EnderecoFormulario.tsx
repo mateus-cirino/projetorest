@@ -11,7 +11,7 @@ import {useToasts} from "react-toast-notifications";
 
 const EnderecoFormulario: FC<FormularioProps> = props => {
     const {usuarioLogado, selectedItem, setSelectedItem} = props;
-    const {control, handleSubmit, register} = useForm<Endereco>();
+    const {control, handleSubmit, register, errors} = useForm<Endereco>();
     const history = useHistory();
     const { addToast } = useToasts();
     useEffect(() => {
@@ -61,23 +61,27 @@ const EnderecoFormulario: FC<FormularioProps> = props => {
         })
     };
     return (
-        <div className="container m-2">
-            <Form onSubmit={handleSubmit(onSubmit)} >
+        <div className="container m-auto col-md-12 col-xl-10">
+            <Form className="border rounded p-2" onSubmit={handleSubmit(onSubmit)} >
                 <FormGroup>
                     <Label for="estado">Estado</Label>
-                    <Input type="text" name="estado" placeholder="digite o estado" innerRef={register} />
+                    <Input type="text" name="estado" placeholder="digite o estado" innerRef={register({ required: true })} />
+                    {errors.estado && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="cidade">Cidade</Label>
-                    <Input type="text" name="cidade" placeholder="digite a cidade" innerRef={register} />
+                    <Input type="text" name="cidade" placeholder="digite a cidade" innerRef={register({ required: true })} />
+                    {errors.cidade && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="rua">Rua</Label>
-                    <Input type="text" name="rua" placeholder="digite a rua" innerRef={register} />
+                    <Input type="text" name="rua" placeholder="digite a rua" innerRef={register({ required: true })} />
+                    {errors.rua && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="numero">Nº</Label>
-                    <Input type="number" name="numero" placeholder="digite o número" innerRef={register} />
+                    <Input type="number" name="numero" placeholder="digite o número" innerRef={register({ required: true })} />
+                    {errors.numero && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <div className="d-flex justify-content-end">
                     <Button className="m-2" type="submit" color="success" disabled={usuarioLogado === null}>Enviar</Button>
