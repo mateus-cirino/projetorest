@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {EventoPessoa} from "../../../modelos/eventoPessoa";
 import {buscarTodos, persistir} from "../../../servicos/geral.servico";
 import {CLASS_NAME_EVENTO, CLASS_NAME_EVENTO_PESSOA, CLASS_NAME_PESSOA} from "../../../utils/nomeClasseVO";
 import {useToasts} from "react-toast-notifications";
@@ -8,7 +7,6 @@ import Select from "react-select";
 import {useForm} from "react-hook-form";
 import {Evento} from "../../../modelos/evento";
 import {confirmarPresencaEvento, recuperarEventoPessoa, recuperarPessoasRelacionadosEvento} from "../../../servicos/evento.servico";
-import {Pessoa} from "../../../modelos/pessoa";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
 
 interface PresencaEventoPessoaProps {

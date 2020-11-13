@@ -13,7 +13,6 @@ import DataTable from "react-data-table-component";
 import {Pessoa} from "../../../modelos/pessoa";
 import {EventoPessoa} from "../../../modelos/eventoPessoa";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
-import {FormGroup, Label} from "reactstrap";
 import {customStyles} from "../../../utils/tabelaUtils";
 
 const RelacaoEventoPessoa = () => {
