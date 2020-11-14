@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mateus.projetorest.modelos.Pessoa;
 import com.mateus.projetorest.modelos.Evento;
 import com.mateus.projetorest.modelos.EventoPessoa;
+import com.mateus.projetorest.modelos.utils.TipoCredenciamento;
 import com.mateus.projetorest.repositorios.extensoes.Repositorio;
 
 @Repository
@@ -41,12 +42,30 @@ public class EventoRepositorio extends Repositorio {
         return pesquisa.getSingleResult();
     }
     @Transactional
-    public boolean confirmarPresenca(final int idEvento, final String matricula) {
-        final TypedQuery<EventoPessoa> pesquisa = entityManager.createQuery(
-                "select u from EventoPessoa u where u.evento.id =?1 and u.pessoa.matricula =?2",
-                EventoPessoa.class);
-        pesquisa.setParameter(1, idEvento);
-        pesquisa.setParameter(2, matricula);
+    public boolean confirmarPresenca(final int idEvento, final String credencial, final
+                                                           TipoCredenciamento tipoCredenciamento) {
+        final TypedQuery<EventoPessoa> pesquisa;
+        if (TipoCredenciamento.NOME == tipoCredenciamento) {
+            pesquisa = entityManager.createQuery(
+                    "select u from EventoPessoa u where u.evento.id =?1 and u.pessoa.nome =?2",
+                    EventoPessoa.class);
+            pesquisa.setParameter(1, idEvento);
+            pesquisa.setParameter(2, credencial);
+        } else if (TipoCredenciamento.CPF == tipoCredenciamento) {
+            pesquisa = entityManager.createQuery(
+                    "select u from EventoPessoa u where u.evento.id =?1 and u.pessoa.cpf =?2",
+                    EventoPessoa.class);
+            pesquisa.setParameter(1, idEvento);
+            pesquisa.setParameter(2, credencial);
+        } else if (TipoCredenciamento.RG == tipoCredenciamento) {
+            pesquisa = entityManager.createQuery(
+                    "select u from EventoPessoa u where u.evento.id =?1 and u.pessoa.rg =?2",
+                    EventoPessoa.class);
+            pesquisa.setParameter(1, idEvento);
+            pesquisa.setParameter(2, credencial);
+        } else {
+            return false;
+        }
         try {
             final EventoPessoa eventoPessoa = pesquisa.getSingleResult();
             eventoPessoa.setPresente(true);
