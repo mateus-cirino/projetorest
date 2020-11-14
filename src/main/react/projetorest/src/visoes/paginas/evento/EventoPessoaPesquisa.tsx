@@ -12,7 +12,7 @@ import Select from "react-select";
 import moment from "moment";
 import {useForm} from "react-hook-form";
 
-interface Filtro {
+interface EventoPessoaPesquisaFiltro {
     dataPresenca?: Date;
 }
 
@@ -24,7 +24,9 @@ const EventoPessoaPesquisa: FC<PesquisaProps> = props => {
     const [eventosPessoaFiltro, setEventosPessoaFiltro] = useState([]);
     const [eventosOptions, setEventosOptions] = useState([]);
     const [pessoasOptions, setPessoasOptions] = useState([]);
-    const {control, register} = useForm<Filtro>();
+    const [selectPessoaValue, setSelectPessoaValue] = useState(null);
+    const [selectEventoValue, setSelectEventoValue] = useState(null);
+    const {control, register} = useForm<EventoPessoaPesquisaFiltro>();
     const { addToast } = useToasts();
     useEffect(() => {
         buscarTodos(eventoPessoa, {
@@ -83,11 +85,13 @@ const EventoPessoaPesquisa: FC<PesquisaProps> = props => {
         },
     ];
     const handleChangeEvento = props => {
+        setSelectEventoValue(props);
         setEventosPessoaFiltro(eventosPessoa.filter((eventoPessoa: EventoPessoa) => {
             return eventoPessoa.evento.id === props.value;
         }));
     };
     const handleChangePessoa = props => {
+        setSelectPessoaValue(props);
         setEventosPessoaFiltro(eventosPessoa.filter((eventoPessoa: EventoPessoa) => {
             return eventoPessoa.pessoa.id === props.value;
         }));
@@ -98,30 +102,41 @@ const EventoPessoaPesquisa: FC<PesquisaProps> = props => {
             return moment(eventoPessoa.dataPresenca, 'YYYYMMDD').isSame(moment(dataPresenca, 'YYYYMMDD'));
         }));
     };
+    const limparFiltro = () => {
+      setSelectPessoaValue(null);
+      setSelectEventoValue(null);
+      control.setValue('dataPresenca', '');
+      setEventosPessoaFiltro(eventosPessoa);
+    };
     return (
-            <div className="container m-auto col-md-12 col-xl-12">
-                <div className="container m-auto col-md-12 col-xl-12 border rounded p-2 d-flex justify-content-center">
-                    <div className="col-md-5 col-xl-4">
+            <div className="container">
+                <div className="container d-md-flex flex-md-column d-xl-flex flex-xl-row col-12 align-items-end">
+                    <div className="col-xl-4 col-md-12 mb-2">
                         <Label for="evento">Eventos</Label>
                         <Select
                             placeholder="selecione o evento para filtrar"
                             name="evento"
+                            value={selectEventoValue}
                             options={eventosOptions}
                             onChange={handleChangeEvento}
                         />
                     </div>
-                    <div>
+                    <div className="col-xl-3 col-md-12 mb-2">
                         <Label for="dataPresenca">Data da presença</Label>
                         <Input type="datetime-local" name="dataPresenca" innerRef={register} placeholder="selecione uma data para filtrar" onChange={handleChangeDataPresenca} />
                     </div>
-                    <div className="col-md-5 col-xl-4">
-                        <Label for="pessoa">Pessoas</Label>
+                    <div className="col-xl-4 col-md-12 mb-2">
+                        <Label for="pessoaOption">Pessoas</Label>
                         <Select
                             placeholder="selecione a pessoa para filtrar"
                             name="pessoa"
+                            value={selectPessoaValue}
                             options={pessoasOptions}
                             onChange={handleChangePessoa}
                         />
+                    </div>
+                    <div className="col-xl-2 col-md-12 mb-2">
+                        <Button color="primary" onClick={limparFiltro}>Limpar</Button>
                     </div>
                 </div>
                 <DataTable
