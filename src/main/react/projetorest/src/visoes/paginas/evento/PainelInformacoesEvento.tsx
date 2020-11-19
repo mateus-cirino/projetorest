@@ -10,7 +10,7 @@ import {
     recuperarTotalInscricoes,
     recuperarTotalInscricoesConfirmadas, recuperarTotalInscricoesEvento, recuperarTotalInscricoesConfirmadasEvento
 } from "../../../servicos/evento.servico";
-import {Card, CardText, CardTitle, Col, Row} from "reactstrap";
+import {Button, Card, CardBody, CardGroup, CardSubtitle, CardText, CardTitle, Col, Row} from "reactstrap";
 
 const PainelInformacoesEvento = () => {
     const { addToast } = useToasts();
@@ -74,38 +74,38 @@ const PainelInformacoesEvento = () => {
                 options={eventosOptions}
                 onChange={onChangeEvento}
             />
-            <Row>
-                <Col sm="6">
-                    <Card body>
+            <CardGroup className="text-center">
+                <Card className="m-2 border rounded text-white" color="primary">
+                    <CardBody>
                         <CardTitle tag="h5">Total de Eventos Cadastrados</CardTitle>
-                        <CardText>{totalEventosCadastrados}</CardText>
-                    </Card>
-                </Col>
-                <Col sm="6">
-                    <Card body>
+                        <CardText tag="h5">{totalEventosCadastrados}</CardText>
+                    </CardBody>
+                </Card>
+                <Card className="m-2 border rounded text-white" color="success">
+                    <CardBody>
                         <CardTitle tag="h5">Total de Pessoas Cadastrados</CardTitle>
-                        <CardText>{totalPessoasCadastradas}</CardText>
-                    </Card>
-                </Col>
-                <Col sm="6">
-                    <Card body>
+                        <CardText tag="h5">{totalPessoasCadastradas}</CardText>
+                    </CardBody>
+                </Card>
+                <Card className="m-2 border rounded text-white" color="info">
+                    <CardBody>
                         <CardTitle tag="h5">Total de inscrições realizadas</CardTitle>
-                        <CardText>{totalInscricoes}</CardText>
-                    </Card>
-                </Col>
-                <Col sm="6">
-                    <Card body>
+                        <CardText tag="h5">{totalInscricoes}</CardText>
+                    </CardBody>
+                </Card>
+                <Card className="m-2 border rounded text-white" color="warning">
+                    <CardBody>
                         <CardTitle tag="h5">Total de inscrições confirmadas</CardTitle>
-                        <CardText>{totalInscricoesConfirmadas}</CardText>
-                    </Card>
-                </Col>
-                <Col sm="6">
-                    <Card body>
+                        <CardText tag="h5">{totalInscricoesConfirmadas}</CardText>
+                    </CardBody>
+                </Card>
+                <Card className="m-2 border rounded text-white" color="danger">
+                    <CardBody>
                         <CardTitle tag="h5">Relação entre as inscrições e as confirmações</CardTitle>
-                        <CardText>{totalInscricoes/totalInscricoesConfirmadas}</CardText>
-                    </Card>
-                </Col>
-            </Row>
+                        <CardText tag="h5">{totalInscricoes/totalInscricoesConfirmadas}</CardText>
+                    </CardBody>
+                </Card>
+            </CardGroup>
         </div>
     );
 };
