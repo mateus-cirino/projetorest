@@ -75,4 +75,42 @@ public class EventoRepositorio extends Repositorio {
             return false;
         }
     }
+
+    @Transactional
+    public Long totalEventosCadastrados() {
+        final TypedQuery<Long> pesquisa = entityManager.createQuery("select count(u) from Evento u", Long.class);
+        return pesquisa.getSingleResult();
+    }
+
+    @Transactional
+    public Long totalPessoasCadastradas() {
+        final TypedQuery<Long> pesquisa = entityManager.createQuery("select count(u) from Pessoa u", Long.class);
+        return pesquisa.getSingleResult();
+    }
+
+    @Transactional
+    public Long totalInscricoes() {
+        final TypedQuery<Long> pesquisa = entityManager.createQuery("select count(u) from EventoPessoa u", Long.class);
+        return pesquisa.getSingleResult();
+    }
+
+    @Transactional
+    public Long totalInscricoes(final int idEvento) {
+        final TypedQuery<Long> pesquisa = entityManager.createQuery("select count(u) from EventoPessoa u where u.evento.id =?1", Long.class);
+        pesquisa.setParameter(1, idEvento);
+        return pesquisa.getSingleResult();
+    }
+
+    @Transactional
+    public Long totalInscricoesConfirmadas() {
+        final TypedQuery<Long> pesquisa = entityManager.createQuery("select count(u) from EventoPessoa u where u.presente = true", Long.class);
+        return pesquisa.getSingleResult();
+    }
+
+    @Transactional
+    public Long totalInscricoesConfirmadas(final int idEvento) {
+        final TypedQuery<Long> pesquisa = entityManager.createQuery("select count(u) from EventoPessoa u where u.evento.id =?1 and u.presente = true", Long.class);
+        pesquisa.setParameter(1, idEvento);
+        return pesquisa.getSingleResult();
+    }
 }

@@ -75,4 +75,70 @@ public class EventoControle {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
+    @CrossOrigin
+    @PostMapping(path = "/totalEventosCadastrados")
+    public ResponseEntity<Long> totalEventosCadastrados()
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.totalEventosCadastrados(), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/totalPessoasCadastradas")
+    public ResponseEntity<Long> totalPessoasCadastradas()
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.totalPessoasCadastradas(), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/totalInscricoes")
+    public ResponseEntity<Long> totalInscricoes()
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.totalInscricoes(), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/totalInscricoesEvento")
+    public ResponseEntity<Long> totalInscricoesEvento(@RequestParam final int idEvento)
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.totalInscricoes(idEvento), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/totalInscricoesConfirmadas")
+    public ResponseEntity<Long> totalInscricoesConfirmadas()
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.totalInscricoesConfirmadas(), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/totalInscricoesConfirmadasEvento")
+    public ResponseEntity<Long> totalInscricoesConfirmadas(@RequestParam final int idEvento)
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.totalInscricoesConfirmadas(idEvento), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 }

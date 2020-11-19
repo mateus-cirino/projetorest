@@ -17,6 +17,7 @@ import PessoaPesquisa from "./visoes/paginas/pessoa/PessoaPesquisa";
 import PessoaFormulario from "./visoes/paginas/pessoa/PessoaFormulario";
 import PresencaEventoPessoa from "./visoes/paginas/evento/PresencaEventoPessoa";
 import EventoPessoaPesquisa from "./visoes/paginas/evento/EventoPessoaPesquisa";
+import PainelInformacoesEvento from "./visoes/paginas/evento/PainelInformacoesEvento";
 
 function App() {
   const [usuarioLogado, setUsuarioLogado] = useState<any>(null);
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/evento/adicionareventopessoa" strict={true} component={RelacaoEventoPessoa} />
                 <Route path="/evento/adicionarpresencaevento" strict={true} component={PresencaEventoPessoa} />
                 <Route path="/evento/inscricoesevento" strict={true} component={() => <EventoPessoaPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
+                <Route path="/evento/painelinformacoes" strict={true} component={PainelInformacoesEvento} />
                 <Route path="/sistema/realizarbackup" strict={true} component={() => <RealizarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 <Route path="/sistema/restaurarbackup" strict={true} component={() => <RestaurarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 </Switch>

@@ -31,3 +31,31 @@ export function confirmarPresencaEvento(idEvento: number, credencial: string, ti
     formData.append('tipoCredenciamento', tipoCredenciamento);
     enviar(pegarServico().post<boolean>('/confirmarPresencaEvento', formData), param);
 }
+
+export function recuperarTotalEventosCadastrados(param: AxiosParam<number>) {
+    enviar(pegarServico().post<number>('/totalEventosCadastrados'), param);
+}
+
+export function recuperarTotalPessoasCadastradas(param: AxiosParam<number>) {
+    enviar(pegarServico().post<number>('/totalPessoasCadastradas'), param);
+}
+
+export function recuperarTotalInscricoes(param: AxiosParam<number>) {
+    enviar(pegarServico().post<number>('/totalInscricoes'), param);
+}
+
+export function recuperarTotalInscricoesEvento(idEvento: number, param: AxiosParam<number>) {
+    const formData = new FormData();
+    formData.append('idEvento', idEvento.toString());
+    enviar(pegarServico().post<number>('/totalInscricoesEvento', formData), param);
+}
+
+export function recuperarTotalInscricoesConfirmadas(param: AxiosParam<number>) {
+    enviar(pegarServico().post<number>('/totalInscricoesConfirmadas'), param);
+}
+
+export function recuperarTotalInscricoesConfirmadasEvento(idEvento: number, param: AxiosParam<number>) {
+    const formData = new FormData();
+    formData.append('idEvento', idEvento.toString());
+    enviar(pegarServico().post<number>('/totalInscricoesConfirmadasEvento', formData), param);
+}
