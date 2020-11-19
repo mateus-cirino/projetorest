@@ -39,41 +39,53 @@ const PainelInformacoesEvento = () => {
         recuperarTotalPessoasCadastradas({
                                              funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
                                              funcaoSucesso: resultado => setTotalPessoasCadastradas(resultado)
-                                         });
+        });
         recuperarTotalInscricoes({
                                              funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
                                              funcaoSucesso: resultado => setTotalInscricoes(resultado)
-                                         });
+        });
         recuperarTotalInscricoesConfirmadas({
                                      funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
                                      funcaoSucesso: resultado => setTotalInscricoesConfirmadas(resultado)
-                                 });
+        });
 
     }, []);
     const onChangeEvento = props => {
+        setEventoSelecionado(props);
         const idEvento = props.value;
         recuperarTotalInscricoesEvento(idEvento, {
                                      funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
                                      funcaoSucesso: resultado => setTotalInscricoes(resultado)
-                                 });
+        });
         recuperarTotalInscricoesConfirmadasEvento(idEvento, {
                                                 funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
                                                 funcaoSucesso: resultado => setTotalInscricoesConfirmadas(resultado)
-                                            });
-
+        });
     };
     const limparFiltro = () => {
         setEventoSelecionado(null);
+        recuperarTotalInscricoes({
+                                     funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
+                                     funcaoSucesso: resultado => setTotalInscricoes(resultado)
+        });
+        recuperarTotalInscricoesConfirmadas({
+                                                funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
+                                                funcaoSucesso: resultado => setTotalInscricoesConfirmadas(resultado)
+        });
     };
     return (
         <div className="container m-auto col-md-12 col-xl-10 border rounded p-2">
-            <Select
-                placeholder="selecione um evento para trazer dados específicos"
-                name="evento"
-                value={eventoSelecionado}
-                options={eventosOptions}
-                onChange={onChangeEvento}
-            />
+            <div className="d-flex justify-content-center">
+                <Select
+                    placeholder="selecione um evento para trazer dados específicos"
+                    name="evento"
+                    value={eventoSelecionado}
+                    options={eventosOptions}
+                    onChange={onChangeEvento}
+                    className="w-75 m-2"
+                />
+                <Button className="m-2" color="primary" onClick={limparFiltro}>Limpar</Button>
+            </div>
             <CardGroup className="text-center">
                 <Card className="m-2 border rounded text-white" color="primary">
                     <CardBody>
