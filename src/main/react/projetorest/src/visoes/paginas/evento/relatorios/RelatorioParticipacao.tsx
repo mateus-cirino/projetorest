@@ -1,10 +1,12 @@
-import {FC, useEffect, useState} from "react";
+import {FC, useEffect, useRef, useState} from "react";
 import {recuperarRelatorioParticipacao} from "../../../../servicos/evento.servico";
 import {useToasts} from "react-toast-notifications";
-import {Table} from "reactstrap";
+import {Button, Table} from "reactstrap";
 import React from "react";
 import {EventoPessoa} from "../../../../modelos/eventoPessoa";
 import moment from "moment";
+import ReactToPrint from "react-to-print";
+import {TIPO_USUARIO_ENUM} from "../../../../utils/tipoUsuarioEnum";
 
 interface DadosRelatorio {
     evento?: string;
@@ -16,22 +18,23 @@ interface DadosRelatorio {
 
 const RelatorioParticipacao = () => {
     const [tabelas, setTabelas] = useState(null);
-    const [tabelasBody, setTabelasBody] = useState(null);
     const { addToast } = useToasts();
+    const componentRef = useRef();
     useEffect(() => {
         recuperarRelatorioParticipacao({
             funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
             funcaoSucesso: resultado => {
-                separarTabelaData(resultado.map((eventoPessoa: EventoPessoa) => {
-                    const dadosRelatorio: DadosRelatorio = {
-                        evento: eventoPessoa.evento.nome,
-                        participante: eventoPessoa.pessoa.nome,
-                        cpf: eventoPessoa.pessoa.cpf,
-                        matricula: eventoPessoa.pessoa.matricula,
-                        dataInscricao: moment(eventoPessoa.dataPresenca).format('DD/MM/YYYY')
-                    };
-                    return dadosRelatorio;
-                }));
+                const dadosRelatorio = resultado.map((eventoPessoa: EventoPessoa) => {
+                                                const dadosRelatorio: DadosRelatorio = {
+                                                    evento: eventoPessoa.evento.nome,
+                                                    participante: eventoPessoa.pessoa.nome,
+                                                    cpf: eventoPessoa.pessoa.cpf,
+                                                    matricula: eventoPessoa.pessoa.matricula,
+                                                    dataInscricao: moment(eventoPessoa.dataPresenca).format('DD/MM/YYYY')
+                                                };
+                                                return dadosRelatorio;
+                                            });
+                separarTabelaData(dadosRelatorio);
             }
         })
     }, []);
@@ -44,16 +47,16 @@ const RelatorioParticipacao = () => {
                 dados.push(value);
             } else {
                 tabelas.push(gerarTabela(dados, data));
+                data = value.dataInscricao;
                 dados = [];
                 dados.push(value);
-                data = value.dataInscricao;
             }
         });
         tabelas.push(gerarTabela(dados, data));
-        setTabelas(<div>{tabelas}</div>);
+        setTabelas(<>{tabelas}</>);
     };
     const gerarTabela = (dados, data) => {
-        const corpoTabela = dados.map(dado =>
+        const body = dados.map(dado =>
                                               <tr key={dado.matricula + dado.evento}>
                                                   <th scope="row">{dado.evento}</th>
                                                   <td>{dado.participante}</td>
@@ -75,28 +78,23 @@ const RelatorioParticipacao = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {corpoTabela}
+                    {body}
                     </tbody>
                 </Table>
             </div>
         )
     };
-    const gerarCorpoTabela = (dados) => {
-        return (
-            <tbody>
-            {dados.forEach(dado =>
-                               <tr>
-                                   <th scope="row">{dado.evento}</th>
-                                   <td>{dado.participante}</td>
-                                   <td>{dado.cpf}</td>
-                                   <td>{dado.matricula}</td>
-                                   <td>{dado.dataInscricao}</td>
-                               </tr>)}
-            </tbody>
-        );
-    };
     return (
-        <div>{tabelas}</div>
+        <>
+            <div className="container d-flex justify-content-end">
+            <ReactToPrint
+                trigger={() => <Button className="m-2" color="primary">Imprimir</Button>}
+                content={() => componentRef.current}/>
+            </div>
+            <div className="container" ref={componentRef} >
+                {tabelas}
+            </div>
+        </>
     );
 };
 
