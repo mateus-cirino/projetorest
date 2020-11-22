@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from "react";
 import {PesquisaProps} from "../../componentes/extensoes/pesquisaProps";
 import {Evento} from "../../../modelos/evento";
-import {CLASS_NAME_EVENTO_PESSOA} from "../../../utils/nomeClasseVO";
+import {CLASS_NAME_EVENTO, CLASS_NAME_EVENTO_PESSOA, CLASS_NAME_PESSOA} from "../../../utils/nomeClasseVO";
 import {useToasts} from "react-toast-notifications";
 import {buscarTodos} from "../../../servicos/geral.servico";
 import {EventoPessoa} from "../../../modelos/eventoPessoa";
@@ -11,6 +11,7 @@ import {Button, Input, Label} from "reactstrap";
 import Select from "react-select";
 import moment from "moment";
 import {useForm} from "react-hook-form";
+import {Pessoa} from "../../../modelos/pessoa";
 
 interface EventoPessoaPesquisaFiltro {
     dataPresenca?: Date;
@@ -36,18 +37,34 @@ const EventoPessoaPesquisa: FC<PesquisaProps> = props => {
             funcaoSucesso: (result: EventoPessoa[]) => {
                 setEventosPessoa(result);
                 setEventosPessoaFiltro(result);
-                setEventosOptions(result.map((eventoPessoa: EventoPessoa) => {
-                    return {
-                        value: eventoPessoa.evento.id,
-                        label: eventoPessoa.evento.nome
+                const entidadeEvento = {
+                    nomeClasseVO: CLASS_NAME_EVENTO
+                };
+                buscarTodos(entidadeEvento, {
+                    funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
+                    funcaoSucesso: eventos => {
+                        setEventosOptions(eventos.map((evento: Evento) => {
+                            return {
+                                value: evento.id,
+                                label: evento.nome
+                            }
+                        }));
                     }
-                }));
-                setPessoasOptions(result.map((eventoPessoa: EventoPessoa) => {
-                    return {
-                        value: eventoPessoa.pessoa.id,
-                        label: eventoPessoa.pessoa.nome
+                });
+                const entidadePessoa = {
+                    nomeClasseVO: CLASS_NAME_PESSOA
+                };
+                buscarTodos(entidadePessoa, {
+                    funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
+                    funcaoSucesso: pessoas => {
+                        setPessoasOptions(pessoas.map((pessoa: Pessoa) => {
+                            return {
+                                value: pessoa.id,
+                                label: pessoa.nome
+                            }
+                        }));
                     }
-                }));
+                });
             },
         });
     }, []);
