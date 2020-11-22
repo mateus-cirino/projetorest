@@ -141,4 +141,15 @@ public class EventoControle {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
+    @CrossOrigin
+    @PostMapping(path = "/relatorioParticipacao")
+    public ResponseEntity<List<EventoPessoa>> relatorioParticipacao()
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.relatorioParticipacao(), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 }

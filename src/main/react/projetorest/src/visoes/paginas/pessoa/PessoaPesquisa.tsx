@@ -18,16 +18,14 @@ const PessoaPesquisa: FC<PesquisaProps> = props => {
     const history = useHistory();
     const { addToast } = useToasts();
     useEffect(() => {
-        setTimeout(() => {
-            buscarTodos(pessoa, {
-                funcaoSucesso: (pessoas: Pessoa[]) => {
-                    setPessoas(pessoas);
-                },
-                funcaoErro: mensagem => {
-                    addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
-                }
-            });
-        }, 800);
+        buscarTodos(pessoa, {
+            funcaoSucesso: (pessoas: Pessoa[]) => {
+                setPessoas(pessoas);
+            },
+            funcaoErro: mensagem => {
+                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
+            }
+        });
     }, []);
     const columns = [
         {

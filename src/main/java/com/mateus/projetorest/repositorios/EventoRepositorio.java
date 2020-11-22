@@ -113,4 +113,10 @@ public class EventoRepositorio extends Repositorio {
         pesquisa.setParameter(1, idEvento);
         return pesquisa.getSingleResult();
     }
+
+    @Transactional
+    public List<EventoPessoa> relatorioParticipacao() {
+        final TypedQuery<EventoPessoa> pesquisa = entityManager.createQuery("select u from EventoPessoa u order by u.dataPresenca", EventoPessoa.class);
+        return pesquisa.getResultList();
+    }
 }

@@ -59,3 +59,7 @@ export function recuperarTotalInscricoesConfirmadasEvento(idEvento: number, para
     formData.append('idEvento', idEvento.toString());
     enviar(pegarServico().post<number>('/totalInscricoesConfirmadasEvento', formData), param);
 }
+
+export function recuperarRelatorioParticipacao(param: AxiosParam<EventoPessoa[]>) {
+    enviar(pegarServico().post<EventoPessoa[]>('/relatorioParticipacao'), param);
+}
