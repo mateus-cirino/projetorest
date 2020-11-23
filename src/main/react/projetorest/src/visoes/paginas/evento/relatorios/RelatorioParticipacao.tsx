@@ -20,6 +20,8 @@ interface DadosRelatorio {
     cpf?: string;
     matricula?: string;
     dataInscricao?: string;
+    dataEntrada?: string;
+    dataSaida?: string;
 }
 
 interface DadosRelatorioFiltro {
@@ -48,7 +50,9 @@ const RelatorioParticipacao = () => {
                                                     pessoa: eventoPessoa.pessoa,
                                                     cpf: eventoPessoa.pessoa.cpf,
                                                     matricula: eventoPessoa.pessoa.matricula,
-                                                    dataInscricao: moment(eventoPessoa.dataInscricao).format('DD/MM/YYYY')
+                                                    dataInscricao: moment(eventoPessoa.dataInscricao).format('DD/MM/YYYY'),
+                                                    dataEntrada: eventoPessoa.dataEntrada ? moment(eventoPessoa.dataEntrada).format('DD/MM/YYYY HH:mm') : '-',
+                                                    dataSaida: eventoPessoa.dataSaida ? moment(eventoPessoa.dataSaida).format('DD/MM/YYYY HH:mm') : '-'
                                                 };
                                                 return dadosRelatorio;
                                             });
@@ -114,6 +118,8 @@ const RelatorioParticipacao = () => {
                                                   <td>{dado.cpf}</td>
                                                   <td>{dado.matricula}</td>
                                                   <td>{dado.dataInscricao}</td>
+                                                  <td>{dado.dataEntrada}</td>
+                                                  <td>{dado.dataSaida}</td>
                                               </tr>);
         return (
             <div>
@@ -126,6 +132,8 @@ const RelatorioParticipacao = () => {
                         <th>CPF</th>
                         <th>Matrícula</th>
                         <th>Data de Inscrição</th>
+                        <th>Data de Entrada</th>
+                        <th>Data de Saída</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -190,7 +198,7 @@ const RelatorioParticipacao = () => {
                         />
                     </div>
                     <div>
-                        <Label for="dataInscricao">Data da presença</Label>
+                        <Label for="dataInscricao">Data da inscrição</Label>
                         <Input type="datetime-local" name="dataInscricao" innerRef={register} placeholder="selecione uma data para filtrar" onChange={handleChangeDataInscricao} />
                     </div>
                     <div className="mx-2">

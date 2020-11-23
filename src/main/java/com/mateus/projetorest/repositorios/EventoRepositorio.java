@@ -1,5 +1,7 @@
 package com.mateus.projetorest.repositorios;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mateus.projetorest.modelos.Pessoa;
 import com.mateus.projetorest.modelos.Evento;
 import com.mateus.projetorest.modelos.EventoPessoa;
+import com.mateus.projetorest.modelos.utils.MomentoCredenciamento;
 import com.mateus.projetorest.modelos.utils.TipoCredenciamento;
 import com.mateus.projetorest.repositorios.extensoes.Repositorio;
 
@@ -43,7 +46,7 @@ public class EventoRepositorio extends Repositorio {
     }
     @Transactional
     public boolean confirmarPresenca(final int idEvento, final String credencial, final
-                                                           TipoCredenciamento tipoCredenciamento) {
+                                                           TipoCredenciamento tipoCredenciamento, final MomentoCredenciamento momentoCredenciamento) {
         final TypedQuery<EventoPessoa> pesquisa;
         if (TipoCredenciamento.NOME == tipoCredenciamento) {
             pesquisa = entityManager.createQuery(
@@ -69,6 +72,11 @@ public class EventoRepositorio extends Repositorio {
         try {
             final EventoPessoa eventoPessoa = pesquisa.getSingleResult();
             eventoPessoa.setPresente(true);
+            if (MomentoCredenciamento.ENTRADA == momentoCredenciamento) {
+                eventoPessoa.setDataEntrada(LocalDateTime.now());
+            } else {
+                eventoPessoa.setDataSaida(LocalDateTime.now());
+            }
             persistir(eventoPessoa);
             return true;
         } catch (final Exception e) {

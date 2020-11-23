@@ -24,11 +24,12 @@ export function recuperarEventoPessoa(eventoPessoa: EventoPessoa, param: AxiosPa
     enviar(pegarServico().post<EventoPessoa>('/buscarEventoPessoa', eventoPessoa), param);
 }
 
-export function confirmarPresencaEvento(idEvento: number, credencial: string, tipoCredenciamento: string, param: AxiosParam<boolean>) {
+export function confirmarPresencaEvento(idEvento: number, credencial: string, tipoCredenciamento: string, momentoCredenciamento: string, param: AxiosParam<boolean>) {
     const formData = new FormData();
     formData.append('idEvento', idEvento.toString());
     formData.append('credencial', credencial);
     formData.append('tipoCredenciamento', tipoCredenciamento);
+    formData.append('momentoCredenciamento', momentoCredenciamento);
     enviar(pegarServico().post<boolean>('/confirmarPresencaEvento', formData), param);
 }
 

@@ -9,12 +9,15 @@ import {Evento} from "../../../modelos/evento";
 import {confirmarPresencaEvento} from "../../../servicos/evento.servico";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
 import {CPF, NOME, RG, TIPO_CREDENCIAMENTO_ENUM} from "../../../utils/tipoCredenciamentoEnum";
+import {ENTRADA, SAIDA} from "../../../utils/momentoCredenciamento";
+import moment from "moment";
 
 interface PresencaEventoPessoaProps {
     nome?: string;
     cpf?: string;
     rg?: string;
     tipoCredenciamento?: string;
+    momentoCredenciamento?: string;
 }
 
 const PresencaEventoPessoa = () => {
@@ -47,7 +50,7 @@ const PresencaEventoPessoa = () => {
     };
     const handleClickConfirma = () => {
         let credencial;
-        const { tipoCredenciamento } = control.getValues();
+        const { tipoCredenciamento, momentoCredenciamento } = control.getValues();
         if (tipoCredenciamento === NOME.value) {
             credencial = control.getValues().nome;
         } else if (tipoCredenciamento === CPF.value) {
@@ -55,8 +58,8 @@ const PresencaEventoPessoa = () => {
         } else {
             credencial = control.getValues().rg;
         }
-        confirmarPresencaEvento(eventoSelecionado.id, credencial, tipoCredenciamento, {
-            funcaoErro: mensagem => addToast(mensagem, {appearance: "error", autoDismiss: true}),
+        confirmarPresencaEvento(eventoSelecionado.id, credencial, tipoCredenciamento, momentoCredenciamento, {
+            funcaoErro: mensagem => addToast(mensagem.toString(), {appearance: "error", autoDismiss: true}),
             funcaoSucesso: resultado => {
                 if (resultado) {
                     addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
@@ -93,6 +96,13 @@ const PresencaEventoPessoa = () => {
                         options={eventosOptions}
                         onChange={handleChangeEvento}
                     />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="momentoCredenciamento">Momento de credenciamento</Label>
+                    <Input type="select" name="momentoCredenciamento" innerRef={register}>
+                        <option value={ENTRADA.value}>{ENTRADA.label}</option>
+                        <option value={SAIDA.value}>{SAIDA.label}</option>
+                    </Input>
                 </FormGroup>
                 <FormGroup>
                     <Label for="tipoCredenciamento">Tipo de credenciamento</Label>

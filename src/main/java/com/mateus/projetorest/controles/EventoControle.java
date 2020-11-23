@@ -1,5 +1,6 @@
 package com.mateus.projetorest.controles;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mateus.projetorest.modelos.Pessoa;
 import com.mateus.projetorest.modelos.Evento;
 import com.mateus.projetorest.modelos.EventoPessoa;
+import com.mateus.projetorest.modelos.utils.MomentoCredenciamento;
 import com.mateus.projetorest.modelos.utils.TipoCredenciamento;
 import com.mateus.projetorest.repositorios.EventoRepositorio;
 
@@ -67,10 +69,10 @@ public class EventoControle {
     @CrossOrigin
     @PostMapping(path = "/confirmarPresencaEvento")
     public ResponseEntity<Boolean> confirmarPresencaEvento(@RequestParam final int idEvento, @RequestParam final String credencial, @RequestParam final
-                                                           TipoCredenciamento tipoCredenciamento)
+                                                           TipoCredenciamento tipoCredenciamento, @RequestParam final MomentoCredenciamento momentoCredenciamento)
     {
         try {
-            return new ResponseEntity<>(eventoRepositorio.confirmarPresenca(idEvento, credencial, tipoCredenciamento), HttpStatus.OK);
+            return new ResponseEntity<>(eventoRepositorio.confirmarPresenca(idEvento, credencial, tipoCredenciamento, momentoCredenciamento), HttpStatus.OK);
         } catch (final Exception erro) {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }

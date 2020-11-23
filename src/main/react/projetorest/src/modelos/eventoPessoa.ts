@@ -8,6 +8,8 @@ export interface EventoPessoa extends BasicVO {
     pessoa?: Pessoa;
     presenca?: boolean;
     dataInscricao?: Date;
+    dataEntrada?: Date;
+    dataSaida?: Date;
     usuario?: Usuario;
     nomeClasseVO: string;
 }

@@ -139,7 +139,7 @@ const EventoPessoaPesquisa: FC<PesquisaProps> = props => {
                         />
                     </div>
                     <div className="col-xl-3 col-md-12 mb-2">
-                        <Label for="dataInscricao">Data da presença</Label>
+                        <Label for="dataInscricao">Data da inscrição</Label>
                         <Input type="datetime-local" name="dataInscricao" innerRef={register} placeholder="selecione uma data para filtrar" onChange={handleChangeDataInscricao} />
                     </div>
                     <div className="col-xl-4 col-md-12 mb-2">
