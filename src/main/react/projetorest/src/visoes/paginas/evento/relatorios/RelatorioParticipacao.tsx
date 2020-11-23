@@ -26,6 +26,8 @@ interface DadosRelatorio {
 
 interface DadosRelatorioFiltro {
     dataInscricao?: string;
+    dataEntrada?: string;
+    dataSaida?: string;
 }
 
 const RelatorioParticipacao = () => {
@@ -167,17 +169,35 @@ const RelatorioParticipacao = () => {
             separarTabelaData(dadosRelFiltrados);
         }, 200);
     };
+    const handleChangeDataEntrada = () => {
+        const { dataEntrada } = control.getValues();
+        setTimeout(() => {
+            const dadosRelFiltrados = dadosRelatorios.filter((dados: DadosRelatorio) => moment(dataEntrada).format('DD/MM/YYYY HH:mm') === dados.dataEntrada);
+            setDadosRelatoriosFiltro(dadosRelFiltrados);
+            separarTabelaData(dadosRelFiltrados);
+        }, 200);
+    };
+    const handleChangeDataSaida = () => {
+        const { dataSaida } = control.getValues();
+        setTimeout(() => {
+            const dadosRelFiltrados = dadosRelatorios.filter((dados: DadosRelatorio) => moment(dataSaida).format('DD/MM/YYYY HH:mm') === dados.dataSaida);
+            setDadosRelatoriosFiltro(dadosRelFiltrados);
+            separarTabelaData(dadosRelFiltrados);
+        }, 200);
+    };
     const limparFiltro = () => {
         setSelectEventoValue(null);
         setSelectPessoaValue(null);
         control.setValue('dataInscricao', '');
+        control.setValue('dataEntrada', '');
+        control.setValue('dataSaida', '');
         separarTabelaData(dadosRelatorios);
     };
     return (
         <>
             <div className="container">
-                <div className="d-flex justify-content-center align-items-end mb-2">
-                    <div className="col-4 mx-2">
+                <div>
+                    <div>
                         <Label for="evento">Evento</Label>
                         <Select
                             placeholder="selecione o evento para filtrar"
@@ -187,7 +207,7 @@ const RelatorioParticipacao = () => {
                             onChange={handleChangeEvento}
                         />
                     </div>
-                    <div className="col-4 mx-2">
+                    <div>
                         <Label for="pessoa">Pessoa</Label>
                         <Select
                             placeholder="selecione a pessoa para filtrar"
@@ -197,17 +217,29 @@ const RelatorioParticipacao = () => {
                             onChange={handleChangePessoa}
                         />
                     </div>
-                    <div>
-                        <Label for="dataInscricao">Data da inscrição</Label>
-                        <Input type="datetime-local" name="dataInscricao" innerRef={register} placeholder="selecione uma data para filtrar" onChange={handleChangeDataInscricao} />
-                    </div>
-                    <div className="mx-2">
-                        <Button color="primary" onClick={limparFiltro}>Limpar</Button>
-                    </div>
-                    <div className="mx-2">
-                        <ReactToPrint
-                            trigger={() => <Button color="primary">Imprimir</Button>}
-                            content={() => componentRef.current}/>
+                    <div className="d-flex justify-content-between align-items-end">
+                        <div>
+                            <Label for="dataInscricao">Data de inscrição</Label>
+                            <Input type="date" name="dataInscricao" innerRef={register} placeholder="selecione uma data de inscrição para filtrar" onChange={handleChangeDataInscricao} />
+                        </div>
+                        <div>
+                            <Label for="dataEntrada">Data de Entrada</Label>
+                            <Input type="datetime-local" name="dataEntrada" innerRef={register} placeholder="selecione uma data de entrada para filtrar" onChange={handleChangeDataEntrada} />
+                        </div>
+                        <div>
+                            <Label for="dataSaida">Data de Saída</Label>
+                            <Input type="datetime-local" name="dataSaida" innerRef={register} placeholder="selecione uma data de saída para filtrar" onChange={handleChangeDataSaida} />
+                        </div>
+                        <div className="d-flex">
+                            <div className="mr-2">
+                                <Button color="primary" onClick={limparFiltro}>Limpar</Button>
+                            </div>
+                            <div className="mr-2">
+                                <ReactToPrint
+                                    trigger={() => <Button color="primary">Imprimir</Button>}
+                                    content={() => componentRef.current}/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
