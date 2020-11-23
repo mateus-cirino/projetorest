@@ -39,7 +39,7 @@ function App() {
                 <Route path="/pessoa/persistir" strict={true} component={() => <PessoaFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 <Route path="/evento/buscartodos" strict={true} component={() => <EventoPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
                 <Route path="/evento/persistir" strict={true} component={() => <EventoFormulario usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
-                <Route path="/evento/adicionareventopessoa" strict={true} component={RelacaoEventoPessoa} />
+                <Route path="/evento/adicionareventopessoa" strict={true} component={() => <RelacaoEventoPessoa usuarioLogado={usuarioLogado} />} />
                 <Route path="/evento/adicionarpresencaevento" strict={true} component={PresencaEventoPessoa} />
                 <Route path="/evento/inscricoesevento" strict={true} component={() => <EventoPessoaPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
                 <Route path="/evento/painelinformacoes" strict={true} component={PainelInformacoesEvento} />

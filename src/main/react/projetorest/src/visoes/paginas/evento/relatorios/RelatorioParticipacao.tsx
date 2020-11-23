@@ -48,7 +48,7 @@ const RelatorioParticipacao = () => {
                                                     pessoa: eventoPessoa.pessoa,
                                                     cpf: eventoPessoa.pessoa.cpf,
                                                     matricula: eventoPessoa.pessoa.matricula,
-                                                    dataInscricao: moment(eventoPessoa.dataPresenca).format('DD/MM/YYYY')
+                                                    dataInscricao: moment(eventoPessoa.dataInscricao).format('DD/MM/YYYY')
                                                 };
                                                 return dadosRelatorio;
                                             });
@@ -162,7 +162,7 @@ const RelatorioParticipacao = () => {
     const limparFiltro = () => {
         setSelectEventoValue(null);
         setSelectPessoaValue(null);
-        control.setValue('dataPresenca', '');
+        control.setValue('dataInscricao', '');
         separarTabelaData(dadosRelatorios);
     };
     return (

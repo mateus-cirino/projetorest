@@ -14,7 +14,7 @@ import {useForm} from "react-hook-form";
 import {Pessoa} from "../../../modelos/pessoa";
 
 interface EventoPessoaPesquisaFiltro {
-    dataPresenca?: Date;
+    dataInscricao?: Date;
 }
 
 const EventoPessoaPesquisa: FC<PesquisaProps> = props => {
@@ -90,10 +90,10 @@ const EventoPessoaPesquisa: FC<PesquisaProps> = props => {
         },
         {
             name: 'Data da presença',
-            selector: 'dataPresenca',
+            selector: 'dataInscricao',
             cell: row => {
-                const { dataPresenca } = row;
-                const dataHora = dataPresenca.split('T');
+                const { dataInscricao } = row;
+                const dataHora = dataInscricao.split('T');
                 const data = dataHora[0];
                 const horaSegundo = dataHora[1].split('.');
                 return `${data} ${horaSegundo[0]}`;
@@ -113,16 +113,16 @@ const EventoPessoaPesquisa: FC<PesquisaProps> = props => {
             return eventoPessoa.pessoa.id === props.value;
         }));
     };
-    const handleChangeDataPresenca = () => {
-        const { dataPresenca } = control.getValues();
+    const handleChangeDataInscricao = () => {
+        const { dataInscricao } = control.getValues();
         setEventosPessoaFiltro(eventosPessoa.filter((eventoPessoa: EventoPessoa) => {
-            return moment(eventoPessoa.dataPresenca, 'YYYYMMDD').isSame(moment(dataPresenca, 'YYYYMMDD'));
+            return moment(eventoPessoa.dataInscricao, 'YYYYMMDD').isSame(moment(dataInscricao, 'YYYYMMDD'));
         }));
     };
     const limparFiltro = () => {
       setSelectPessoaValue(null);
       setSelectEventoValue(null);
-      control.setValue('dataPresenca', '');
+      control.setValue('dataInscricao', '');
       setEventosPessoaFiltro(eventosPessoa);
     };
     return (
@@ -139,8 +139,8 @@ const EventoPessoaPesquisa: FC<PesquisaProps> = props => {
                         />
                     </div>
                     <div className="col-xl-3 col-md-12 mb-2">
-                        <Label for="dataPresenca">Data da presença</Label>
-                        <Input type="datetime-local" name="dataPresenca" innerRef={register} placeholder="selecione uma data para filtrar" onChange={handleChangeDataPresenca} />
+                        <Label for="dataInscricao">Data da presença</Label>
+                        <Input type="datetime-local" name="dataInscricao" innerRef={register} placeholder="selecione uma data para filtrar" onChange={handleChangeDataInscricao} />
                     </div>
                     <div className="col-xl-4 col-md-12 mb-2">
                         <Label for="pessoaOption">Pessoas</Label>

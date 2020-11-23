@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.mateus.projetorest.modelos.extensoes.BasicVO;
 
@@ -27,8 +27,17 @@ public class EventoPessoa extends BasicVO {
     @Column(name = "presente", columnDefinition = "boolean default false")
     private boolean presente;
 
-    @UpdateTimestamp
-    private LocalDateTime dataPresenca;
+    @CreationTimestamp
+    private LocalDateTime dataInscricao;
+
+    @Column(name = "dataEntrada")
+    private LocalDateTime dataEntrada;
+
+    @Column(name = "dataSaida")
+    private LocalDateTime dataSaida;
+
+    @ManyToOne
+    private Usuario usuario;
 
     public Evento getEvento() {
         return evento;
@@ -54,11 +63,35 @@ public class EventoPessoa extends BasicVO {
         this.presente = presente;
     }
 
-    public LocalDateTime getDataPresenca() {
-        return dataPresenca;
+    public LocalDateTime getDataInscricao() {
+        return dataInscricao;
     }
 
-    public void setDataPresenca(final LocalDateTime dataPresenca) {
-        this.dataPresenca = dataPresenca;
+    public void setDataInscricao(final LocalDateTime dataInscricao) {
+        this.dataInscricao = dataInscricao;
+    }
+
+    public LocalDateTime getDataEntrada() {
+        return dataEntrada;
+    }
+
+    public void setDataEntrada(final LocalDateTime dataEntrada) {
+        this.dataEntrada = dataEntrada;
+    }
+
+    public LocalDateTime getDataSaida() {
+        return dataSaida;
+    }
+
+    public void setDataSaida(final LocalDateTime dataSaida) {
+        this.dataSaida = dataSaida;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(final Usuario usuario) {
+        this.usuario = usuario;
     }
 }

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {buscarTodos, persistir, remover} from "../../../servicos/geral.servico";
 import {CLASS_NAME_EVENTO, CLASS_NAME_EVENTO_PESSOA} from "../../../utils/nomeClasseVO";
 import {useToasts} from "react-toast-notifications";
@@ -14,8 +14,14 @@ import {Pessoa} from "../../../modelos/pessoa";
 import {EventoPessoa} from "../../../modelos/eventoPessoa";
 import {SUCESSO} from "../../../utils/mensagensRequisicao";
 import {customStyles} from "../../../utils/tabelaUtils";
+import {Usuario} from "../../../modelos/usuario";
 
-const RelacaoEventoPessoa = () => {
+interface RelacaoEventoPessoaProps {
+    usuarioLogado?: Usuario;
+}
+
+const RelacaoEventoPessoa:FC<RelacaoEventoPessoaProps> = props => {
+    const { usuarioLogado } = props;
     const { addToast } = useToasts();
     const [eventoSelecionado, setEventoSelecionado] = useState(null);
     const [eventosOptions, setEventosOptions] = useState([]);
@@ -108,7 +114,8 @@ const RelacaoEventoPessoa = () => {
         const eventoPessoa: EventoPessoa = {
             pessoa: pessoa,
             evento: eventoSelecionado,
-            nomeClasseVO: CLASS_NAME_EVENTO_PESSOA
+            nomeClasseVO: CLASS_NAME_EVENTO_PESSOA,
+            usuario: usuarioLogado
         };
         const formData = new FormData();
         formData.append('dados', JSON.stringify(eventoPessoa));
