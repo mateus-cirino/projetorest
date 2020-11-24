@@ -38,25 +38,34 @@ const EventoFormulario: FC<FormularioProps> = props => {
             carregarEnderecosOptions();
         }, 800);
     }, []);
+    const validateExtras = () => {
+        if (enderecoSelected === null) {
+            addToast('Campo Endereço obrigatório', { appearance: 'info', autoDismiss: true })
+            return false;
+        }
+        return true;
+    };
     const onSubmit = (evento: Evento) => {
-        evento.usuario = usuarioLogado;
-        evento.nomeClasseVO = CLASS_NAME_EVENTO;
-        evento.endereco = {
-            id: enderecoSelected.value,
-            nomeClasseVO: CLASS_NAME_ENDERECO
-        };
-        const formDataEvento = new FormData();
-        formDataEvento.append('dados', JSON.stringify(evento));
-        persistir(formDataEvento, {
-            funcaoErro: mensagem => {
-                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
-            },
-            funcaoSucesso: resultado => {
-                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
-                voltar();
+        if (validateExtras()) {
+            evento.usuario = usuarioLogado;
+            evento.nomeClasseVO = CLASS_NAME_EVENTO;
+            evento.endereco = {
+                id: enderecoSelected.value,
+                nomeClasseVO: CLASS_NAME_ENDERECO
+            };
+            const formDataEvento = new FormData();
+            formDataEvento.append('dados', JSON.stringify(evento));
+            persistir(formDataEvento, {
+                funcaoErro: mensagem => {
+                    addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true });
+                },
+                funcaoSucesso: resultado => {
+                    addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                    voltar();
 
-            }
-        })
+                }
+            })
+        }
     };
     const voltar = () => {
         if (setSelectedItem) {

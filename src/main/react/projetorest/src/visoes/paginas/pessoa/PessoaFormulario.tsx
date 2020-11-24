@@ -34,22 +34,31 @@ const PessoaFormulario: FC<FormularioProps> = props => {
             carregarEnderecosOptions();
         }, 100);
     }, []);
+    const validateExtras = () => {
+        if (enderecoSelected === null) {
+            addToast('Campo Endereço obrigatório', { appearance: 'info', autoDismiss: true })
+            return false;
+        }
+        return true;
+    };
     const onSubmit = (pessoa: Pessoa) => {
-        pessoa.nomeClasseVO = CLASS_NAME_PESSOA;
-        pessoa.endereco = {
-            id: enderecoSelected.value,
-            nomeClasseVO: CLASS_NAME_ENDERECO
-        };
-        const formData = new FormData();
-        formData.append('dados', JSON.stringify(pessoa));
-        persistir(formData, {
-            funcaoSucesso: resultado => {
-                addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
-                voltar();
-            }, funcaoErro: mensagem => {
-                addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
-            }
-        })
+        if (validateExtras()) {
+            pessoa.nomeClasseVO = CLASS_NAME_PESSOA;
+            pessoa.endereco = {
+                id: enderecoSelected.value,
+                nomeClasseVO: CLASS_NAME_ENDERECO
+            };
+            const formData = new FormData();
+            formData.append('dados', JSON.stringify(pessoa));
+            persistir(formData, {
+                funcaoSucesso: resultado => {
+                    addToast(SUCESSO, { appearance: 'success', autoDismiss: true });
+                    voltar();
+                }, funcaoErro: mensagem => {
+                    addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true })
+                }
+            })
+        }
     };
     const voltar = () => {
         if (setSelectedItem) {
@@ -104,17 +113,17 @@ const PessoaFormulario: FC<FormularioProps> = props => {
                 </FormGroup>
                 <FormGroup>
                     <Label for="cpf">CPF</Label>
-                    <Input type="text" name="cpf" placeholder="digite o cpf do pessoa" innerRef={register({ required: true })} />
+                    <Input type="number" name="cpf" placeholder="digite o cpf do pessoa" innerRef={register({ required: true })} />
                     {errors.cpf && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="rg">RG</Label>
-                    <Input type="text" name="rg" placeholder="digite o rg do pessoa" innerRef={register({ required: true })} />
+                    <Input type="number" name="rg" placeholder="digite o rg do pessoa" innerRef={register({ required: true })} />
                     {errors.rg && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label for="matricula">Matrícula</Label>
-                    <Input type="text" name="matricula" placeholder="digite a matrícula do pessoa" innerRef={register({ required: true })} />
+                    <Input type="number" name="matricula" placeholder="digite a matrícula do pessoa" innerRef={register({ required: true })} />
                     {errors.matricula && <span>Este campo é obrigatório</span>}
                 </FormGroup>
                 <FormGroup>
