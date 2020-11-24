@@ -18,7 +18,8 @@ import PessoaFormulario from "./visoes/paginas/pessoa/PessoaFormulario";
 import PresencaEventoPessoa from "./visoes/paginas/evento/PresencaEventoPessoa";
 import EventoPessoaPesquisa from "./visoes/paginas/evento/EventoPessoaPesquisa";
 import PainelInformacoesEvento from "./visoes/paginas/evento/PainelInformacoesEvento";
-import RelatorioParticipacao from "./visoes/paginas/evento/relatorios/RelatorioParticipacao";
+import RelatorioParticipacaoAnalitico from "./visoes/paginas/evento/relatorios/RelatorioParticipacaoAnalitico";
+import RelatorioParticipacaoSintetico from "./visoes/paginas/evento/relatorios/RelatorioParticipacaoSintetico";
 
 function App() {
   const [usuarioLogado, setUsuarioLogado] = useState<any>(null);
@@ -43,7 +44,8 @@ function App() {
                 <Route path="/evento/adicionarpresencaevento" strict={true} component={PresencaEventoPessoa} />
                 <Route path="/evento/inscricoesevento" strict={true} component={() => <EventoPessoaPesquisa usuarioLogado={usuarioLogado} setSelectedItem={setSelectedItem} />} />
                 <Route path="/evento/painelinformacoes" strict={true} component={PainelInformacoesEvento} />
-                <Route path="/evento/relatorioparticipacao" strict={true} component={RelatorioParticipacao} />
+                <Route path="/evento/relatorioparticipacaoanalitico" strict={true} component={RelatorioParticipacaoAnalitico} />
+                <Route path="/evento/relatorioparticipacaosintetico" strict={true} component={() => <RelatorioParticipacaoSintetico />} />
                 <Route path="/sistema/realizarbackup" strict={true} component={() => <RealizarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 <Route path="/sistema/restaurarbackup" strict={true} component={() => <RestaurarBackup usuarioLogado={usuarioLogado} selectedItem={selectedItem} setSelectedItem={setSelectedItem} />} />
                 </Switch>

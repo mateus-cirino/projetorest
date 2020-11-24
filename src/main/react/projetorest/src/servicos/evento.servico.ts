@@ -3,6 +3,7 @@ import {AxiosParam, criar, enviar} from "./extensoes/axios.util";
 import {EventoPessoa} from "../modelos/eventoPessoa";
 import {Evento} from "../modelos/evento";
 import {Pessoa} from "../modelos/pessoa";
+import {RelatorioParticipacaoSinteticoUtil} from "../utils/relatorioParticipacaoSinteticoUtil";
 
 function pegarServico(): AxiosInstance {
     return criar(`http://localhost:8080/api/evento`)
@@ -61,6 +62,12 @@ export function recuperarTotalInscricoesConfirmadasEvento(idEvento: number, para
     enviar(pegarServico().post<number>('/totalInscricoesConfirmadasEvento', formData), param);
 }
 
-export function recuperarRelatorioParticipacao(param: AxiosParam<EventoPessoa[]>) {
-    enviar(pegarServico().post<EventoPessoa[]>('/relatorioParticipacao'), param);
+export function recuperarRelatorioParticipacaoAnalitico(param: AxiosParam<EventoPessoa[]>) {
+    enviar(pegarServico().post<EventoPessoa[]>('/relatorioParticipacaoAnalitico'), param);
+}
+
+export function recuperarRelatorioParticipacaoSintetico(idEvento: number, param: AxiosParam<RelatorioParticipacaoSinteticoUtil[]>) {
+    const formData = new FormData();
+    formData.append('idEvento', idEvento.toString());
+    enviar(pegarServico().post<RelatorioParticipacaoSinteticoUtil[]>('/relatorioParticipacaoSintetico', formData), param);
 }

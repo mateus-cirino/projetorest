@@ -1,12 +1,11 @@
-import {FC, useEffect, useRef, useState} from "react";
-import {recuperarRelatorioParticipacao} from "../../../../servicos/evento.servico";
+import {useEffect, useRef, useState} from "react";
+import {recuperarRelatorioParticipacaoAnalitico} from "../../../../servicos/evento.servico";
 import {useToasts} from "react-toast-notifications";
 import {Button, Input, Label, Table} from "reactstrap";
 import React from "react";
 import {EventoPessoa} from "../../../../modelos/eventoPessoa";
 import moment from "moment";
 import ReactToPrint from "react-to-print";
-import {TIPO_USUARIO_ENUM} from "../../../../utils/tipoUsuarioEnum";
 import Select from "react-select";
 import {Evento} from "../../../../modelos/evento";
 import {buscarTodos} from "../../../../servicos/geral.servico";
@@ -30,20 +29,19 @@ interface DadosRelatorioFiltro {
     dataSaida?: string;
 }
 
-const RelatorioParticipacao = () => {
+const RelatorioParticipacaoAnalitico = () => {
     const [eventosOptions, setEventosOptions] = useState([]);
     const [selectEventoValue, setSelectEventoValue] = useState(null);
     const [pessoasOptions, setPessoasOptions] = useState([]);
     const [selectPessoaValue, setSelectPessoaValue] = useState(null);
     const {control, register} = useForm<DadosRelatorioFiltro>();
-
     const [dadosRelatorios, setDadosRelatorios] = useState(null);
     const [dadosRelatoriosFiltro, setDadosRelatoriosFiltro] = useState(null);
     const [tabelas, setTabelas] = useState(null);
     const { addToast } = useToasts();
     const componentRef = useRef();
     useEffect(() => {
-        recuperarRelatorioParticipacao({
+        recuperarRelatorioParticipacaoAnalitico({
             funcaoErro: mensagem => addToast(mensagem.toString(), { appearance: 'error', autoDismiss: true }),
             funcaoSucesso: resultado => {
                 const dadosRel = resultado.map((eventoPessoa: EventoPessoa) => {
@@ -125,7 +123,7 @@ const RelatorioParticipacao = () => {
                                               </tr>);
         return (
             <div>
-                <h1>{data}</h1>
+                <h5>{data}</h5>
                 <Table striped>
                     <thead>
                     <tr>
@@ -244,10 +242,11 @@ const RelatorioParticipacao = () => {
                 </div>
             </div>
             <div className="container" ref={componentRef} >
+                <h4 className="font-weight-normal my-2">Relatório de Participação Analítico</h4>
                 {tabelas}
             </div>
         </>
     );
 };
 
-export default RelatorioParticipacao;
+export default RelatorioParticipacaoAnalitico;

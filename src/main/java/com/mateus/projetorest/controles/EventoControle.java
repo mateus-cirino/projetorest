@@ -18,6 +18,7 @@ import com.mateus.projetorest.modelos.Pessoa;
 import com.mateus.projetorest.modelos.Evento;
 import com.mateus.projetorest.modelos.EventoPessoa;
 import com.mateus.projetorest.modelos.utils.MomentoCredenciamento;
+import com.mateus.projetorest.modelos.utils.RelatorioParticipacaoSinteticoUtil;
 import com.mateus.projetorest.modelos.utils.TipoCredenciamento;
 import com.mateus.projetorest.repositorios.EventoRepositorio;
 
@@ -145,11 +146,22 @@ public class EventoControle {
     }
 
     @CrossOrigin
-    @PostMapping(path = "/relatorioParticipacao")
-    public ResponseEntity<List<EventoPessoa>> relatorioParticipacao()
+    @PostMapping(path = "/relatorioParticipacaoAnalitico")
+    public ResponseEntity<List<EventoPessoa>> relatorioParticipacaoAnalitico()
     {
         try {
-            return new ResponseEntity<>(eventoRepositorio.relatorioParticipacao(), HttpStatus.OK);
+            return new ResponseEntity<>(eventoRepositorio.relatorioParticipacaoAnalitico(), HttpStatus.OK);
+        } catch (final Exception erro) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/relatorioParticipacaoSintetico")
+    public ResponseEntity<List<RelatorioParticipacaoSinteticoUtil>> relatorioParticipacaoSintetico(@RequestParam final int idEvento)
+    {
+        try {
+            return new ResponseEntity<>(eventoRepositorio.relatorioParticipacaoSintetico(idEvento), HttpStatus.OK);
         } catch (final Exception erro) {
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }

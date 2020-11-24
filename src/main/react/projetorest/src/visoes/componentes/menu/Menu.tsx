@@ -71,8 +71,15 @@ const Menu: FC<MenuProps> = props => {
                         </DropdownItem>
                         <DropdownItem>
                             <NavItem>
-                                <Link to="/evento/relatorioparticipacao">
-                                    <NavLink>Relatório de Participação</NavLink>
+                                <Link to="/evento/relatorioparticipacaoanalitico">
+                                    <NavLink>Relatório de Participação Analítico</NavLink>
+                                </Link>
+                            </NavItem>
+                        </DropdownItem>
+                        <DropdownItem>
+                            <NavItem>
+                                <Link to="/evento/relatorioparticipacaosintetico">
+                                    <NavLink>Relatório de Participação Sintético</NavLink>
                                 </Link>
                             </NavItem>
                         </DropdownItem>

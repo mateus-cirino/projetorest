@@ -1,12 +1,17 @@
 package com.mateus.projetorest.repositorios;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +19,7 @@ import com.mateus.projetorest.modelos.Pessoa;
 import com.mateus.projetorest.modelos.Evento;
 import com.mateus.projetorest.modelos.EventoPessoa;
 import com.mateus.projetorest.modelos.utils.MomentoCredenciamento;
+import com.mateus.projetorest.modelos.utils.RelatorioParticipacaoSinteticoUtil;
 import com.mateus.projetorest.modelos.utils.TipoCredenciamento;
 import com.mateus.projetorest.repositorios.extensoes.Repositorio;
 
@@ -123,8 +129,19 @@ public class EventoRepositorio extends Repositorio {
     }
 
     @Transactional
-    public List<EventoPessoa> relatorioParticipacao() {
+    public List<EventoPessoa> relatorioParticipacaoAnalitico() {
         final TypedQuery<EventoPessoa> pesquisa = entityManager.createQuery("select u from EventoPessoa u order by u.dataInscricao", EventoPessoa.class);
         return pesquisa.getResultList();
+    }
+
+    @Transactional
+    public List<RelatorioParticipacaoSinteticoUtil> relatorioParticipacaoSintetico(final int idEvento) {
+        final Query pesquisa = entityManager.createNativeQuery("select DATE(u.data_entrada) , COUNT(u.data_entrada) from evento_pessoa u where u.evento_id = " + idEvento + " group by DATE(u.data_entrada), DATE(u.data_inscricao) order by DATE(u.data_inscricao)");
+        final List<Object[]> dadosRelatorios = pesquisa.getResultList();
+        final List<RelatorioParticipacaoSinteticoUtil> relatorioParticipacaoSinteticoUtils = new LinkedList<>();
+        for (Object[] dadosRelatorio : dadosRelatorios) {
+            relatorioParticipacaoSinteticoUtils.add(new RelatorioParticipacaoSinteticoUtil((Date) dadosRelatorio[0], (BigInteger) dadosRelatorio[1]));
+        }
+        return relatorioParticipacaoSinteticoUtils;
     }
 }
